@@ -1,7 +1,7 @@
 # Ignorar archivos de compilación y directorios generados
 build/
 dist/
-nbproject/private/
+nbproject/
 
 # Ignorar archivos y directorios específicos
 *.class
