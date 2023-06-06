@@ -17,4 +17,5 @@ public class Comentario {
     private LocalDate fecha_avance;
     private Tarea tarea;
     
+    
 }

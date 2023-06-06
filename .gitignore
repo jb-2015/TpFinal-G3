@@ -5,7 +5,6 @@ nbproject/private/
 
 # Ignorar archivos y directorios específicos
 *.class
-*.jar
 *.war
 *.ear
 /target/
