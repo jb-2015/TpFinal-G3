@@ -1,0 +1,20 @@
+# Ignorar archivos de compilación y directorios generados
+build/
+dist/
+nbproject/private/
+
+# Ignorar archivos y directorios específicos
+*.class
+*.jar
+*.war
+*.ear
+/target/
+/out/
+
+# Ignorar archivos y directorios de dependencias y bibliotecas
+lib/
+dependency/
+
+# Ignorar archivos de configuración local
+nb-configuration.xml
+nbactions.xml
