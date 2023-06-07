@@ -59,9 +59,9 @@ public class EquipoData {
             int res = ps.executeUpdate();
             ps.close();
             if(res==1){
-                JOptionPane.showMessageDialog(null, "Se 'elimino' el alumno");
+                JOptionPane.showMessageDialog(null, "Se 'elimino' el equipo");
             }else{
-                JOptionPane.showMessageDialog(null, "El alumno no se encuentra ");
+                JOptionPane.showMessageDialog(null, "No se encontro ningun equipo para dar eliminar");
             }
             
         }catch(SQLException e){
@@ -108,150 +108,35 @@ public class EquipoData {
         return equipos;
     }
     
+    
+    
 
-    public List<Inscripcion> obetenerInscripcionesPorAlumno(int id) {
-        String sql = "SELECT * FROM inscripcion WHERE id_alumno = ?";
-        Inscripcion insc = new Inscripcion();
-        List<Inscripcion> inscripciones = new ArrayList();
-        Alumno alumno = alumnoData.buscarAlumno(id);
+    public Equipo obtenerEquipo(int id) {
+        String sql; 
+        
+        sql = "SELECT * FROM equipo WHERE idEquipo = ?";
+        
+        Equipo equipo = new Equipo();
         try {
             PreparedStatement ps = Conexion.conectar().prepareStatement(sql);
             ps.setInt(1, id);
             ResultSet rs;
-            rs = ps.executeQuery();//devuelve un conjunto de resultados
+            rs = ps.executeQuery();//devuelve un conjunto de resultados//al ser una key devuelve 1 solo
             if (rs.next()) {
-                insc.setId_inscripcion(rs.getInt("id_inscripcion"));
-                insc.setId_alumno(alumno);
-                insc.setId_materia(materiaData.buscarMateria(rs.getInt("id_materia")));
-                insc.setNota(rs.getDouble("nota"));
-                inscripciones.add(insc);
+                equipo.setIdEquipo(id);
+                equipo.setNombre(rs.getString("nombre"));
+                equipo.setProyecto(proyectoData.buscarProyecto(rs.getInt("idProyecto")));
+                equipo.setFecha_creacion(rs.getDate("fecha_creacion").toLocalDate());
+                equipo.setEstado(rs.getBoolean("estado"));
             } else {
-                JOptionPane.showMessageDialog(null, "No existen inscripciones para este id_alumno");
+                JOptionPane.showMessageDialog(null, "El equipo no existe");
             }
             ps.close();
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla inscripcion " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla equipo " + e.getMessage());
         }
-
-        return inscripciones;
-    }
-
-    public List<Materia> obetenerMateriasCursadas(int id) {
-        //String sql = "SELECT * FROM materias where id_materia in (SELECT id_materia FROM inscripcion WHERE id_alumno = ? AND nota IS NOT NULL)";
-        String sql = "SELECT * FROM materias where id_materia in (SELECT id_materia FROM inscripcion WHERE id_alumno = ?)";
-        Materia materia = new Materia();
-        List<Materia> materiasCursadas = new ArrayList();
-        try {
-            PreparedStatement ps = Conexion.conectar().prepareStatement(sql);
-            ps.setInt(1, id);
-            ResultSet rs;
-            rs = ps.executeQuery();//devuelve un conjunto de resultados
-            while (rs.next()) {
-                materia = new Materia();
-                materia.setAnio(rs.getInt("anio"));
-                materia.setEstado(rs.getBoolean("estado"));
-                materia.setId_materia(rs.getInt("id_materia"));
-                materia.setNombre(rs.getString("nombre"));
-                materiasCursadas.add(materia);
-            }
-//            else {
-//                JOptionPane.showMessageDialog(null, "No existen materias cursadas para este alumno");
-//            }
-            ps.close();
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla materias " + e.getMessage());
-        }
-
-        return materiasCursadas;
-    }
-
-    public List<Materia> obetenerMateriasNoCursadas(int id) {
-        //String sql = "SELECT * FROM materias where id_materia in (SELECT id_materia FROM inscripcion WHERE id_alumno = ? AND nota IS NULL)";
-        String sql = "SELECT * FROM materias where id_materia not in (SELECT id_materia FROM inscripcion WHERE id_alumno = ?)";
-        Materia materia = new Materia();
-        List<Materia> materiasCursadas = new ArrayList();
-        try {
-            PreparedStatement ps = Conexion.conectar().prepareStatement(sql);
-            ps.setInt(1, id);
-            ResultSet rs;
-            rs = ps.executeQuery();//devuelve un conjunto de resultados
-            while (rs.next()) {
-                materia = new Materia();
-                materia.setAnio(rs.getInt("anio"));
-                materia.setEstado(rs.getBoolean("estado"));
-                materia.setId_materia(rs.getInt("id_materia"));
-                materia.setNombre(rs.getString("nombre"));
-                materiasCursadas.add(materia);
-            }
-//            else {
-//                JOptionPane.showMessageDialog(null, "No existen materias no cursadas para este alumno");
-//            }
-            ps.close();
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla materias " + e.getMessage());
-        }
-
-        return materiasCursadas;
-    }
-
-    public void borrarInscripcionMateriaAlumno(int idAlumno, int idMateria) {
-        try {
-            //buscar el alumno por id, y setearle el estado en 0.
-            String sql = "DELETE FROM inscripcion WHERE id_alumno=? AND id_materia=?";
-            PreparedStatement ps = Conexion.conectar().prepareStatement(sql);
-            ps.setInt(1, idAlumno);
-            ps.setInt(2, idMateria);
-            ps.execute();
-
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "No se a podido acceder a la tabla inscripcion " + e.getMessage());
-        }
-    }
-
-    public void actualizarNota(int idAlumno, int idMateria, double nota) {
-        try {
-            //buscar el alumno por id, y setearle el estado en 0.
-            String sql = "UPDATE inscripcion SET nota = ? WHERE id_alumno=? AND id_materia=?";
-            PreparedStatement ps = Conexion.conectar().prepareStatement(sql);
-            ps.setDouble(1, nota);
-            ps.setInt(2, idAlumno);
-            ps.setInt(3, idMateria);
-
-            if (!ps.execute()) {
-                JOptionPane.showMessageDialog(null, "Error al actualizar nota");
-            }
-
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "No se a podido acceder a la tabla inscripcion " + e.getMessage());
-        }
-    }
-
-    public List<Alumno> obtenerAlumnosXMateria(int idMateria) {
-        String sql = "SELECT * FROM alumnos where id_alumno in (SELECT id_alumno FROM inscripcion WHERE id_materia = ?)";
-        Alumno alumno = null;
-        List<Alumno> alumnosEnXMateria = new ArrayList();
-        try {
-            PreparedStatement ps = Conexion.conectar().prepareStatement(sql);
-            ps.setInt(1, idMateria);
-            ResultSet rs;
-            rs = ps.executeQuery();//devuelve un conjunto de resultados
-            if (rs.next()) {
-                alumno.setAlumno_id(rs.getInt("id_alumno"));
-                alumno.setNombre(rs.getString("nombre"));
-                alumno.setApellido(rs.getString("apellido"));
-                alumno.setDni(rs.getString("dni"));
-                alumno.setFecha_nacimiento(rs.getDate("fecha_nacimiento").toLocalDate());
-                alumno.setEstado(rs.getBoolean("estado"));
-                alumnosEnXMateria.add(alumno);
-            } else {
-                JOptionPane.showMessageDialog(null, "No existen alumnos inscriptos en esta materia");
-            }
-            ps.close();
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla alumnos " + e.getMessage());
-        }
-
-        return alumnosEnXMateria;
+        
+        return equipo;
     }
 
 }
