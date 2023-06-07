@@ -71,7 +71,7 @@ public class TareaData {
                 t.setNombre(rs.getString("nombre"));
                 t.setFecha_creacion(rs.getDate("fecha_creacion").toLocalDate());
                 t.setFecha_cierre(rs.getDate("fecha_cierre").toLocalDate());
-                
+                t.setEquipoMiembro(emd.buscarEquipoMiembro(rs.getInt("idEquipoMiembro")));
             }
         }catch(SQLException e){
             JOptionPane.showMessageDialog(null,"Error al buscar tarea: "+e.getMessage());
