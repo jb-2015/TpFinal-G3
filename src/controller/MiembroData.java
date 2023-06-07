@@ -41,7 +41,7 @@ public class MiembroData {
        JOptionPane.showMessageDialog(null, "Error al guardar miembro" + e.getMessage());
        }
     }
-       public void buscarMiembro(int id){
+       public Miembro buscarMiembro(int id){
            String sql= "SELECT * FROM miembro WHERE idMiembro=?";
            Miembro m= new Miembro();
            
@@ -56,13 +56,12 @@ public class MiembroData {
                    m.setApellido(rs.getString("apellido"));
                    m.setNombre(rs.getString("nombre"));
                    m.setEstado(rs.getBoolean("estado"));
-               }else{
-               JOptionPane.showMessageDialog(null, "No se encontro el miembro");
                }
            }
            catch (SQLException e) {
                JOptionPane.showMessageDialog(null, "Error al buscar miembro " + e.getMessage());
            }
+           return m;
        }
        public void modificarMiembro(Miembro miembro){
        String sql= "UPDATE miembro SET dni=?, apellido=?, nombre=?,estado=?";
