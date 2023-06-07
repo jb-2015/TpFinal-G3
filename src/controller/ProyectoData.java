@@ -5,8 +5,7 @@
  */
 package controller;
 
-import com.sun.jdi.connect.spi.Connection;
-import java.awt.List;
+
 import modelo.Proyecto;
 import java.sql.Date;
 import java.sql.PreparedStatement;

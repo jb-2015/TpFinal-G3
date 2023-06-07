@@ -14,9 +14,9 @@ import javax.swing.JOptionPane;
  * @author juany
  */
 public class TareaData {
-    
+    EquipoMiembroData emd=new EquipoMiembroData();
     public void guardarTarea(Tarea t){
-        String sql= "INSERT INTO tarea(nombre,fecha_creacion,fecha_cierre,estado) VALUES(?,?,?,?)";
+        String sql= "INSERT INTO tarea(nombre,fecha_creacion,fecha_cierre,estado,idMiembroEq) VALUES(?,?,?,?)";
         
         try{
             PreparedStatement ps = Conexion.conectar().prepareStatement(sql);
@@ -24,6 +24,7 @@ public class TareaData {
             ps.setDate(2,Date.valueOf(t.getFecha_creacion()));
             ps.setDate(3,Date.valueOf(t.getFecha_cierre()));
             ps.setBoolean(4, t.isEstado());
+            ps.setInt(5,t.getEquipoMiembro().getIdEquipoMiembro());
             
             ps.execute();
             JOptionPane.showMessageDialog(null, "Tarea Guardada");
@@ -47,7 +48,7 @@ public class TareaData {
                 t.setFecha_creacion(rs.getDate("fecha_creacion").toLocalDate());
                 t.setFecha_cierre(rs.getDate("fecha_cierre").toLocalDate());
                 t.setEstado(rs.getBoolean("estado"));
-                
+                t.setEquipoMiembro(emd.buscarEquipoMiembro(rs.getInt("idMiembroEq")));
                 arr.add(t);
             }
             
@@ -79,7 +80,7 @@ public class TareaData {
         return t;
     }
     public void modificarTarea(Tarea t){
-        
+        String sql = "UPDATE tarea SET nombre= ?, fecha_creacion= ?, fecha_cierre=?,";
     }
     
     
