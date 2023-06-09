@@ -61,5 +61,19 @@ public class ComentarioData {
         }
     }
     
+    public void borrarComentario(int id ){
+        String sql = "DELETE FROM comentarios WHERE inComentario= ?";
+        
+        try{
+            PreparedStatement ps = Conexion.conectar().prepareStatement(sql);
+            ps.setInt(1, id);
+            ps.execute();
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "Error al borrar Comentario: "+e.getMessage());
+        }
+    }
+    
+    
+    
     
 }

@@ -60,6 +60,11 @@ public class Principal extends javax.swing.JFrame {
 
         btnProyectos2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/115-users.png"))); // NOI18N
         btnProyectos2.setText("Equipos");
+        btnProyectos2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProyectos2ActionPerformed(evt);
+            }
+        });
 
         btnProyectos3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/157-stats-bars.png"))); // NOI18N
         btnProyectos3.setText("General");
@@ -157,6 +162,16 @@ public class Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
         dispose();
     }//GEN-LAST:event_btnProyectos5ActionPerformed
+
+    private void btnProyectos2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProyectos2ActionPerformed
+        // TODO add your handling code here:
+        ViewEquipo ve = new ViewEquipo();
+        ve.setVisible(true);
+        escritorio.removeAll();
+        escritorio.repaint();
+        escritorio.add(ve);
+        escritorio.moveToFront(ve);
+    }//GEN-LAST:event_btnProyectos2ActionPerformed
 
     /**
      * @param args the command line arguments
