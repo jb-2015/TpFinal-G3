@@ -28,7 +28,7 @@ public class ProyectoData {
         String sql = "INSERT INTO proyecto(nombre,descripcion,fecha_inicio,estado) VALUES (?,?,?,?)";
 
         try {
-            PreparedStatement ps = Conexion.conectar().prepareStatement(sql);
+            PreparedStatement ps = Conexion.conectar().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, p.getNombre());
             ps.setString(2, p.getDescripcion());
             ps.setDate(3, java.sql.Date.valueOf(p.getFecha_inicio()));
@@ -36,6 +36,12 @@ public class ProyectoData {
 
             ps.execute();
             JOptionPane.showMessageDialog(null, "Proyecto guardado");
+            
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                p.setIdProyecto(rs.getInt(1));
+                JOptionPane.showMessageDialog(null, "Proyecto agregado con exito.");
+            }
 
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al guardar proyecto");
