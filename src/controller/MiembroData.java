@@ -57,8 +57,6 @@ public class MiembroData {
                    m.setApellido(rs.getString("apellido"));
                    m.setNombre(rs.getString("nombre"));
                    m.setEstado(rs.getBoolean("estado"));
-               }else{
-               JOptionPane.showMessageDialog(null, "No se encontro el miembro");
                }
            }
            catch (SQLException e) {
