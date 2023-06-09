@@ -81,7 +81,7 @@ public class EquipoMiembroData {
             ps.setInt(3, em.getMiembro().getIdMiembro());
             ps.setBoolean(4, em.isEstado());
 
-            ps.executeUpdate();
+            ps.execute();
             ResultSet rs = ps.getGeneratedKeys();
 
             if (rs.next()) {

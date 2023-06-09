@@ -36,26 +36,40 @@ public class TpFinalG3 {
        Miembro m2 = new Miembro("35765492", "Alejandro", "Alaniz", true);
        Miembro m3 = new Miembro("45658987", "Josefa", "Chavez", true);
        Miembro m4 = new Miembro("37132383", "Gonzalo", "Cabrera", true);
-
+       
+       md.guardarMiembro(m1);
+       md.guardarMiembro(m2);
+       md.guardarMiembro(m3);
+       md.guardarMiembro(m4);
        
        Proyecto p1 = new Proyecto("Pagina web", "E-Comerce Pasteleria", LocalDate.now(), true);
        Proyecto p2 = new Proyecto("Sistema de ventas", "Control de inventario y ventas", LocalDate.now(), true);
        Proyecto p3 = new Proyecto("Logistica", "Control de inventario y ventas", LocalDate.now(), true);
 
+       pd.guardarProyecto(p1);
+       pd.guardarProyecto(p2);
+       pd.guardarProyecto(p3);
        
        Equipo e1= new Equipo(p2, "Bigote", LocalDate.now(), true);
        Equipo e2= new Equipo(p1, "Bigotete", LocalDate.now(), true);
+       
+       ed.guardarEquipo(e1);
+       ed.guardarEquipo(e1);
        
        EquipoMiembro em1 = new EquipoMiembro(LocalDate.now(), e1, m3, true);
        EquipoMiembro em2 = new EquipoMiembro(LocalDate.now(), e1, m1, true);
        EquipoMiembro em3 = new EquipoMiembro(LocalDate.now(), e2, m4, true);
        
+       emd.guardarEquipoMiembro(em1);
+       emd.guardarEquipoMiembro(em2);
+       emd.guardarEquipoMiembro(em3);
        
-
+       
+       //ed.guardarEquipo(e1);
        //pd.guardarProyecto(p1);
        //ed.guardarEquipo(e2);
-       md.guardarMiembro(m4);
-       emd.guardarEquipoMiembro(em3);
+       //md.guardarMiembro(m4);
+       //emd.guardarEquipoMiembro(em3);
        
        
        
