@@ -8,6 +8,7 @@ package Vistas;
 import controller.EquipoMiembroData;
 import controller.TareaData;
 import javax.swing.table.DefaultTableModel;
+import modelo.EquipoMiembro;
 import modelo.Tarea;
 
 /**
@@ -23,6 +24,7 @@ public class ViewTarea extends javax.swing.JInternalFrame {
     public ViewTarea() {
         initComponents();
         listarTareas();
+        cargarEquipoMiembros();
     }
     private void listarTareas(){
         String[] cols= {"ID","Nombre","Fecha Creacion","Fecha Cierre"};
@@ -38,7 +40,10 @@ public class ViewTarea extends javax.swing.JInternalFrame {
         tblTareas.getColumnModel().getColumn(1).setPreferredWidth(70);
     }
     private void cargarEquipoMiembros(){
-        
+        for(EquipoMiembro em: emd.listarEquipoMiembro()){
+            cbxMiembroEquipo.addItem(em.getIdEquipoMiembro()+"-"+em.getEquipo().getNombre()+"/"+em.getMiembro().getNombre());
+        }
+        cbxMiembroEquipo.setSelectedIndex(-1);
     }
     /**
      * This method is called from within the constructor to initialize the form.
