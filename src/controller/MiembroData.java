@@ -47,6 +47,7 @@ public class MiembroData {
            
            try {
                PreparedStatement ps = Conexion.conectar().prepareStatement(sql);
+               ps.setInt(1, id);
                ResultSet rs;
                rs = ps.executeQuery();
                ps.setInt(1, id);

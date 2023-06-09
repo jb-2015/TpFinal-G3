@@ -71,9 +71,19 @@ public class Principal extends javax.swing.JFrame {
 
         btnProyectos4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/186-list-numbered.png"))); // NOI18N
         btnProyectos4.setText("Tareas");
+        btnProyectos4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProyectos4ActionPerformed(evt);
+            }
+        });
 
         btnProyectos5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/exit.png"))); // NOI18N
         btnProyectos5.setText("Salir");
+        btnProyectos5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProyectos5ActionPerformed(evt);
+            }
+        });
 
         jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
@@ -130,6 +140,23 @@ public class Principal extends javax.swing.JFrame {
         escritorio.add(vg);
         escritorio.moveToFront(vg);
     }//GEN-LAST:event_btnProyectos3ActionPerformed
+
+    private void btnProyectos4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProyectos4ActionPerformed
+        // TODO add your handling code here:
+        ViewTarea vt = new ViewTarea();
+        vt.setVisible(true);
+        
+        escritorio.removeAll();
+        escritorio.repaint();
+        
+        escritorio.add(vt);
+        escritorio.moveToFront(vt);
+    }//GEN-LAST:event_btnProyectos4ActionPerformed
+
+    private void btnProyectos5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProyectos5ActionPerformed
+        // TODO add your handling code here:
+        dispose();
+    }//GEN-LAST:event_btnProyectos5ActionPerformed
 
     /**
      * @param args the command line arguments
