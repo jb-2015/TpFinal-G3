@@ -41,8 +41,8 @@ public class TpFinalG3 {
        
        EquipoMiembro em1 = new EquipoMiembro(LocalDate.now(), e1, m3, true);
        EquipoMiembro em2 = new EquipoMiembro(LocalDate.now(), e1, m1, true);
-        
-        
+       
+       
     }
     
 }
