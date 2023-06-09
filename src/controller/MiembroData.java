@@ -21,17 +21,17 @@ import modelo.Miembro;
  */
 public class MiembroData {
     public void guardarMiembro(Miembro miembro){
-        String sql= "INSERT INTO MIEMBRO(dni,nombre,apellido,estado) VALUES ?,?,?,?";
+        String sql= "INSERT INTO miembro(dni, apellido, nombre, estado) VALUES ?,?,?,?";
        try{
-           PreparedStatement ps= Conexion.conectar().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-           ps.setString(1, miembro.getNombre());
+            PreparedStatement ps= Conexion.conectar().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, miembro.getDni()); 
             ps.setString(2, miembro.getApellido());
-            ps.setString(3, miembro.getDni());
+            ps.setString(3, miembro.getNombre());  
             ps.setBoolean(4, miembro.isEstado());
             ps.executeUpdate();
             ResultSet rs= ps.getGeneratedKeys();
             if(rs.next()){
-            miembro.setIdMiembro(rs.getInt(1));
+                miembro.setIdMiembro(rs.getInt(1));
                 JOptionPane.showMessageDialog(null, "Miembro añadido. ");
             }else{
             JOptionPane.showMessageDialog(null, "El miembro no pudo ser guardado");

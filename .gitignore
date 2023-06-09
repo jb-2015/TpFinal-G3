@@ -1,9 +1,9 @@
-# Ignorar archivos de compilación y directorios generados
+# Ignorar archivos de compilaciï¿½n y directorios generados
 build/
 dist/
 nbproject/
 
-# Ignorar archivos y directorios específicos
+# Ignorar archivos y directorios especï¿½ficos
 *.class
 *.war
 *.ear
@@ -14,10 +14,11 @@ nbproject/
 lib/
 dependency/
 
-# Ignorar archivos de configuración local
+# Ignorar archivos de configuraciï¿½n local
 nb-configuration.xml
 nbactions.xml
 
 #ARCHIVOS QUE NO QUEREMOS QUE SE SUBAN AHORA (ESTA PARTE SE PUEDE IR MODIFICANDO A MEDIDA QUE SE VAYA NECESITA
 juan.gitignore
 
+nbproject/private/private.properties

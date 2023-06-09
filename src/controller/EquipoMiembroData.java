@@ -6,11 +6,14 @@
 package controller;
 
 import com.mysql.cj.xdevapi.PreparableStatement;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import modelo.Equipo;
 import modelo.EquipoMiembro;
 
 /**
@@ -65,6 +68,27 @@ public class EquipoMiembroData {
         }
         
         return arrEM;
+    }
+    
+     public void guardarEquipoMiembro(EquipoMiembro em) {
+        String sql = "INSERT INTO equipomiembros(fecha_incorporacion, idEquipo,idMiembro,estado) VALUES (?, ?, ?, ?)";
+        try {
+            PreparedStatement ps = Conexion.conectar().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS); //DEVUEL CON SU KEY 
+            ps.setDate(1, Date.valueOf(em.getFecha_incorporacion()));
+            ps.setInt(2, em.getEquipo().getIdEquipo());
+            ps.setInt(3, em.getMiembro().getIdMiembro());
+            ps.setBoolean(4, em.isEstado());
+
+            ps.executeUpdate();
+            ResultSet rs = ps.getGeneratedKeys();
+
+            if (rs.next()) {
+                em.setIdEquipoMiembro(rs.getInt(1));
+                JOptionPane.showMessageDialog(null, "Equipo-miembro agregado con exito.");
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al acceder a la Tabla Equipo-miembro " + ex.getMessage());
+        }
     }
     
 }
