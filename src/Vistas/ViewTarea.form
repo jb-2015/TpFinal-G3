@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JInternalFrameFormInfo">
+<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JInternalFrameFormInfo">
   <Properties>
     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
       <Dimension value="[410, 500]"/>
@@ -165,7 +165,7 @@
                           <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Component id="tbxNombreNewTarea" max="32767" attributes="0"/>
-                              <Component id="jDateChooser1" max="32767" attributes="0"/>
+                              <Component id="jcFinalizacion" max="32767" attributes="0"/>
                               <Component id="cbxMiembroEquipo" min="-2" pref="153" max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -187,7 +187,7 @@
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
                       <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
-                      <Component id="jDateChooser1" min="-2" max="-2" attributes="0"/>
+                      <Component id="jcFinalizacion" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -235,7 +235,7 @@
             <Property name="text" type="java.lang.String" value="Finaliza"/>
           </Properties>
         </Component>
-        <Component class="com.toedter.calendar.JDateChooser" name="jDateChooser1">
+        <Component class="com.toedter.calendar.JDateChooser" name="jcFinalizacion">
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel5">
           <Properties>

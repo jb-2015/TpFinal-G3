@@ -7,6 +7,9 @@ package Vistas;
 
 import controller.EquipoMiembroData;
 import controller.TareaData;
+import java.time.LocalDate;
+import java.time.Month;
+import java.util.Calendar;
 import javax.swing.table.DefaultTableModel;
 import modelo.EquipoMiembro;
 import modelo.Tarea;
@@ -62,7 +65,7 @@ public class ViewTarea extends javax.swing.JInternalFrame {
         jLabel3 = new javax.swing.JLabel();
         tbxNombreNewTarea = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        jcFinalizacion = new com.toedter.calendar.JDateChooser();
         jLabel5 = new javax.swing.JLabel();
         cbxMiembroEquipo = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
@@ -142,7 +145,7 @@ public class ViewTarea extends javax.swing.JInternalFrame {
                         .addGap(21, 21, 21)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(tbxNombreNewTarea)
-                            .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jcFinalizacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(cbxMiembroEquipo, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(52, Short.MAX_VALUE))
         );
@@ -158,7 +161,7 @@ public class ViewTarea extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel4)
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jcFinalizacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
@@ -240,6 +243,23 @@ public class ViewTarea extends javax.swing.JInternalFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        String nombre= tbxNombreNewTarea.getText();
+        Calendar c= Calendar.getInstance();
+        c.setTime(jcFinalizacion.getDate());
+        LocalDate fecha_creacion = LocalDate.now();
+        LocalDate fecha_cierre= LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
+        
+        String idEM = cbxMiembroEquipo.getSelectedItem().toString();
+        String[] part = idEM.split("-");
+        
+        int idEquipoMiembro = Integer.parseInt(part[0]);
+        
+        Tarea t = new Tarea(nombre, fecha_creacion, fecha_cierre, true, emd.buscarEquipoMiembro(idEquipoMiembro));
+        
+        td.guardarTarea(t);
+        
+        
+        
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -250,7 +270,6 @@ public class ViewTarea extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -259,6 +278,7 @@ public class ViewTarea extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private com.toedter.calendar.JDateChooser jcFinalizacion;
     private javax.swing.JTable tblTareas;
     private javax.swing.JTextField tbxFiltroViewTarea;
     private javax.swing.JTextField tbxNombreNewTarea;
