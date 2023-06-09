@@ -21,7 +21,7 @@ import modelo.Miembro;
  */
 public class MiembroData {
     public void guardarMiembro(Miembro miembro){
-        String sql= "INSERT INTO miembro(dni, apellido, nombre, estado) VALUES ?,?,?,?";
+        String sql= "INSERT INTO miembro(dni, apellido, nombre, estado) VALUES (?,?,?,?)";
        try{
             PreparedStatement ps= Conexion.conectar().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, miembro.getDni()); 
