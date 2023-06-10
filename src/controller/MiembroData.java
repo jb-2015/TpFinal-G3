@@ -106,7 +106,7 @@ public class MiembroData {
                ResultSet rs= ps.executeQuery();
                while(rs.next()){
                Miembro miembro= new Miembro();
-               miembro.setIdMiembro(rs.getInt("id_alumno"));
+               miembro.setIdMiembro(rs.getInt("idMiembro"));
                miembro.setDni(rs.getString("dni"));
                miembro.setApellido(rs.getString("apellido"));
                miembro.setNombre(rs.getString("nombre"));
@@ -134,4 +134,27 @@ public class MiembroData {
                JOptionPane.showMessageDialog(null, "ERROR AL DAR DE ALTA ALUMNO"+ e.getMessage());
            }
        }
+       
+       public ArrayList<Miembro> lisarPorEquipo(int idEquipo){
+           ArrayList<Miembro> al = new ArrayList();
+           String sql= "SELECT * FROM miembro WHERE idMiembro IN (SELECT idMiembro FROM equipomiembros WHERE idEquipo=?)";
+           
+           try{
+               PreparedStatement ps = Conexion.conectar().prepareStatement(sql);
+               ps.setInt(1,idEquipo);
+               ResultSet rs = ps.executeQuery();
+               while(rs.next()){
+                   Miembro m= new Miembro(rs.getInt("idMiembro"),rs.getString("dni"),rs.getString("apellido"),rs.getString("nombre"),rs.getBoolean("estado"));
+                   al.add(m);
+               }
+               
+           }catch(SQLException e){
+               JOptionPane.showMessageDialog(null, "Error al buscar alumnos por equipo: "+e.getMessage());
+               
+           }
+           
+           return al;
+       }
+       
+       
 }

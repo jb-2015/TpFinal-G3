@@ -7,15 +7,25 @@ package Vistas;
 
 import controller.ConsultaPorEstados;
 import controller.EquipoData;
+import controller.MiembroData;
+import controller.ProyectoData;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import modelo.Equipo;
+import modelo.Miembro;
+import modelo.Proyecto;
 
 /**
  *
  * @author juany
  */
 public class ViewEquipo extends javax.swing.JInternalFrame {
+
     EquipoData ed = new EquipoData();
+    MiembroData md = new MiembroData();
+    ProyectoData pd = new ProyectoData();
+
     /**
      * Creates new form ViewEquipo
      */
@@ -23,19 +33,29 @@ public class ViewEquipo extends javax.swing.JInternalFrame {
         initComponents();
         cargarEquipos();
     }
-    private void cargarEquipos(){
-        String[] cols = {"ID","Nombre","Proyecto","fecha_creacion"};
-        DefaultTableModel tm = new DefaultTableModel(cols,0);
-        
-        for(Equipo e : ed.obtenerEquipos(ConsultaPorEstados.ACTIVOS)){
-            Object[] dato = {e.getIdEquipo(),e.getNombre(),e.getProyecto().getNombre(),e.getFecha_creacion()};
+
+    private void cargarEquipos() {
+        String[] cols = {"ID", "Nombre", "Proyecto", "fecha_creacion"};
+        DefaultTableModel tm = new DefaultTableModel(cols, 0);
+
+        for (Equipo e : ed.obtenerEquipos(ConsultaPorEstados.ACTIVOS)) {
+            Object[] dato = {e.getIdEquipo(), e.getNombre(), e.getProyecto().getNombre(), e.getFecha_creacion()};
             tm.addRow(dato);
         }
-        
+
         tblEquipos.setModel(tm);
-            
-        
+
     }
+
+    private boolean yaExiste(String dni, JTable tab) {
+        for (int i = 0; i < tab.getRowCount(); i++) {
+            if (dni.equals(tab.getValueAt(i, 0))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -61,6 +81,8 @@ public class ViewEquipo extends javax.swing.JInternalFrame {
         tbxNombreNuevoEquipo = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
+        cbxProyecto = new javax.swing.JComboBox<>();
+        jLabel7 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblMiembros = new javax.swing.JTable();
@@ -77,8 +99,8 @@ public class ViewEquipo extends javax.swing.JInternalFrame {
             }
         ));
         tblEquipos.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblEquiposMouseClicked(evt);
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                tblEquiposMousePressed(evt);
             }
         });
         jScrollPane1.setViewportView(tblEquipos);
@@ -89,44 +111,70 @@ public class ViewEquipo extends javax.swing.JInternalFrame {
 
         tblFuturos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "DNI", "Nombre y Apellido"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane3.setViewportView(tblFuturos);
+        if (tblFuturos.getColumnModel().getColumnCount() > 0) {
+            tblFuturos.getColumnModel().getColumn(0).setResizable(false);
+            tblFuturos.getColumnModel().getColumn(0).setPreferredWidth(5);
+            tblFuturos.getColumnModel().getColumn(1).setResizable(false);
+            tblFuturos.getColumnModel().getColumn(1).setPreferredWidth(70);
+        }
 
         jButton2.setText("Quitar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton1.setText("Añadir");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("Futuros miembros");
 
         jLabel4.setText("Nombre de Equipo nuevo: ");
 
-        jLabel5.setText("Todos");
+        jLabel5.setText("Escoge los miembros");
 
         tblTodos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+
             }
         ));
         jScrollPane4.setViewportView(tblTodos);
+
+        tbxNombreNuevoEquipo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                tbxNombreNuevoEquipoMousePressed(evt);
+            }
+        });
 
         jButton3.setText("Guardar");
 
         jLabel6.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
         jLabel6.setText("NUEVO MIEMBRO");
+
+        jLabel7.setText("Proyecto");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -136,37 +184,47 @@ public class ViewEquipo extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(tbxNombreNuevoEquipo, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel6))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel5))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
+                                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel6)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel4)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(tbxNombreNuevoEquipo, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jLabel7)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(cbxProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(9, 9, 9)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(28, Short.MAX_VALUE)
                 .addComponent(jLabel6)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(tbxNombreNuevoEquipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tbxNombreNuevoEquipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbxProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -232,21 +290,89 @@ public class ViewEquipo extends javax.swing.JInternalFrame {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tblEquiposMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblEquiposMouseClicked
+    private void tblEquiposMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblEquiposMousePressed
         // TODO add your handling code here:
         int index = tblEquipos.getSelectedRow();
-        int idEquipo;
+        int idEquipo = Integer.parseInt(tblEquipos.getValueAt(index, 0).toString());
+
+        String[] cols = {"id", "Nombre", "Dni"};
+        DefaultTableModel tm = new DefaultTableModel(cols, 0);
+
+        for (Miembro m : md.lisarPorEquipo(idEquipo)) {
+            Object[] dato = {m.getIdMiembro(), m.getNombre(), m.getDni()};
+            tm.addRow(dato);
+        }
+
+        tblMiembros.setModel(tm);
+
+        tblMiembros.getColumnModel().getColumn(0).setPreferredWidth(5);
+        tblMiembros.getColumnModel().getColumn(1).setPreferredWidth(70);
+        tblMiembros.getColumnModel().getColumn(2).setPreferredWidth(25);
+
+    }//GEN-LAST:event_tblEquiposMousePressed
+
+    private void tbxNombreNuevoEquipoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbxNombreNuevoEquipoMousePressed
+        // TODO add your handling code here:
+        String[] cols = {"DNI", "Nombre y apellido"};
+        DefaultTableModel tm = new DefaultTableModel(cols, 0);
+
+        for (Miembro m : md.listarMiembros()) {
+            Object[] dato = {m.getDni(), m.getNombre() + " " + m.getApellido()};
+            tm.addRow(dato);
+        }
+        tblTodos.setModel(tm);
+        tblTodos.getColumnModel().getColumn(0).setPreferredWidth(10);
+        tblTodos.getColumnModel().getColumn(1).setPreferredWidth(70);
         
-    }//GEN-LAST:event_tblEquiposMouseClicked
+        for (Proyecto p: pd.listarProyectos()){
+            cbxProyecto.addItem(p.getIdProyecto()+"-"+p.getNombre());
+        }
+
+    }//GEN-LAST:event_tbxNombreNuevoEquipoMousePressed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        int[] index = tblTodos.getSelectedRows();
+        int colCant = tblTodos.getColumnCount();
+        Object[] rowData = new Object[colCant];
+
+        for (int j = 0; j < index.length; j++) {
+            if (!yaExiste(tblTodos.getValueAt(index[j], 0).toString(), tblFuturos)) {
+                for (int i = 0; i < colCant; i++) {
+                    rowData[i] = tblTodos.getValueAt(index[j], i);
+                }
+
+                DefaultTableModel mod = (DefaultTableModel) tblFuturos.getModel();
+                mod.addRow(rowData);
+            } else {
+                JOptionPane.showMessageDialog(null, "Se encontraron datos que ya existen");
+            }
+        }
+
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        int indice = tblFuturos.getSelectedRow();
+        DefaultTableModel mod = (DefaultTableModel) tblFuturos.getModel();
+        
+            mod.removeRow(indice);
+            tblFuturos.revalidate();
+        
+        
+
+    }//GEN-LAST:event_jButton2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> cbxProyecto;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -256,6 +382,7 @@ public class ViewEquipo extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
