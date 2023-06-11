@@ -36,7 +36,12 @@ public class ViewEquipo extends javax.swing.JInternalFrame {
 
     private void cargarEquipos() {
         String[] cols = {"ID", "Nombre", "Proyecto", "fecha_creacion"};
-        DefaultTableModel tm = new DefaultTableModel(cols, 0);
+        DefaultTableModel tm = new DefaultTableModel(cols, 0){
+            @Override
+            public boolean isCellEditable(int i,int il){
+               return il==1;
+            }
+        };
 
         for (Equipo e : ed.obtenerEquipos(ConsultaPorEstados.ACTIVOS)) {
             Object[] dato = {e.getIdEquipo(), e.getNombre(), e.getProyecto().getNombre(), e.getFecha_creacion()};
@@ -67,7 +72,6 @@ public class ViewEquipo extends javax.swing.JInternalFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         tblEquipos = new javax.swing.JTable();
-        jLabel3 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tblFuturos = new javax.swing.JTable();
@@ -86,6 +90,12 @@ public class ViewEquipo extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblMiembros = new javax.swing.JTable();
+        jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
+        cbxMiembros = new javax.swing.JComboBox<>();
+
+        setTitle("EQUIPO");
 
         tblEquipos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -104,8 +114,6 @@ public class ViewEquipo extends javax.swing.JInternalFrame {
             }
         });
         jScrollPane1.setViewportView(tblEquipos);
-
-        jLabel3.setText("Equipos");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -172,7 +180,7 @@ public class ViewEquipo extends javax.swing.JInternalFrame {
         jButton3.setText("Guardar");
 
         jLabel6.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
-        jLabel6.setText("NUEVO MIEMBRO");
+        jLabel6.setText("NUEVO EQUIPO");
 
         jLabel7.setText("Proyecto");
 
@@ -260,6 +268,12 @@ public class ViewEquipo extends javax.swing.JInternalFrame {
         ));
         jScrollPane2.setViewportView(tblMiembros);
 
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/272-cross.png"))); // NOI18N
+
+        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/007-pencil2.png"))); // NOI18N
+
+        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/116-user-plus.png"))); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -269,23 +283,32 @@ public class ViewEquipo extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
                     .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel1))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane2))
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(cbxMiembros, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton4)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel3)
-                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton4)
+                        .addComponent(jButton5)
+                        .addComponent(jButton6))
+                    .addComponent(cbxMiembros, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -372,13 +395,16 @@ public class ViewEquipo extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> cbxMiembros;
     private javax.swing.JComboBox<String> cbxProyecto;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
