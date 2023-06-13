@@ -57,6 +57,11 @@ public class Principal extends javax.swing.JFrame {
 
         btnProyectos1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/118-user-check.png"))); // NOI18N
         btnProyectos1.setText("Miembros");
+        btnProyectos1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProyectos1ActionPerformed(evt);
+            }
+        });
 
         btnProyectos2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/115-users.png"))); // NOI18N
         btnProyectos2.setText("Equipos");
@@ -172,6 +177,16 @@ public class Principal extends javax.swing.JFrame {
         escritorio.add(ve);
         escritorio.moveToFront(ve);
     }//GEN-LAST:event_btnProyectos2ActionPerformed
+
+    private void btnProyectos1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProyectos1ActionPerformed
+        // TODO add your handling code here:
+        ViewMiembro vm = new ViewMiembro();
+        vm.setVisible(true);
+        escritorio.removeAll();
+        escritorio.repaint();
+        escritorio.add(vm);
+        escritorio.moveToFront(vm);
+    }//GEN-LAST:event_btnProyectos1ActionPerformed
 
     /**
      * @param args the command line arguments
