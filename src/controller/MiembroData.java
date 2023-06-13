@@ -156,5 +156,34 @@ public class MiembroData {
            return al;
        }
        
+       public ArrayList<Miembro> listarNoEnEquipo(int idEquipo){
+           ArrayList<Miembro> aux = new ArrayList();
+           
+           String sql="SELECT * FROM miembro WHERE idMiembro NOT IN (SELECT idMiembro FROM equipomiembros WHERE idEquipo = ?)";
+           
+           try{
+               PreparedStatement ps = Conexion.conectar().prepareStatement(sql);
+               ps.setInt(1,idEquipo);
+               ResultSet rs = ps.executeQuery();
+               
+               while(rs.next()){
+                   Miembro m= new Miembro();
+                   m.setIdMiembro(rs.getInt("idMiembro"));
+                   m.setDni(rs.getString("dni"));
+                   m.setNombre(rs.getString("nombre"));
+                   m.setApellido(rs.getString("apellido"));
+                   m.setEstado(rs.getBoolean("estado"));
+                   
+                   aux.add(m);
+               }
+                       
+           }catch(SQLException e){
+               JOptionPane.showMessageDialog(null, "Error al listar miembros");
+           }
+           
+           return aux;
+           
+       }
+       
        
 }

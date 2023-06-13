@@ -5,19 +5,39 @@
  */
 package Vistas;
 
+import controller.ProyectoData;
+import javax.swing.table.DefaultTableModel;
+import modelo.Proyecto;
+
 /**
  *
  * @author juany
  */
 public class ViewGeneral extends javax.swing.JInternalFrame {
-
+    
+    ProyectoData pd= new ProyectoData();
     /**
      * Creates new form ViewGeneral
      */
     public ViewGeneral() {
         initComponents();
+        cargarProyectos();
     }
 
+    public void cargarProyectos(){
+        String[] cols= {"ID","Nombre","Descripcion","Fecha Inicio"};
+        DefaultTableModel tm = new DefaultTableModel(cols,0){
+            @Override
+            public boolean isCellEditable(int i,int il){
+                return false;
+            }
+        };
+        for(Proyecto p: pd.listarProyectos() ){
+            Object[] dato = {p.getIdProyecto(),p.getNombre(),p.getDescripcion(),p.getFecha_inicio()};
+            tm.addRow(dato);
+        }
+        tblProyectos.setModel(tm);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

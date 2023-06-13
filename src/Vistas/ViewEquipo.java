@@ -9,6 +9,7 @@ import controller.ConsultaPorEstados;
 import controller.EquipoData;
 import controller.MiembroData;
 import controller.ProyectoData;
+import java.time.LocalDate;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -271,8 +272,19 @@ public class ViewEquipo extends javax.swing.JInternalFrame {
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/272-cross.png"))); // NOI18N
 
         jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/007-pencil2.png"))); // NOI18N
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/116-user-plus.png"))); // NOI18N
+
+        cbxMiembros.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                cbxMiembrosMousePressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -392,6 +404,26 @@ public class ViewEquipo extends javax.swing.JInternalFrame {
         
 
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        int index= tblEquipos.getSelectedRow();
+        int idEquipo= Integer.parseInt(tblEquipos.getValueAt(index, 0).toString());
+        String nombre= tblEquipos.getValueAt(index, 1).toString();
+        Equipo aux= new Equipo(idEquipo,null, nombre, null, true);
+        
+        ed.modificarEquipo(aux);
+        
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void cbxMiembrosMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbxMiembrosMousePressed
+        // TODO add your handling code here:
+        int index= tblEquipos.getSelectedRow();
+        int idEquipo = Integer.parseInt(tblEquipos.getValueAt(index, 0).toString());
+        for(Miembro m : md.listarNoEnEquipo(idEquipo)){
+            cbxMiembros.addItem(m.getIdMiembro()+"-"+m.getNombre()+" "+m.getApellido());
+        }
+    }//GEN-LAST:event_cbxMiembrosMousePressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

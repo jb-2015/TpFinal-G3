@@ -138,5 +138,20 @@ public class EquipoData {
         
         return equipo;
     }
+    
+    public void modificarEquipo(Equipo e){
+        String sql= "UPDATE equipo SET nombre= ? WHERE idEquipo= ?";
+        
+        try{
+            PreparedStatement ps = Conexion.conectar().prepareStatement(sql);
+            ps.setString(1, e.getNombre());
+            ps.setInt(2,e.getIdEquipo());
+            
+            ps.execute();
+            JOptionPane.showMessageDialog(null,"Equipo modificado");
+        }catch(SQLException ex){
+            JOptionPane.showMessageDialog(null,"Error al modificar equipo "+ex.getMessage());
+        }
+    }
 
 }
