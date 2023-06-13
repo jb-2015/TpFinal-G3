@@ -9,7 +9,9 @@ import controller.EquipoMiembroData;
 import controller.TareaData;
 import java.time.LocalDate;
 import java.time.Month;
+import java.time.ZoneId;
 import java.util.Calendar;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.EquipoMiembro;
 import modelo.Tarea;
@@ -247,8 +249,9 @@ public class ViewTarea extends javax.swing.JInternalFrame {
         Calendar c= Calendar.getInstance();
         c.setTime(jcFinalizacion.getDate());
         LocalDate fecha_creacion = LocalDate.now();
-        LocalDate fecha_cierre= LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
-        
+        //LocalDate fecha_cierre= LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
+        LocalDate fecha_cierre= jcFinalizacion.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        //.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         String idEM = cbxMiembroEquipo.getSelectedItem().toString();
         String[] part = idEM.split("-");
         

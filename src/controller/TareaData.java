@@ -7,6 +7,7 @@ package controller;
 
 import modelo.Tarea;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
@@ -19,16 +20,20 @@ public class TareaData {
     EquipoMiembroData emd = new EquipoMiembroData();
 
     public void guardarTarea(Tarea t) {
-        String sql = "INSERT INTO tarea(nombre,fecha_creacion,fecha_cierre,estado,idMiembroEq) VALUES(?,?,?,?)";
-
+        String sql = "INSERT INTO tarea(nombre,fecha_creacion,fecha_cierre,estado,idMiembroEq) VALUES(?,?,?,?,?)";
+        
         try {
+            LocalDate FechaCreacion =LocalDate.now();
             PreparedStatement ps = Conexion.conectar().prepareStatement(sql);
             ps.setString(1, t.getNombre());
             ps.setDate(2, Date.valueOf(t.getFecha_creacion()));
             ps.setDate(3, Date.valueOf(t.getFecha_cierre()));
             ps.setBoolean(4, t.isEstado());
             ps.setInt(5, t.getEquipoMiembro().getIdEquipoMiembro());
-
+            int verificar= FechaCreacion.compareTo(t.getFecha_cierre());
+            if(verificar>0){
+            JOptionPane.showMessageDialog(null, "Debe ingresar una fecha posterior al dia actual");
+        }
             ps.execute();
             JOptionPane.showMessageDialog(null, "Tarea Guardada");
         } catch (SQLException e) {
