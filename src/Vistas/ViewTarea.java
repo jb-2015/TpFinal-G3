@@ -254,7 +254,6 @@ public class ViewTarea extends javax.swing.JInternalFrame {
         //.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         String idEM = cbxMiembroEquipo.getSelectedItem().toString();
         String[] part = idEM.split("-");
-        
         int idEquipoMiembro = Integer.parseInt(part[0]);
         
         Tarea t = new Tarea(nombre, fecha_creacion, fecha_cierre, true, emd.buscarEquipoMiembro(idEquipoMiembro));
