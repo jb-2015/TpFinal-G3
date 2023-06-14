@@ -113,6 +113,11 @@ public class ViewGeneral extends javax.swing.JInternalFrame {
                 "ID", "Equipo"
             }
         ));
+        tblEquipoProject.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                tblEquipoProjectMousePressed(evt);
+            }
+        });
         jScrollPane3.setViewportView(tblEquipoProject);
         if (tblEquipoProject.getColumnModel().getColumnCount() > 0) {
             tblEquipoProject.getColumnModel().getColumn(0).setPreferredWidth(5);
@@ -325,6 +330,24 @@ public class ViewGeneral extends javax.swing.JInternalFrame {
         
         
     }//GEN-LAST:event_tblProyectosMousePressed
+
+    private void tblEquipoProjectMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblEquipoProjectMousePressed
+        // TODO add your handling code here:
+        int index= tblEquipoProject.getSelectedRow();
+        int idEquipo = Integer.parseInt(tblEquipoProject.getValueAt(index,0).toString());
+        String[] colsT= {"ID","Nombre Tarea","Fecha Fin"};
+        DefaultTableModel tmt= new DefaultTableModel(colsT,0){
+            @Override
+            public boolean isCellEditable(int i,int il){
+                return false;
+            }
+        };
+        for(Tarea t : td.listarTareaPorEquipo(idEquipo)){
+            Object[] dato = {t.getIdTarea(),t.getNombre(),t.getFecha_cierre()};
+            tmt.addRow(dato);
+        }
+        tblTareas.setModel(tmt);
+    }//GEN-LAST:event_tblEquipoProjectMousePressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

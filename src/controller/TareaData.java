@@ -150,7 +150,7 @@ public class TareaData {
 
     public ArrayList<Tarea> listarTareaPorEquipo(int idEquipo) {
         ArrayList<Tarea> aux = new ArrayList();
-        String sql = "SELECT * FROM tarea WHERE idTarea IN (SELECT idTarea FROM equipomiembros WHERE idEquipo= ?)";
+        String sql = "SELECT * FROM tarea WHERE idMiembroEq IN (SELECT equipomiembros.idMiembroEq FROM equipomiembros WHERE idEquipo= ?)";
 
         try {
             PreparedStatement ps = Conexion.conectar().prepareStatement(sql);
