@@ -44,7 +44,7 @@ public class EquipoMiembroData {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "ERROR AL BUSCAR EQUIPO MIEMBRO" + e.getMessage());
         }
-        return null;
+        return em;
     }
 
     public ArrayList<EquipoMiembro> listarEquipoMiembro() {

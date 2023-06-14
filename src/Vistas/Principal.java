@@ -184,11 +184,9 @@ public class Principal extends javax.swing.JFrame {
         vm.setVisible(true);
         escritorio.removeAll();
         escritorio.repaint();
-        
+
         escritorio.add(vm);
         escritorio.moveToFront(vm);
-        
-        
     }//GEN-LAST:event_btnProyectos1ActionPerformed
 
     /**

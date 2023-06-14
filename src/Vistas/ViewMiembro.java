@@ -7,19 +7,20 @@ package Vistas;
 
 import modelo.Miembro;
 import controller.MiembroData;
-import static java.lang.Integer.parseInt;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author juany
  */
 public class ViewMiembro extends javax.swing.JInternalFrame {
-
+        MiembroData md = new MiembroData();
     /**
      * Creates new form ViewMiembro
      */
     public ViewMiembro() {
         initComponents();
+        listarMiembros();
     }
 
     /**
@@ -33,7 +34,7 @@ public class ViewMiembro extends javax.swing.JInternalFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblTareas = new javax.swing.JTable();
+        tblMiembros = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         jtfBuscarMiembro = new javax.swing.JTextField();
         jbModificarMiembro = new javax.swing.JButton();
@@ -51,21 +52,21 @@ public class ViewMiembro extends javax.swing.JInternalFrame {
         jLabel8 = new javax.swing.JLabel();
         jtfId = new javax.swing.JTextField();
         jbEliminarMiembro = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        jbSalir = new javax.swing.JButton();
 
         jLabel1.setFont(new java.awt.Font("Segoe UI Black", 1, 18)); // NOI18N
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/115-users.png"))); // NOI18N
         jLabel1.setText("MIEMBROS");
 
-        tblTareas.setModel(new javax.swing.table.DefaultTableModel(
+        tblMiembros.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4", "Title 5"
+                "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(tblTareas);
+        jScrollPane1.setViewportView(tblMiembros);
 
         jLabel2.setText("Buscar miembro por ID");
 
@@ -206,7 +207,12 @@ public class ViewMiembro extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jButton1.setText("Salir");
+        jbSalir.setText("Salir");
+        jbSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbSalirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -237,7 +243,7 @@ public class ViewMiembro extends javax.swing.JInternalFrame {
                                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton1)))))
+                                .addComponent(jbSalir)))))
                 .addGap(19, 19, 19))
         );
         layout.setVerticalGroup(
@@ -260,7 +266,7 @@ public class ViewMiembro extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1)
+                        .addComponent(jbSalir)
                         .addGap(25, 25, 25))))
         );
 
@@ -285,7 +291,6 @@ public class ViewMiembro extends javax.swing.JInternalFrame {
         String nombre = jtfAgregarNombre.getText();
         String apellido = jtfAgregarApellido.getText();
         Miembro nuevo = new Miembro(dni,nombre,apellido,true);
-        MiembroData md = new MiembroData();
         md.guardarMiembro(nuevo);
         limpiar1();
         
@@ -293,11 +298,15 @@ public class ViewMiembro extends javax.swing.JInternalFrame {
 
     private void jbEliminarMiembroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEliminarMiembroActionPerformed
         // TODO add your handling code here:
-        int id = parseInt(jtfId.getText());
-        MiembroData md = new MiembroData();
+        int id = Integer.parseInt(jtfId.getText());
         md.eliminarMiembro(id);
         limpiar2();
     }//GEN-LAST:event_jbEliminarMiembroActionPerformed
+
+    private void jbSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalirActionPerformed
+        // TODO add your handling code here:
+        dispose();
+    }//GEN-LAST:event_jbSalirActionPerformed
     private void limpiar1(){
         jtfAgregarApellido.setText("");
         jtfAgregarDni.setText("");
@@ -306,9 +315,25 @@ public class ViewMiembro extends javax.swing.JInternalFrame {
     private void limpiar2(){
         jtfId.setText("");
     }
+        private void listarMiembros(){
+        String[] cols = {"ID", "Nombre", "Apellido", "DNI"};
+        DefaultTableModel tm = new DefaultTableModel(cols, 0){
+            @Override
+            public boolean isCellEditable(int i,int il){
+               return il==1;
+            }
+        };
+
+        for (Miembro m : md.listarMiembros()) {
+            Object[] dato = {m.getIdMiembro(), m.getNombre(), m.getApellido(), m.getDni()};
+            tm.addRow(dato);
+        }
+
+        tblMiembros.setModel(tm);
+
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -323,12 +348,13 @@ public class ViewMiembro extends javax.swing.JInternalFrame {
     private javax.swing.JButton jbAgregarMiembro;
     private javax.swing.JButton jbEliminarMiembro;
     private javax.swing.JButton jbModificarMiembro;
+    private javax.swing.JButton jbSalir;
     private javax.swing.JTextField jtfAgregarApellido;
     private javax.swing.JTextField jtfAgregarDni;
     private javax.swing.JTextField jtfAgregarNombre;
     private javax.swing.JTextField jtfBuscarMiembro;
     private javax.swing.JTextField jtfId;
-    private javax.swing.JTable tblTareas;
+    private javax.swing.JTable tblMiembros;
     // End of variables declaration//GEN-END:variables
 
 }

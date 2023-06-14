@@ -40,9 +40,9 @@ public class ViewTarea extends javax.swing.JInternalFrame {
             tm.addRow(dato);
         }
         
-        tblTareas.setModel(tm);
-        tblTareas.getColumnModel().getColumn(0).setPreferredWidth(10);
-        tblTareas.getColumnModel().getColumn(1).setPreferredWidth(70);
+        jtblTareas.setModel(tm);
+        jtblTareas.getColumnModel().getColumn(0).setPreferredWidth(10);
+        jtblTareas.getColumnModel().getColumn(1).setPreferredWidth(70);
     }
     private void cargarEquipoMiembros(){
         for(EquipoMiembro em: emd.listarEquipoMiembro()){
@@ -60,7 +60,7 @@ public class ViewTarea extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblTareas = new javax.swing.JTable();
+        jtblTareas = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -73,13 +73,13 @@ public class ViewTarea extends javax.swing.JInternalFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        jbModificar = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         tbxFiltroViewTarea = new javax.swing.JTextField();
 
         setPreferredSize(new java.awt.Dimension(410, 500));
 
-        tblTareas.setModel(new javax.swing.table.DefaultTableModel(
+        jtblTareas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -87,7 +87,7 @@ public class ViewTarea extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(tblTareas);
+        jScrollPane1.setViewportView(jtblTareas);
 
         jLabel1.setFont(new java.awt.Font("SansSerif", 1, 24)); // NOI18N
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/186-list-numbered.png"))); // NOI18N
@@ -184,9 +184,20 @@ public class ViewTarea extends javax.swing.JInternalFrame {
             }
         });
 
-        jButton4.setText("Modificar");
+        jbModificar.setText("Modificar");
+        jbModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbModificarActionPerformed(evt);
+            }
+        });
 
         jLabel6.setText("Buscar ");
+
+        tbxFiltroViewTarea.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tbxFiltroViewTareaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -208,7 +219,7 @@ public class ViewTarea extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(tbxFiltroViewTarea, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton4)))
+                        .addComponent(jbModificar)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -220,14 +231,14 @@ public class ViewTarea extends javax.swing.JInternalFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton4)
+                    .addComponent(jbModificar)
                     .addComponent(jLabel6)
                     .addComponent(tbxFiltroViewTarea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(17, 17, 17)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton3)
-                .addContainerGap(47, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -254,7 +265,6 @@ public class ViewTarea extends javax.swing.JInternalFrame {
         //.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         String idEM = cbxMiembroEquipo.getSelectedItem().toString();
         String[] part = idEM.split("-");
-        
         int idEquipoMiembro = Integer.parseInt(part[0]);
         
         Tarea t = new Tarea(nombre, fecha_creacion, fecha_cierre, true, emd.buscarEquipoMiembro(idEquipoMiembro));
@@ -266,13 +276,25 @@ public class ViewTarea extends javax.swing.JInternalFrame {
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jbModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbModificarActionPerformed
+        int indice= jtblTareas.getSelectedRow();
+        int id= (int) jtblTareas.getValueAt(indice, 0);
+        String nombre= jtblTareas.getValueAt(indice, 1).toString();
+        LocalDate fechaModi= (LocalDate) jtblTareas.getValueAt(indice, 3);
+        Tarea TareaModi= td.buscarTarea(id);
+        
+    }//GEN-LAST:event_jbModificarActionPerformed
+
+    private void tbxFiltroViewTareaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tbxFiltroViewTareaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tbxFiltroViewTareaActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> cbxMiembroEquipo;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -281,8 +303,9 @@ public class ViewTarea extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton jbModificar;
     private com.toedter.calendar.JDateChooser jcFinalizacion;
-    private javax.swing.JTable tblTareas;
+    private javax.swing.JTable jtblTareas;
     private javax.swing.JTextField tbxFiltroViewTarea;
     private javax.swing.JTextField tbxNombreNewTarea;
     // End of variables declaration//GEN-END:variables
