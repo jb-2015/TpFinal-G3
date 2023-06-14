@@ -5,8 +5,14 @@
  */
 package Vistas;
 
+import controller.ComentarioData;
+import controller.ConsultaPorEstados;
+import controller.EquipoData;
+import controller.MiembroData;
 import controller.ProyectoData;
+import controller.TareaData;
 import javax.swing.table.DefaultTableModel;
+import modelo.Equipo;
 import modelo.Proyecto;
 
 /**
@@ -14,8 +20,13 @@ import modelo.Proyecto;
  * @author juany
  */
 public class ViewGeneral extends javax.swing.JInternalFrame {
-    
-    ProyectoData pd= new ProyectoData();
+
+    ProyectoData pd = new ProyectoData();
+    EquipoData ed = new EquipoData();
+    TareaData td = new TareaData();
+    MiembroData md = new MiembroData();
+    ComentarioData cd = new ComentarioData();
+
     /**
      * Creates new form ViewGeneral
      */
@@ -24,20 +35,26 @@ public class ViewGeneral extends javax.swing.JInternalFrame {
         cargarProyectos();
     }
 
-    public void cargarProyectos(){
-        String[] cols= {"ID","Nombre","Descripcion","Fecha Inicio"};
-        DefaultTableModel tm = new DefaultTableModel(cols,0){
+    public void cargarProyectos() {
+        String[] cols = {"ID", "Nombre", "Descripcion", "Fecha Inicio"};
+        DefaultTableModel tm = new DefaultTableModel(cols, 0) {
             @Override
-            public boolean isCellEditable(int i,int il){
+            public boolean isCellEditable(int i, int il) {
                 return false;
             }
         };
-        for(Proyecto p: pd.listarProyectos() ){
-            Object[] dato = {p.getIdProyecto(),p.getNombre(),p.getDescripcion(),p.getFecha_inicio()};
+        for (Proyecto p : pd.listarProyectos()) {
+            Object[] dato = {p.getIdProyecto(), p.getNombre(), p.getDescripcion(), p.getFecha_inicio()};
             tm.addRow(dato);
         }
         tblProyectos.setModel(tm);
+        tblProyectos.getColumnModel().getColumn(0).setPreferredWidth(5);
+        tblProyectos.getColumnModel().getColumn(0).setWidth(10);
+        tblProyectos.getColumnModel().getColumn(1).setPreferredWidth(150);
+        tblProyectos.getColumnModel().getColumn(2).setPreferredWidth(150);
+        tblProyectos.getColumnModel().getColumn(3).setPreferredWidth(100);
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -52,10 +69,10 @@ public class ViewGeneral extends javax.swing.JInternalFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tblEquipoProject = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblMiembroDeEquipo = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
@@ -73,30 +90,21 @@ public class ViewGeneral extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Nombre", "Descripcion", "Fecha Inicio", "Estado"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false
-            };
 
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+            }
+        ));
+        tblProyectos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                tblProyectosMousePressed(evt);
             }
         });
         jScrollPane1.setViewportView(tblProyectos);
-        if (tblProyectos.getColumnModel().getColumnCount() > 0) {
-            tblProyectos.getColumnModel().getColumn(0).setResizable(false);
-            tblProyectos.getColumnModel().getColumn(1).setResizable(false);
-            tblProyectos.getColumnModel().getColumn(2).setResizable(false);
-            tblProyectos.getColumnModel().getColumn(3).setResizable(false);
-        }
 
         jPanel1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
 
         jLabel2.setText("Equipos asignados");
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tblEquipoProject.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -104,9 +112,9 @@ public class ViewGeneral extends javax.swing.JInternalFrame {
                 "ID", "Equipo"
             }
         ));
-        jScrollPane3.setViewportView(jTable2);
-        if (jTable2.getColumnModel().getColumnCount() > 0) {
-            jTable2.getColumnModel().getColumn(0).setPreferredWidth(5);
+        jScrollPane3.setViewportView(tblEquipoProject);
+        if (tblEquipoProject.getColumnModel().getColumnCount() > 0) {
+            tblEquipoProject.getColumnModel().getColumn(0).setPreferredWidth(5);
         }
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -134,7 +142,7 @@ public class ViewGeneral extends javax.swing.JInternalFrame {
 
         jPanel2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblMiembroDeEquipo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -142,9 +150,9 @@ public class ViewGeneral extends javax.swing.JInternalFrame {
                 "ID", "Nombre", "Apellido"
             }
         ));
-        jScrollPane2.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setPreferredWidth(1);
+        jScrollPane2.setViewportView(tblMiembroDeEquipo);
+        if (tblMiembroDeEquipo.getColumnModel().getColumnCount() > 0) {
+            tblMiembroDeEquipo.getColumnModel().getColumn(0).setPreferredWidth(1);
         }
 
         jLabel1.setText("Miembros");
@@ -176,13 +184,10 @@ public class ViewGeneral extends javax.swing.JInternalFrame {
 
         jTable3.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+
             }
         ));
         jScrollPane4.setViewportView(jTable3);
@@ -291,6 +296,22 @@ public class ViewGeneral extends javax.swing.JInternalFrame {
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void tblProyectosMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProyectosMousePressed
+        // TODO add your handling code here:
+        int index = tblProyectos.getSelectedRow();
+        int idProyecto = Integer.parseInt(tblProyectos.getValueAt(index, 0).toString());
+        String[] cols = {"ID", "Nombre Equipo", "Creacion"};
+        DefaultTableModel tm = new DefaultTableModel(cols, 0);
+
+        for (Equipo e : ed.obtenerEquipos(ConsultaPorEstados.TODOS)) {
+            if (e.getProyecto().getIdProyecto() == idProyecto) {
+                Object[] dato = {e.getIdEquipo(), e.getNombre(), e.getFecha_creacion()};
+                tm.addRow(dato);
+            }
+        }
+        tblEquipoProject.setModel(tm);
+    }//GEN-LAST:event_tblProyectosMousePressed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -307,10 +328,10 @@ public class ViewGeneral extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTable tblEquipoProject;
+    private javax.swing.JTable tblMiembroDeEquipo;
     private javax.swing.JTable tblProyectos;
     private javax.swing.JTextField txtBuscarProject;
     // End of variables declaration//GEN-END:variables

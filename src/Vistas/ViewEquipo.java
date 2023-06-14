@@ -7,6 +7,7 @@ package Vistas;
 
 import controller.ConsultaPorEstados;
 import controller.EquipoData;
+import controller.EquipoMiembroData;
 import controller.MiembroData;
 import controller.ProyectoData;
 import java.time.LocalDate;
@@ -14,6 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import modelo.Equipo;
+import modelo.EquipoMiembro;
 import modelo.Miembro;
 import modelo.Proyecto;
 
@@ -26,6 +28,7 @@ public class ViewEquipo extends javax.swing.JInternalFrame {
     EquipoData ed = new EquipoData();
     MiembroData md = new MiembroData();
     ProyectoData pd = new ProyectoData();
+    EquipoMiembroData emd = new EquipoMiembroData();
 
     /**
      * Creates new form ViewEquipo
@@ -37,10 +40,10 @@ public class ViewEquipo extends javax.swing.JInternalFrame {
 
     private void cargarEquipos() {
         String[] cols = {"ID", "Nombre", "Proyecto", "fecha_creacion"};
-        DefaultTableModel tm = new DefaultTableModel(cols, 0){
+        DefaultTableModel tm = new DefaultTableModel(cols, 0) {
             @Override
-            public boolean isCellEditable(int i,int il){
-               return il==1;
+            public boolean isCellEditable(int i, int il) {
+                return il == 1;
             }
         };
 
@@ -100,13 +103,10 @@ public class ViewEquipo extends javax.swing.JInternalFrame {
 
         tblEquipos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+
             }
         ));
         tblEquipos.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -179,6 +179,11 @@ public class ViewEquipo extends javax.swing.JInternalFrame {
         });
 
         jButton3.setText("Guardar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jLabel6.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
         jLabel6.setText("NUEVO EQUIPO");
@@ -258,18 +263,20 @@ public class ViewEquipo extends javax.swing.JInternalFrame {
 
         tblMiembros.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+
             }
         ));
         jScrollPane2.setViewportView(tblMiembros);
 
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/272-cross.png"))); // NOI18N
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/007-pencil2.png"))); // NOI18N
         jButton5.addActionListener(new java.awt.event.ActionListener() {
@@ -336,12 +343,24 @@ public class ViewEquipo extends javax.swing.JInternalFrame {
         int index = tblEquipos.getSelectedRow();
         int idEquipo = Integer.parseInt(tblEquipos.getValueAt(index, 0).toString());
 
-        String[] cols = {"id", "Nombre", "Dni"};
-        DefaultTableModel tm = new DefaultTableModel(cols, 0);
+        cbxMiembros.removeAllItems();
+        for (Miembro m : md.listarNoEnEquipo(idEquipo)) {
+            cbxMiembros.addItem(m.getIdMiembro() + "-" + m.getNombre() + " " + m.getApellido());
+        }
 
-        for (Miembro m : md.lisarPorEquipo(idEquipo)) {
-            Object[] dato = {m.getIdMiembro(), m.getNombre(), m.getDni()};
-            tm.addRow(dato);
+        String[] cols = {"id", "Nombre", "Incorporacion"};
+        DefaultTableModel tm = new DefaultTableModel(cols, 0){
+            @Override
+            public boolean isCellEditable(int i,int il){
+                return false;
+            }
+        };
+
+        for (EquipoMiembro em : emd.listarEquipoMiembro()) {
+            if (idEquipo == em.getEquipo().getIdEquipo()) {
+                Object[] dato = {em.getMiembro().getIdMiembro(),em.getMiembro().getNombre()+" "+em.getMiembro().getApellido(),em.getFecha_incorporacion()};
+                tm.addRow(dato);
+            }
         }
 
         tblMiembros.setModel(tm);
@@ -364,10 +383,11 @@ public class ViewEquipo extends javax.swing.JInternalFrame {
         tblTodos.setModel(tm);
         tblTodos.getColumnModel().getColumn(0).setPreferredWidth(10);
         tblTodos.getColumnModel().getColumn(1).setPreferredWidth(70);
-        
-        for (Proyecto p: pd.listarProyectos()){
-            cbxProyecto.addItem(p.getIdProyecto()+"-"+p.getNombre());
+
+        for (Proyecto p : pd.listarProyectos()) {
+            cbxProyecto.addItem(p.getIdProyecto() + "-" + p.getNombre());
         }
+        cbxProyecto.setSelectedIndex(-1);
 
     }//GEN-LAST:event_tbxNombreNuevoEquipoMousePressed
 
@@ -397,33 +417,69 @@ public class ViewEquipo extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         int indice = tblFuturos.getSelectedRow();
         DefaultTableModel mod = (DefaultTableModel) tblFuturos.getModel();
-        
-            mod.removeRow(indice);
-            tblFuturos.revalidate();
-        
-        
+
+        mod.removeRow(indice);
+        tblFuturos.revalidate();
+
 
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
-        int index= tblEquipos.getSelectedRow();
-        int idEquipo= Integer.parseInt(tblEquipos.getValueAt(index, 0).toString());
-        String nombre= tblEquipos.getValueAt(index, 1).toString();
-        Equipo aux= new Equipo(idEquipo,null, nombre, null, true);
-        
+        int index = tblEquipos.getSelectedRow();
+        int idEquipo = Integer.parseInt(tblEquipos.getValueAt(index, 0).toString());
+        String nombre = tblEquipos.getValueAt(index, 1).toString();
+        Equipo aux = new Equipo(idEquipo, null, nombre, null, true);
+
         ed.modificarEquipo(aux);
-        
+
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void cbxMiembrosMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbxMiembrosMousePressed
         // TODO add your handling code here:
-        int index= tblEquipos.getSelectedRow();
-        int idEquipo = Integer.parseInt(tblEquipos.getValueAt(index, 0).toString());
-        for(Miembro m : md.listarNoEnEquipo(idEquipo)){
-            cbxMiembros.addItem(m.getIdMiembro()+"-"+m.getNombre()+" "+m.getApellido());
-        }
+
     }//GEN-LAST:event_cbxMiembrosMousePressed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        int index = tblEquipos.getSelectedRow();
+        int idEquipo = Integer.parseInt(tblEquipos.getValueAt(index, 0).toString());
+
+        ed.eliminarEquipo(idEquipo);
+
+        cargarEquipos();
+
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        String nombreEquipo = tbxNombreNuevoEquipo.getText();
+        int indexProyecto = cbxProyecto.getSelectedIndex();
+
+        if (!nombreEquipo.equals("") && indexProyecto > -1) {
+            String[] part = cbxProyecto.getItemAt(indexProyecto).split("-");
+            int idProyecto = Integer.parseInt(part[0]);
+            Equipo e = new Equipo(pd.buscarProyecto(idProyecto), nombreEquipo, LocalDate.now(), true);
+
+            ed.guardarEquipo(e);
+
+            if (tblFuturos.getRowCount() > 0) {
+                int cant = tblFuturos.getRowCount();
+                for (int i = 0; i < cant; i++) {
+                    String[] p = tblFuturos.getValueAt(i, 0).toString().split("-");
+                    String dni = p[0];
+                    EquipoMiembro nem = new EquipoMiembro(LocalDate.now(), e, md.buscarPorDni(dni), true);
+                    emd.guardarEquipoMiembro(nem);
+                    cargarEquipos();
+                }
+                tblTodos.removeAll();
+                tblFuturos.removeRowSelectionInterval(0, cant - 1);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Revise si ha puesto un nombre, o si ha seleccionado un proyecto");
+        }
+
+    }//GEN-LAST:event_jButton3ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

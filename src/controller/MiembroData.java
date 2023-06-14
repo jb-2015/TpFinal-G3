@@ -184,6 +184,25 @@ public class MiembroData {
            return aux;
            
        }
+       public Miembro buscarPorDni(String dni){
+           Miembro m= new Miembro();
+           String sql= "SELECT * FROM miembro WHERE dni=?";
+           try{
+               PreparedStatement ps = Conexion.conectar().prepareStatement(sql);
+               ps.setString(1,dni);
+               ResultSet rs = ps.executeQuery();
+               if(rs.next()){
+                   m.setIdMiembro(rs.getInt("idMiembro"));
+                   m.setDni(dni);
+                   m.setNombre(rs.getString("nombre"));
+                   m.setApellido(rs.getString("apellido"));
+                   m.setEstado(rs.getBoolean("estado"));
+               }
+           }catch(SQLException e){
+               JOptionPane.showMessageDialog(null,"Error al buscar miembro: "+e.getMessage());
+           }
+           return m;
+       }
        
        
 }
