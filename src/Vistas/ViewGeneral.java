@@ -14,6 +14,7 @@ import controller.TareaData;
 import javax.swing.table.DefaultTableModel;
 import modelo.Equipo;
 import modelo.Proyecto;
+import modelo.Tarea;
 
 /**
  *
@@ -76,7 +77,7 @@ public class ViewGeneral extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
+        tblTareas = new javax.swing.JTable();
         jScrollPane5 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         jLabel5 = new javax.swing.JLabel();
@@ -182,7 +183,7 @@ public class ViewGeneral extends javax.swing.JInternalFrame {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        tblTareas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -190,8 +191,9 @@ public class ViewGeneral extends javax.swing.JInternalFrame {
 
             }
         ));
-        jScrollPane4.setViewportView(jTable3);
+        jScrollPane4.setViewportView(tblTareas);
 
+        jTextArea1.setEditable(false);
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
         jScrollPane5.setViewportView(jTextArea1);
@@ -310,6 +312,18 @@ public class ViewGeneral extends javax.swing.JInternalFrame {
             }
         }
         tblEquipoProject.setModel(tm);
+        
+        //LISTAMOS TAREAS POR PROYECTO
+        String[] colsT= {"ID","Nombre Tarea","Fecha Fin"};
+        DefaultTableModel tmt= new DefaultTableModel(colsT,0);
+        
+        for(Tarea t : td.listarTareaPorProyecto(idProyecto)){
+            Object[] dato = {t.getIdTarea(),t.getNombre(),t.getFecha_cierre()};
+            tmt.addRow(dato);
+        }
+        tblTareas.setModel(tmt);
+        
+        
     }//GEN-LAST:event_tblProyectosMousePressed
 
 
@@ -328,11 +342,11 @@ public class ViewGeneral extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JTable jTable3;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTable tblEquipoProject;
     private javax.swing.JTable tblMiembroDeEquipo;
     private javax.swing.JTable tblProyectos;
+    private javax.swing.JTable tblTareas;
     private javax.swing.JTextField txtBuscarProject;
     // End of variables declaration//GEN-END:variables
 }
