@@ -315,7 +315,7 @@ public class ViewProyecto extends javax.swing.JInternalFrame {
             }
             jTable1.setModel(tm);
         }
-        if(nombre.isBlank()){
+        if(nombre.isEmpty()){
             listarProyectos();
         }
     }//GEN-LAST:event_tbxFiltroViewProyectoKeyReleased
