@@ -11,6 +11,8 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneId;
 import java.util.Calendar;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.EquipoMiembro;
@@ -21,8 +23,10 @@ import modelo.Tarea;
  * @author juany
  */
 public class ViewTarea extends javax.swing.JInternalFrame {
+
     TareaData td = new TareaData();
-    EquipoMiembroData emd= new EquipoMiembroData();
+    EquipoMiembroData emd = new EquipoMiembroData();
+
     /**
      * Creates new form viewTarea
      */
@@ -31,25 +35,42 @@ public class ViewTarea extends javax.swing.JInternalFrame {
         listarTareas();
         cargarEquipoMiembros();
     }
-    private void listarTareas(){
-        String[] cols= {"ID","Nombre","Fecha Creacion","Fecha Cierre"};
-        DefaultTableModel tm = new DefaultTableModel(cols,0);
-        
-        for(Tarea t : td.listarTareas()){
-            Object[] dato = {t.getIdTarea(),t.getNombre(),t.getFecha_creacion(),t.getFecha_cierre()};
+
+    private void listarTareas() {
+        String[] cols = {"ID", "Nombre", "Fecha Creacion", "Fecha Cierre"};
+        DefaultTableModel tm = new DefaultTableModel(cols, 0) {
+            @Override
+            public boolean isCellEditable(int i, int i1) {
+                if (i1 == 0) {
+                    return false;
+                }
+                if (i1 == 2) {
+                    return false;
+                }
+                return true;
+            }
+        };
+        for (Tarea t : td.listarTareas()) {
+            Object[] dato = {t.getIdTarea(), t.getNombre(), t.getFecha_creacion(), t.getFecha_cierre()};
             tm.addRow(dato);
         }
-        
+
         jtblTareas.setModel(tm);
         jtblTareas.getColumnModel().getColumn(0).setPreferredWidth(10);
         jtblTareas.getColumnModel().getColumn(1).setPreferredWidth(70);
     }
-    private void cargarEquipoMiembros(){
-        for(EquipoMiembro em: emd.listarEquipoMiembro()){
-            cbxMiembroEquipo.addItem(em.getIdEquipoMiembro()+"-"+em.getEquipo().getNombre()+"/"+em.getMiembro().getNombre());
+    private void borrar(){
+        tbxNombreNewTarea.setText("");
+        jcFinalizacion.setDate(null);
+        cbxMiembroEquipo.setSelectedIndex(-1);
+    }
+    private void cargarEquipoMiembros() {
+        for (EquipoMiembro em : emd.listarEquipoMiembro()) {
+            cbxMiembroEquipo.addItem(em.getIdEquipoMiembro() + "-" + em.getEquipo().getNombre() + "/" + em.getMiembro().getNombre());
         }
         cbxMiembroEquipo.setSelectedIndex(-1);
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -70,8 +91,8 @@ public class ViewTarea extends javax.swing.JInternalFrame {
         jcFinalizacion = new com.toedter.calendar.JDateChooser();
         jLabel5 = new javax.swing.JLabel();
         cbxMiembroEquipo = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        jbGuardar = new javax.swing.JButton();
+        jbLimpiar = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jbModificar = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
@@ -114,15 +135,20 @@ public class ViewTarea extends javax.swing.JInternalFrame {
             }
         });
 
-        jButton1.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
-        jButton1.setText("Guardar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jbGuardar.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        jbGuardar.setText("Guardar");
+        jbGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jbGuardarActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Limpiar");
+        jbLimpiar.setText("Limpiar");
+        jbLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbLimpiarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -136,9 +162,9 @@ public class ViewTarea extends javax.swing.JInternalFrame {
                 .addGap(64, 64, 64)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton2)
+                        .addComponent(jbLimpiar)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1))
+                        .addComponent(jbGuardar))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
@@ -170,10 +196,10 @@ public class ViewTarea extends javax.swing.JInternalFrame {
                     .addComponent(cbxMiembroEquipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(17, 17, 17)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE)
+                    .addComponent(jbGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton2)))
+                        .addComponent(jbLimpiar)))
                 .addContainerGap())
         );
 
@@ -196,6 +222,11 @@ public class ViewTarea extends javax.swing.JInternalFrame {
         tbxFiltroViewTarea.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tbxFiltroViewTareaActionPerformed(evt);
+            }
+        });
+        tbxFiltroViewTarea.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tbxFiltroViewTareaKeyReleased(evt);
             }
         });
 
@@ -251,49 +282,73 @@ public class ViewTarea extends javax.swing.JInternalFrame {
 
     private void cbxMiembroEquipoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbxMiembroEquipoMouseClicked
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_cbxMiembroEquipoMouseClicked
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
         // TODO add your handling code here:
-        String nombre= tbxNombreNewTarea.getText();
-        Calendar c= Calendar.getInstance();
+        String nombre = tbxNombreNewTarea.getText();
+        Calendar c = Calendar.getInstance();
         c.setTime(jcFinalizacion.getDate());
         LocalDate fecha_creacion = LocalDate.now();
         //LocalDate fecha_cierre= LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
-        LocalDate fecha_cierre= jcFinalizacion.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate fecha_cierre = jcFinalizacion.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         //.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         String idEM = cbxMiembroEquipo.getSelectedItem().toString();
         String[] part = idEM.split("-");
         int idEquipoMiembro = Integer.parseInt(part[0]);
-        
+
         Tarea t = new Tarea(nombre, fecha_creacion, fecha_cierre, true, emd.buscarEquipoMiembro(idEquipoMiembro));
-        
         td.guardarTarea(t);
-        
-        
-        
-        
-    }//GEN-LAST:event_jButton1ActionPerformed
+        listarTareas();
+
+
+    }//GEN-LAST:event_jbGuardarActionPerformed
 
     private void jbModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbModificarActionPerformed
-        int indice= jtblTareas.getSelectedRow();
-        int id= (int) jtblTareas.getValueAt(indice, 0);
-        String nombre= jtblTareas.getValueAt(indice, 1).toString();
-        LocalDate fechaModi= (LocalDate) jtblTareas.getValueAt(indice, 3);
-        Tarea TareaModi= td.buscarTarea(id);
-        
+        int indice = jtblTareas.getSelectedRow();
+        int id = (int) jtblTareas.getValueAt(indice, 0);
+        String nombre = jtblTareas.getValueAt(indice, 1).toString();
+        LocalDate fechaCrea = (LocalDate) jtblTareas.getValueAt(indice, 2);
+        LocalDate fechaModi = (LocalDate) jtblTareas.getValueAt(indice, 3);
+        Tarea TareaModi = new Tarea(id, nombre, fechaCrea, fechaModi, true, null);
+        td.modificarTarea(TareaModi);
+        listarTareas();
     }//GEN-LAST:event_jbModificarActionPerformed
 
     private void tbxFiltroViewTareaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tbxFiltroViewTareaActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_tbxFiltroViewTareaActionPerformed
+
+    private void tbxFiltroViewTareaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tbxFiltroViewTareaKeyReleased
+        String field = tbxFiltroViewTarea.getText().toString();
+        String[] cols = {"ID", "Nombre", "Fecha Creacion", "Fecha Cierre"};
+        DefaultTableModel tm = new DefaultTableModel(cols, 0) {
+            @Override
+            public boolean isCellEditable(int i, int i1) {
+                if (i1 == 0) {
+                    return false;
+                }
+                if (i1 == 2) {
+                    return false;
+                }
+                return true;
+            }
+        };
+        for (Tarea t : td.filtroTarea(field)) {
+            Object[] objetos={t.getIdTarea(),t.getNombre(),t.getFecha_creacion(),t.getFecha_cierre(),t.isEstado()};
+            tm.addRow(objetos);
+        }
+        jtblTareas.setModel(tm);
+    }//GEN-LAST:event_tbxFiltroViewTareaKeyReleased
+
+    private void jbLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbLimpiarActionPerformed
+        borrar();
+    }//GEN-LAST:event_jbLimpiarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> cbxMiembroEquipo;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -303,6 +358,8 @@ public class ViewTarea extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton jbGuardar;
+    private javax.swing.JButton jbLimpiar;
     private javax.swing.JButton jbModificar;
     private com.toedter.calendar.JDateChooser jcFinalizacion;
     private javax.swing.JTable jtblTareas;
