@@ -383,7 +383,7 @@ public class ViewEquipo extends javax.swing.JInternalFrame {
         tblTodos.setModel(tm);
         tblTodos.getColumnModel().getColumn(0).setPreferredWidth(10);
         tblTodos.getColumnModel().getColumn(1).setPreferredWidth(70);
-
+        cbxProyecto.removeAllItems();
         for (Proyecto p : pd.listarProyectos()) {
             cbxProyecto.addItem(p.getIdProyecto() + "-" + p.getNombre());
         }
