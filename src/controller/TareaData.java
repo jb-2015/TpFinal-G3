@@ -150,7 +150,7 @@ public class TareaData {
 
     public ArrayList<Tarea> listarTareaPorEquipo(int idEquipo) {
         ArrayList<Tarea> aux = new ArrayList();
-        String sql = "SELECT * FROM tarea WHERE idTarea IN (SELECT idTarea FROM equipomiembros WHERE idEquipo= ?)";
+        String sql = "SELECT * FROM tarea WHERE idMiembroEq IN (SELECT equipomiembros.idMiembroEq FROM equipomiembros WHERE idEquipo= ?)";
 
         try {
             PreparedStatement ps = Conexion.conectar().prepareStatement(sql);
@@ -175,9 +175,7 @@ public class TareaData {
     }
     public ArrayList<Tarea> listarTareaPorProyecto(int idProyecto){
         ArrayList<Tarea> aux = new ArrayList();
-        String sql = "SELECT * FROM tarea JOIN equipomiembro ON tarea.idMiembroEq= equipomiembro.idMiembroEq \n"
-                + "JOIN equipo ON equipomiembro.idEquipo = equipo.idEquipo\n"
-                + "JOIN proyecto ON equipo.idProyecto = proyecto=?";
+        String sql = "SELECT * FROM tarea JOIN equipomiembros ON tarea.idMiembroEq=equipomiembros.idMiembroEq JOIN equipo ON equipomiembros.idEquipo=equipo.idEquipo JOIN proyecto ON equipo.idProyecto=proyecto.idProyecto WHERE proyecto.idProyecto=?";
 
         try {
             PreparedStatement ps = Conexion.conectar().prepareStatement(sql);
