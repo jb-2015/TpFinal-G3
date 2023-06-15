@@ -80,6 +80,7 @@ public class ViewProyecto extends javax.swing.JInternalFrame {
         jLabel7 = new javax.swing.JLabel();
         tbxDescripcion = new javax.swing.JTextField();
         jbBorrar = new javax.swing.JButton();
+        jbSalir = new javax.swing.JButton();
 
         jLabel1.setFont(new java.awt.Font("SansSerif", 1, 24)); // NOI18N
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/007-pencil2.png"))); // NOI18N
@@ -206,6 +207,14 @@ public class ViewProyecto extends javax.swing.JInternalFrame {
             }
         });
 
+        jbSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/exit.png"))); // NOI18N
+        jbSalir.setText("Salir");
+        jbSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbSalirActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -233,6 +242,9 @@ public class ViewProyecto extends javax.swing.JInternalFrame {
                 .addGap(19, 19, 19)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(23, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jbSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -249,7 +261,9 @@ public class ViewProyecto extends javax.swing.JInternalFrame {
                     .addComponent(jbBorrar))
                 .addGap(32, 32, 32)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(51, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jbSalir)
+                .addContainerGap())
         );
 
         pack();
@@ -330,6 +344,10 @@ public class ViewProyecto extends javax.swing.JInternalFrame {
         
     }//GEN-LAST:event_jbBorrarActionPerformed
 
+    private void jbSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalirActionPerformed
+        dispose();
+    }//GEN-LAST:event_jbSalirActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -345,6 +363,7 @@ public class ViewProyecto extends javax.swing.JInternalFrame {
     private javax.swing.JTable jTable1;
     private javax.swing.JButton jbBorrar;
     private javax.swing.JButton jbModificar;
+    private javax.swing.JButton jbSalir;
     private com.toedter.calendar.JDateChooser jcFechaInicio;
     private javax.swing.JTextField tbxDescripcion;
     private javax.swing.JTextField tbxFiltroViewProyecto;
