@@ -119,8 +119,10 @@ public class TareaData {
     
     public ArrayList<Tarea> listarTareaPorMiembro(int idMiembro) {
         ArrayList<Tarea> aux = new ArrayList();
-        String sql = "SELECT * FROM tarea WHERE idTarea IN (SELECT idTarea FROM equipomiembros WHERE idEquipo= ?)";
-        
+
+        String sql = "SELECT * FROM tarea WHERE tarea.idMiembroEq IN (SELECT equipomiembros.idMiembroEq FROM equipomiembros WHERE idMiembro = ?)";
+
+
         try {
             PreparedStatement ps = Conexion.conectar().prepareStatement(sql);
             ps.setInt(1, idMiembro);
@@ -138,7 +140,7 @@ public class TareaData {
                 aux.add(t);
             }
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al listar las tareas por equipo " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al listar las tareas por Miembro " + e.getMessage());
         }
         return aux;
         

@@ -13,6 +13,7 @@ import controller.ProyectoData;
 import controller.TareaData;
 import javax.swing.table.DefaultTableModel;
 import modelo.Equipo;
+import modelo.Miembro;
 import modelo.Proyecto;
 import modelo.Tarea;
 
@@ -156,6 +157,11 @@ public class ViewGeneral extends javax.swing.JInternalFrame {
                 "ID", "Nombre", "Apellido"
             }
         ));
+        tblMiembroDeEquipo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                tblMiembroDeEquipoMousePressed(evt);
+            }
+        });
         jScrollPane2.setViewportView(tblMiembroDeEquipo);
         if (tblMiembroDeEquipo.getColumnModel().getColumnCount() > 0) {
             tblMiembroDeEquipo.getColumnModel().getColumn(0).setPreferredWidth(1);
@@ -308,7 +314,12 @@ public class ViewGeneral extends javax.swing.JInternalFrame {
         int index = tblProyectos.getSelectedRow();
         int idProyecto = Integer.parseInt(tblProyectos.getValueAt(index, 0).toString());
         String[] cols = {"ID", "Nombre Equipo", "Creacion"};
-        DefaultTableModel tm = new DefaultTableModel(cols, 0);
+        DefaultTableModel tm = new DefaultTableModel(cols, 0){
+            @Override
+            public boolean isCellEditable(int i, int il){
+                return false;
+            }
+        };
 
         for (Equipo e : ed.obtenerEquipos(ConsultaPorEstados.TODOS)) {
             if (e.getProyecto().getIdProyecto() == idProyecto) {
@@ -347,7 +358,43 @@ public class ViewGeneral extends javax.swing.JInternalFrame {
             tmt.addRow(dato);
         }
         tblTareas.setModel(tmt);
+        String[] colsM= {"ID","NOMBRE MIEMBRO","DNI"};
+        DefaultTableModel tmm= new DefaultTableModel(colsM,0){
+            @Override
+            public boolean isCellEditable(int i, int il){
+                return false;
+            }
+        };
+        for(Miembro m: md.lisarPorEquipo(idEquipo)){
+            Object[] dato= {m.getIdMiembro(),m.getNombre()+" "+m.getApellido(),m.getDni()};
+            tmm.addRow(dato);
+        }
+        tblMiembroDeEquipo.setModel(tmm);
+        
+        
     }//GEN-LAST:event_tblEquipoProjectMousePressed
+
+    private void tblMiembroDeEquipoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMiembroDeEquipoMousePressed
+        // TODO add your handling code here:
+        int index= tblMiembroDeEquipo.getSelectedRow();
+        int idMiembro= Integer.parseInt(tblMiembroDeEquipo.getValueAt(index, 0).toString());
+        
+        String[] colsT= {"ID","Nombre Tarea","Fecha Fin"};
+        DefaultTableModel tmt= new DefaultTableModel(colsT,0){
+            @Override
+            public boolean isCellEditable(int i,int il){
+                return false;
+            }
+        };
+        
+        for(Tarea t: td.listarTareaPorMiembro(idMiembro)){
+            Object[] dato={t.getIdTarea(),t.getNombre(),t.getFecha_cierre()};
+            tmt.addRow(dato);
+        }
+        
+        tblTareas.setModel(tmt);
+        
+    }//GEN-LAST:event_tblMiembroDeEquipoMousePressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
