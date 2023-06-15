@@ -54,6 +54,11 @@ public class Principal extends javax.swing.JFrame {
 
         btnProyectos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/189-tree.png"))); // NOI18N
         btnProyectos.setText("Proyectos");
+        btnProyectos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProyectosActionPerformed(evt);
+            }
+        });
 
         btnProyectos1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/118-user-check.png"))); // NOI18N
         btnProyectos1.setText("Miembros");
@@ -188,6 +193,15 @@ public class Principal extends javax.swing.JFrame {
         escritorio.add(vm);
         escritorio.moveToFront(vm);
     }//GEN-LAST:event_btnProyectos1ActionPerformed
+
+    private void btnProyectosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProyectosActionPerformed
+           ViewProyecto vp = new ViewProyecto();
+        vp.setVisible(true);
+        escritorio.removeAll();
+        escritorio.repaint();
+        escritorio.add(vp);
+        escritorio.moveToFront(vp);
+    }//GEN-LAST:event_btnProyectosActionPerformed
 
     /**
      * @param args the command line arguments
