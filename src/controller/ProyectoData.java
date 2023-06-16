@@ -128,7 +128,7 @@ public class ProyectoData {
     }
     
     public ArrayList<Proyecto> filtrar(String f){
-        String sql = "SELECT * FROM proyecto WHERE nombre LIKE ? OR descripcion LIKE ?";
+        String sql = "SELECT * FROM proyecto WHERE (nombre LIKE ? OR descripcion LIKE ?) AND estado = 1";
         String cadena="%"+f+"%";
         ArrayList<Proyecto> aux = new ArrayList();
         
