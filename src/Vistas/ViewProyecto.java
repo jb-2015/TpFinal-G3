@@ -4,6 +4,8 @@
  */
 package Vistas;
 
+import controller.ConsultaPorEstados;
+import controller.EquipoData;
 import controller.ProyectoData;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -11,6 +13,7 @@ import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.table.DefaultTableModel;
+import modelo.Equipo;
 import modelo.Proyecto;
 
 /**
@@ -19,6 +22,7 @@ import modelo.Proyecto;
  */
 public class ViewProyecto extends javax.swing.JInternalFrame {
     ProyectoData pd = new ProyectoData();
+    EquipoData ed = new EquipoData();
     /**
      * Creates new form ViewProyecto
      */
@@ -41,6 +45,7 @@ public class ViewProyecto extends javax.swing.JInternalFrame {
         jTable1.setModel(tm);
         jTable1.getColumnModel().getColumn(0).setPreferredWidth(10);
         jTable1.getColumnModel().getColumn(1).setPreferredWidth(70);
+        jTable1.getColumnModel().getColumn(0).
     }
     
      private void vaciarProyectos(){
@@ -339,6 +344,12 @@ public class ViewProyecto extends javax.swing.JInternalFrame {
         int id= (int) jTable1.getValueAt(indice, 0);
         
         pd.eliminarProyecto(id);
+        
+        for(Equipo e: ed.obtenerEquipos(ConsultaPorEstados.ACTIVOS)){
+                if(e.getProyecto().getIdProyecto() == id){
+                    ed.eliminarEquipo(e.getIdEquipo());
+                }
+            }
         
         listarProyectos();
         
