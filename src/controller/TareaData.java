@@ -81,7 +81,7 @@ public class TareaData {
                 t.setNombre(rs.getString("nombre"));
                 t.setFecha_creacion(rs.getDate("fecha_creacion").toLocalDate());
                 t.setFecha_cierre(rs.getDate("fecha_cierre").toLocalDate());
-                t.setEquipoMiembro(emd.buscarEquipoMiembro(rs.getInt("idEquipoMiembro")));
+                t.setEquipoMiembro(emd.buscarEquipoMiembro(rs.getInt("idMiembroEq")));
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al buscar tarea: " + e.getMessage());
@@ -117,15 +117,17 @@ public class TareaData {
         }
     }
     
-    public ArrayList<Tarea> listarTareaPorMiembro(int idMiembro) {
+    public ArrayList<Tarea> listarTareaPorMiembro(int idMiembro,int idEquipo) {
         ArrayList<Tarea> aux = new ArrayList();
 
-        String sql = "SELECT * FROM tarea WHERE tarea.idMiembroEq IN (SELECT equipomiembros.idMiembroEq FROM equipomiembros WHERE idMiembro = ?)";
+        //String sql = "SELECT * FROM tarea WHERE tarea.idMiembroEq IN (SELECT equipomiembros.idMiembroEq FROM equipomiembros WHERE idMiembro = ?)";
+        String sql = "SELECT * FROM tarea  WHERE tarea.idMiembroEq IN (SELECT equipomiembros.idMiembroEq FROM equipomiembros WHERE idMiembro=? AND idEquipo=?)";
 
 
         try {
             PreparedStatement ps = Conexion.conectar().prepareStatement(sql);
             ps.setInt(1, idMiembro);
+            ps.setInt(2, idEquipo);
             ResultSet rs = ps.executeQuery();
             
             while (rs.next()) {

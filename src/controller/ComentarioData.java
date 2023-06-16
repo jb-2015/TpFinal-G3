@@ -72,6 +72,27 @@ public class ComentarioData {
             JOptionPane.showMessageDialog(null, "Error al borrar Comentario: "+e.getMessage());
         }
     }
+    public ArrayList<Comentario> listarPorTarea(int idTarea){
+        ArrayList<Comentario> aux = new ArrayList();
+        
+        String sql = "SELECT * FROM comentarios WHERE idTarea = ?";
+        try{
+            PreparedStatement ps =Conexion.conectar().prepareStatement(sql);
+            ps.setInt(1, idTarea);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                Comentario c= new Comentario();
+                c.setIdComentario(rs.getInt("idComentario"));
+                c.setComentario(rs.getString("comentario"));
+                c.setTarea(td.buscarTarea(rs.getInt("idTarea")));
+                c.setFecha_avance(rs.getDate("fecha_avance").toLocalDate());
+                aux.add(c);
+            }
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "Error al listar comentarios por tarea: "+e.getMessage());
+        }
+        return aux;
+    }
     
     
     

@@ -159,7 +159,7 @@ public class MiembroData {
        public ArrayList<Miembro> listarNoEnEquipo(int idEquipo){
            ArrayList<Miembro> aux = new ArrayList();
            
-           String sql="SELECT * FROM miembro WHERE idMiembro NOT IN (SELECT idMiembro FROM equipomiembros WHERE idEquipo = ?)";
+           String sql="SELECT * FROM miembro WHERE idMiembro NOT IN (SELECT idMiembro FROM equipomiembros WHERE idEquipo = ?) AND estado=1";
            
            try{
                PreparedStatement ps = Conexion.conectar().prepareStatement(sql);

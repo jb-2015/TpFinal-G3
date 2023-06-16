@@ -126,5 +126,30 @@ public class ProyectoData {
             JOptionPane.showMessageDialog(null,"Error al eliminar");
         }
     }
+    
+    public ArrayList<Proyecto> filtrar(String f){
+        String sql = "SELECT * FROM proyecto WHERE nombre LIKE ? OR descripcion LIKE ?";
+        String cadena="%"+f+"%";
+        ArrayList<Proyecto> aux = new ArrayList();
+        
+        try{
+            PreparedStatement ps = Conexion.conectar().prepareStatement(sql);
+            ps.setString(1, cadena);
+            ps.setString(2, cadena);
+            ResultSet rs= ps.executeQuery();
+            while(rs.next()){
+                Proyecto p = new Proyecto();
+                p.setIdProyecto(rs.getInt("idProyecto"));
+                p.setNombre(rs.getString("nombre"));
+                p.setDescripcion(rs.getString("descripcion"));
+                p.setFecha_inicio(rs.getDate("fecha_inicio").toLocalDate());
+                aux.add(p);
+            }
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null,"Error al filtrar proyecto: "+e.getMessage());
+        }
+        
+        return aux;
+    }
 
 }

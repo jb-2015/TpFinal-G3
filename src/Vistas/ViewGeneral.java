@@ -12,6 +12,7 @@ import controller.MiembroData;
 import controller.ProyectoData;
 import controller.TareaData;
 import javax.swing.table.DefaultTableModel;
+import modelo.Comentario;
 import modelo.Equipo;
 import modelo.Miembro;
 import modelo.Proyecto;
@@ -80,8 +81,9 @@ public class ViewGeneral extends javax.swing.JInternalFrame {
         jScrollPane4 = new javax.swing.JScrollPane();
         tblTareas = new javax.swing.JTable();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        txtAComentarios = new javax.swing.JTextArea();
         jLabel5 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         txtBuscarProject = new javax.swing.JTextField();
@@ -202,15 +204,28 @@ public class ViewGeneral extends javax.swing.JInternalFrame {
 
             }
         ));
+        tblTareas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                tblTareasMousePressed(evt);
+            }
+        });
         jScrollPane4.setViewportView(tblTareas);
 
-        jTextArea1.setEditable(false);
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane5.setViewportView(jTextArea1);
+        txtAComentarios.setEditable(false);
+        txtAComentarios.setColumns(20);
+        txtAComentarios.setRows(5);
+        jScrollPane5.setViewportView(txtAComentarios);
 
         jLabel5.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         jLabel5.setText("Comentarios:");
+
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/111-bubble2.png"))); // NOI18N
+        jButton2.setText("Comentar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -218,11 +233,13 @@ public class ViewGeneral extends javax.swing.JInternalFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jScrollPane5)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 422, Short.MAX_VALUE))
-                    .addComponent(jLabel5))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 422, Short.MAX_VALUE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton2)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -231,7 +248,9 @@ public class ViewGeneral extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel5)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel5)
+                    .addComponent(jButton2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -242,6 +261,12 @@ public class ViewGeneral extends javax.swing.JInternalFrame {
         jLabel3.setText("General");
 
         jLabel4.setText("Buscar");
+
+        txtBuscarProject.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtBuscarProjectKeyReleased(evt);
+            }
+        });
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/exit.png"))); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -338,7 +363,7 @@ public class ViewGeneral extends javax.swing.JInternalFrame {
             tmt.addRow(dato);
         }
         tblTareas.setModel(tmt);
-        
+        tblMiembroDeEquipo.setModel(new DefaultTableModel(0,0));
         
     }//GEN-LAST:event_tblProyectosMousePressed
 
@@ -387,18 +412,117 @@ public class ViewGeneral extends javax.swing.JInternalFrame {
             }
         };
         
-        for(Tarea t: td.listarTareaPorMiembro(idMiembro)){
-            Object[] dato={t.getIdTarea(),t.getNombre(),t.getFecha_cierre()};
+        index= tblEquipoProject.getSelectedRow();
+        int idEquipo = Integer.parseInt(tblEquipoProject.getValueAt(index, 0).toString());
+        
+        for(Tarea t: td.listarTareaPorMiembro(idMiembro, idEquipo)){
+            Object[] dato= {t.getIdTarea(),t.getNombre(),t.getFecha_cierre()};
             tmt.addRow(dato);
+            
         }
+        
         
         tblTareas.setModel(tmt);
         
     }//GEN-LAST:event_tblMiembroDeEquipoMousePressed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        int index= tblMiembroDeEquipo.getSelectedRow();
+        int idMiembro= Integer.parseInt(tblMiembroDeEquipo.getValueAt(index, 0).toString());
+        index= tblTareas.getSelectedRow();
+        int idTarea = (int)tblTareas.getValueAt(index,0);
+        ViewComentar cv= new ViewComentar(idTarea,idMiembro);
+        cv.setVisible(true);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void tblTareasMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblTareasMousePressed
+        
+        int index= tblTareas.getSelectedRow();
+        int idTarea= (int)tblTareas.getValueAt(index, 0);
+        //VAMOS A MOSTRAR QUE EQUIPO HACE LA TAREA Y QUE MIEMBRO
+        Tarea t= td.buscarTarea(idTarea);
+        
+        String idEquipo= t.getEquipoMiembro().getEquipo().getIdEquipo()+"";
+        String idMiembro = t.getEquipoMiembro().getMiembro().getIdMiembro()+"";
+        
+        for(int i=0;i<tblEquipoProject.getRowCount();i++){
+            if(idEquipo.equals(tblEquipoProject.getValueAt(i, 0).toString())){
+                tblEquipoProject.setRowSelectionInterval(i,i);
+            }
+        }
+        
+        String[] colsM= {"ID","NOMBRE MIEMBRO","DNI"};
+        DefaultTableModel tmm= new DefaultTableModel(colsM,0){
+            @Override
+            public boolean isCellEditable(int i, int il){
+                return false;
+            }
+        };
+        for(Miembro m: md.lisarPorEquipo((t.getEquipoMiembro().getEquipo().getIdEquipo()))){
+            Object[] dato= {m.getIdMiembro(),m.getNombre()+" "+m.getApellido(),m.getDni()};
+            tmm.addRow(dato);
+        }
+        tblMiembroDeEquipo.setModel(tmm);
+        
+        for(int i=0;i<tblMiembroDeEquipo.getRowCount();i++){
+            if(idMiembro.equals(tblMiembroDeEquipo.getValueAt(i, 0).toString())){
+                tblMiembroDeEquipo.setRowSelectionInterval(i,i);
+            }
+        }
+        
+        
+        
+        
+        //-------------------------------------------------------
+        
+        
+        
+        
+        String contenido ="";
+        for(Comentario c : cd.listarPorTarea(idTarea)){
+            
+            String nombre=c.getTarea().getEquipoMiembro().getMiembro().getNombre()+" "+c.getTarea().getEquipoMiembro().getMiembro().getApellido();
+            String fecha= c.getFecha_avance().toString();
+            String coment = c.getComentario();
+            
+            contenido+= nombre+": ("+fecha+") \n >> "+coment+"\n ------------------------- \n ";
+            
+            
+        }
+        txtAComentarios.setText(contenido);
+        
+        
+        
+        
+    }//GEN-LAST:event_tblTareasMousePressed
+
+    private void txtBuscarProjectKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarProjectKeyReleased
+        // TODO add your handling code here:
+        String texto = txtBuscarProject.getText();
+        String[] cols = {"ID", "Nombre", "Descripcion", "Fecha Inicio"};
+        DefaultTableModel tm = new DefaultTableModel(cols, 0) {
+            @Override
+            public boolean isCellEditable(int i, int il) {
+                return false;
+            }
+        };
+        for (Proyecto p : pd.filtrar(texto)) {
+            Object[] dato = {p.getIdProyecto(), p.getNombre(), p.getDescripcion(), p.getFecha_inicio()};
+            tm.addRow(dato);
+        }
+        tblProyectos.setModel(tm);
+        tblProyectos.getColumnModel().getColumn(0).setPreferredWidth(5);
+        tblProyectos.getColumnModel().getColumn(0).setWidth(10);
+        tblProyectos.getColumnModel().getColumn(1).setPreferredWidth(150);
+        tblProyectos.getColumnModel().getColumn(2).setPreferredWidth(150);
+        tblProyectos.getColumnModel().getColumn(3).setPreferredWidth(100);
+    }//GEN-LAST:event_txtBuscarProjectKeyReleased
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -412,11 +536,11 @@ public class ViewGeneral extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTable tblEquipoProject;
     private javax.swing.JTable tblMiembroDeEquipo;
     private javax.swing.JTable tblProyectos;
     private javax.swing.JTable tblTareas;
+    private javax.swing.JTextArea txtAComentarios;
     private javax.swing.JTextField txtBuscarProject;
     // End of variables declaration//GEN-END:variables
 }

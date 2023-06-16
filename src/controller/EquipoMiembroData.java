@@ -39,7 +39,7 @@ public class EquipoMiembroData {
                 em.setIdEquipoMiembro(rs.getInt("idMiembroEq"));
                 em.setFecha_incorporacion(rs.getDate("fecha_incorporacion").toLocalDate());
                 em.setMiembro(md.buscarMiembro(rs.getInt("idMiembro")));
-                //em.setEquipo(ed.buscarEquipo(rs.getInt(idEquipo)));
+                em.setEquipo(ed.obtenerEquipo(rs.getInt("idEquipo")));
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "ERROR AL BUSCAR EQUIPO MIEMBRO" + e.getMessage());
@@ -86,10 +86,10 @@ public class EquipoMiembroData {
 
             if (rs.next()) {
                 em.setIdEquipoMiembro(rs.getInt(1));
-                JOptionPane.showMessageDialog(null, "Equipo-miembro agregado con exito.");
+                //JOptionPane.showMessageDialog(null, "Equipo-miembro agregado con exito.");
             }
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Error al acceder a la Tabla Equipo-miembro " + ex.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al acceder a la Tabla Equipo-miembro "+em.getEquipo().getNombre()+"-"+em.getMiembro().getNombre()+" " + ex.getMessage());
         }
     }
 
