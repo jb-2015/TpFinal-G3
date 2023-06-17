@@ -86,10 +86,10 @@ public class EquipoMiembroData {
 
             if (rs.next()) {
                 em.setIdEquipoMiembro(rs.getInt(1));
-                //JOptionPane.showMessageDialog(null, "Equipo-miembro agregado con exito.");
+
             }
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Error al acceder a la Tabla Equipo-miembro "+em.getEquipo().getNombre()+"-"+em.getMiembro().getNombre()+" " + ex.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al acceder a la Tabla Equipo-miembro " + em.getEquipo().getNombre() + "-" + em.getMiembro().getNombre() + " " + ex.getMessage());
         }
     }
 
@@ -101,10 +101,11 @@ public class EquipoMiembroData {
             int res = ps.executeUpdate();
             if (res == 1) {
                 JOptionPane.showMessageDialog(null, "Equipo miembro eliminado");
-            }else{
-            JOptionPane.showMessageDialog(null, "NO se pudo eliminar el miembro equipo");}
+            } else {
+                JOptionPane.showMessageDialog(null, "NO se pudo eliminar el miembro equipo");
+            }
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al borrar EQUIPO MIEMBRO"+ e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al borrar EQUIPO MIEMBRO" + e.getMessage());
         }
     }
 

@@ -62,10 +62,17 @@ public class ViewComentar extends javax.swing.JFrame {
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/111-bubble2.png"))); // NOI18N
         jLabel1.setText("COMENTAR");
 
+        lblMiembroCom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IconS/114-user.png"))); // NOI18N
+        lblMiembroCom.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Empleado", javax.swing.border.TitledBorder.RIGHT, javax.swing.border.TitledBorder.TOP, new java.awt.Font("SansSerif", 1, 11))); // NOI18N
+
+        lblTareaComent.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IconS/186-list-numbered.png"))); // NOI18N
+        lblTareaComent.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tarea", javax.swing.border.TitledBorder.RIGHT, javax.swing.border.TitledBorder.TOP, new java.awt.Font("SansSerif", 1, 11))); // NOI18N
+
         txtAComentario.setColumns(20);
         txtAComentario.setRows(5);
         jScrollPane1.setViewportView(txtAComentario);
 
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IconS/074-compass.png"))); // NOI18N
         jButton1.setText("Comentar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -73,6 +80,7 @@ public class ViewComentar extends javax.swing.JFrame {
             }
         });
 
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IconS/272-cross.png"))); // NOI18N
         jButton2.setText("Cancelar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -119,7 +127,7 @@ public class ViewComentar extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(395, 395, 395)
                         .addComponent(jButton2)))
-                .addContainerGap(46, Short.MAX_VALUE))
+                .addContainerGap(44, Short.MAX_VALUE))
         );
 
         pack();
