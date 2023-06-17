@@ -65,13 +65,11 @@ public class MiembroData {
            return m;
        }
        public void modificarMiembro(Miembro miembro){
-       String sql= "UPDATE miembro SET dni=?, apellido=?, nombre=?,estado=?";
+       String sql= "UPDATE miembro SET nombre=? WHERE idMiembro=?";
            try {
                PreparedStatement ps=Conexion.conectar().prepareStatement(sql);
-               ps.setString(1, miembro.getDni());
-               ps.setString(2, miembro.getApellido());
-               ps.setString(3, miembro.getNombre());
-               ps.setBoolean(4, miembro.isEstado());
+               ps.setString(1, miembro.getNombre());
+               ps.setInt(2, miembro.getIdMiembro());
                int res= ps.executeUpdate();
                if(res==1){
                JOptionPane.showMessageDialog(null, "Miembro modificado ");
