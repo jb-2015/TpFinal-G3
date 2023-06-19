@@ -237,6 +237,7 @@ public class ViewMiembro extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbModificarMiembroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbModificarMiembroActionPerformed
+
         // TODO add your handling code here:
         int index= tblMiembros.getSelectedRow();
         int idMiembro=(int)tblMiembros.getValueAt(index,0);
@@ -251,6 +252,7 @@ public class ViewMiembro extends javax.swing.JInternalFrame {
         
         
         
+
     }//GEN-LAST:event_jbModificarMiembroActionPerformed
 
     private void jtfAgregarNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfAgregarNombreActionPerformed
@@ -265,7 +267,7 @@ public class ViewMiembro extends javax.swing.JInternalFrame {
         Miembro nuevo = new Miembro(dni,nombre,apellido,true);
         md.guardarMiembro(nuevo);
         limpiar1();
-        
+        listarMiembros();
     }//GEN-LAST:event_jbAgregarMiembroActionPerformed
 
     private void jbEliminarMiembroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEliminarMiembroActionPerformed
