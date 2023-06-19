@@ -17,24 +17,22 @@ public class Borrado {
 
     public static void cascadeProyecto() {
         String sql = "UPDATE equipo\n"
-                + "JOIN equipomiembros ON equipomiembros.idEquipo = equipo.idEquipo\n"
-                + "JOIN tarea ON tarea.idMiembroEq = equipomiembros.idMiembroEq\n"
-                + "JOIN proyecto ON equipo.idProyecto= proyecto.idProyecto\n"
-                + "SET equipo.estado=0,equipomiembros.estado=0,tarea.estado=0\n"
-                + "WHERE proyecto.estado=0";
+                + "JOIN equipomiembros ON equipomiembros.idEquipo = equipo.idEquipo AND proyecto.estado=0\n"
+                + "LEFT JOIN tarea ON tarea.idMiembroEq = equipomiembros.idMiembroEq\n"
+                + "LEFT JOIN proyecto ON equipo.idProyecto= proyecto.idProyecto\n"
+                + "SET equipo.estado=0,equipomiembros.estado=0,tarea.estado=0\n";
         try{
             PreparedStatement  ps= Conexion.conectar().prepareStatement(sql);
             ps.execute();
         }catch(SQLException e){
-            JOptionPane.showMessageDialog(null, "Error");
+            JOptionPane.showMessageDialog(null, "Error"+e.getMessage());
         }
     }
     public static void cascadeMiembro(){
         String sql= "UPDATE miembro\n"
-                + "JOIN equipomiembros ON equipomiembros.idEquipo = equipo.idEquipo\n"
-                + "JOIN tarea ON tarea.idMiembroEq = equipomiembros.idMiembroEq\n"
-                + "SET equipomiembros.estado=0,tarea.estado=0\n"
-                + "WHERE miembro.estado=0";
+                + "JOIN equipomiembros ON equipomiembros.idEquipo = equipo.idEquipo AND miembro.estado=0\n"
+                + "LEFT JOIN tarea ON tarea.idMiembroEq = equipomiembros.idMiembroEq\n"
+                + "SET equipomiembros.estado=0,tarea.estado=0\n";
         try{
             PreparedStatement  ps= Conexion.conectar().prepareStatement(sql);
             ps.execute();
@@ -43,16 +41,16 @@ public class Borrado {
         }
     }
     public static void cascadeEquipo(){
-        String sql= "UPDATE equipo\n"
-                + "JOIN equipomiembros ON equipo.idEquipo=equipomiembros.idEquipo\n"
-                + "JOIN tarea ON tarea.idMiembroEq= equipomiembros.idMiembroEq\n"
-                + "SET equipomiembros.estado=0,tarea.estado=0\n"
-                + "WHERE equipo.estado=0";
+        String sql= "UPDATE equipo as e\n"
+                + "JOIN equipomiembros as em ON e.idEquipo=em.idEquipo AND e.estado=0\n"
+                + "LEFT JOIN tarea as t ON t.idMiembroEq= em.idMiembroEq\n"
+                + "SET em.estado=0,t.estado=0";
+                
         try{
             PreparedStatement  ps= Conexion.conectar().prepareStatement(sql);
             ps.execute();
         }catch(SQLException e){
-             JOptionPane.showMessageDialog(null, "Error");
+             JOptionPane.showMessageDialog(null, "Error"+e.getMessage());
         }
     }
     public static void cascadeEquipoMiembro(){
@@ -64,7 +62,7 @@ public class Borrado {
             PreparedStatement  ps= Conexion.conectar().prepareStatement(sql);
             ps.execute();
         }catch(SQLException e){
-             JOptionPane.showMessageDialog(null, "Error");
+             JOptionPane.showMessageDialog(null, "Error"+e.getMessage());
         }
     }
 }
