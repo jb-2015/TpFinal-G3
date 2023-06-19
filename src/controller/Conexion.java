@@ -40,7 +40,7 @@ public class Conexion {
         this.con = con;
     }
 
-    public void cerrarConexion() {
+    public static void cerrarConexion() {
         try {
             if (con != null) {
                 con.close();

@@ -44,7 +44,7 @@ public class EquipoData {
                 JOptionPane.showMessageDialog(null, "El Equipo no pudo ser guardado.");
             }
             ps.close();// se cierra los PS para por que pueden causar perdida de memoria o simplemente cerrar la conexion.
-
+            Conexion.cerrarConexion();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Se encontro un problema al cargar el equipo " + e.getMessage());
         }
@@ -63,7 +63,7 @@ public class EquipoData {
             }else{
                 JOptionPane.showMessageDialog(null, "No se encontro ningun equipo para dar eliminar");
             }
-            
+            Conexion.cerrarConexion();
         }catch(SQLException e){
             JOptionPane.showMessageDialog(null,"Error al eliminar");
         }
@@ -104,7 +104,7 @@ public class EquipoData {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al acceder a la tabla equipo " + e.getMessage());
         }
-
+        Conexion.cerrarConexion();
         return equipos;
     }
     
@@ -135,7 +135,7 @@ public class EquipoData {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al acceder a la tabla equipo " + e.getMessage());
         }
-        
+        Conexion.cerrarConexion();
         return equipo;
     }
     
@@ -149,6 +149,7 @@ public class EquipoData {
             
             ps.execute();
             JOptionPane.showMessageDialog(null,"Equipo modificado");
+            Conexion.cerrarConexion();
         }catch(SQLException ex){
             JOptionPane.showMessageDialog(null,"Error al modificar equipo "+ex.getMessage());
         }

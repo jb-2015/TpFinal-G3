@@ -37,6 +37,7 @@ public class MiembroData {
             JOptionPane.showMessageDialog(null, "El miembro no pudo ser guardado");
             }
             ps.close();
+            Conexion.cerrarConexion();
        }catch(SQLException e){
        JOptionPane.showMessageDialog(null, "Error al guardar miembro" + e.getMessage());
        }
@@ -58,6 +59,7 @@ public class MiembroData {
                    m.setNombre(rs.getString("nombre"));
                    m.setEstado(rs.getBoolean("estado"));
                }
+               Conexion.cerrarConexion();
            }
            catch (SQLException e) {
                JOptionPane.showMessageDialog(null, "Error al buscar miembro " + e.getMessage());
@@ -77,6 +79,7 @@ public class MiembroData {
                else{
                JOptionPane.showMessageDialog(null, "No se pudo modificar el miembro");
                }
+               Conexion.cerrarConexion();
            } catch (SQLException e) {
                JOptionPane.showMessageDialog(null, "Problemas al modificar el miembro "+ e.getMessage());
            }
@@ -92,6 +95,7 @@ public class MiembroData {
                }else{
                JOptionPane.showMessageDialog(null, "No se pudo eliminar al miembro");
                }
+               Conexion.cerrarConexion();
            } catch (SQLException e) {
                JOptionPane.showMessageDialog(null, "Problemas al eliminar el miembro "+e.getMessage());
            }
@@ -112,6 +116,7 @@ public class MiembroData {
                listaMiembros.add(miembro);
                }
                ps.close();
+               Conexion.cerrarConexion();
            } catch (SQLException e) {
                JOptionPane.showMessageDialog(null, "ERROR AL MOSTRAR LA LISTA DE MIEMBROS"+ e.getMessage());
            }
@@ -128,6 +133,7 @@ public class MiembroData {
                }else{
                    JOptionPane.showMessageDialog(null, "El miembro no pudo activarse");
                }
+               Conexion.cerrarConexion();
            } catch (SQLException e) {
                JOptionPane.showMessageDialog(null, "ERROR AL DAR DE ALTA ALUMNO"+ e.getMessage());
            }
@@ -145,7 +151,7 @@ public class MiembroData {
                    Miembro m= new Miembro(rs.getInt("idMiembro"),rs.getString("dni"),rs.getString("apellido"),rs.getString("nombre"),rs.getBoolean("estado"));
                    al.add(m);
                }
-               
+               Conexion.cerrarConexion();
            }catch(SQLException e){
                JOptionPane.showMessageDialog(null, "Error al buscar alumnos por equipo: "+e.getMessage());
                
@@ -174,7 +180,7 @@ public class MiembroData {
                    
                    aux.add(m);
                }
-                       
+               Conexion.cerrarConexion();
            }catch(SQLException e){
                JOptionPane.showMessageDialog(null, "Error al listar miembros");
            }
@@ -196,6 +202,7 @@ public class MiembroData {
                    m.setApellido(rs.getString("apellido"));
                    m.setEstado(rs.getBoolean("estado"));
                }
+               Conexion.cerrarConexion();
            }catch(SQLException e){
                JOptionPane.showMessageDialog(null,"Error al buscar miembro: "+e.getMessage());
            }

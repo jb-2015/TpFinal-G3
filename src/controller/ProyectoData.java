@@ -42,7 +42,7 @@ public class ProyectoData {
                 p.setIdProyecto(rs.getInt(1));
                 JOptionPane.showMessageDialog(null, "Proyecto agregado con exito.");
             }
-
+            Conexion.cerrarConexion();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al guardar proyecto");
         }
@@ -67,6 +67,7 @@ public class ProyectoData {
                 
                 arr.add(p);
             }
+            Conexion.cerrarConexion();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al listar proyectos");
         }
@@ -90,7 +91,7 @@ public class ProyectoData {
                 p.setEstado(rs.getBoolean("estado"));
 
             }
-
+            Conexion.cerrarConexion();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al buscar proyecto");
         }
@@ -108,7 +109,7 @@ public class ProyectoData {
             ps.setBoolean(3, p.isEstado());
             ps.setInt(4, p.getIdProyecto());
             ps.execute();
-
+            Conexion.cerrarConexion();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al modificar el proyecto");
         }
@@ -121,7 +122,7 @@ public class ProyectoData {
             PreparedStatement ps = Conexion.conectar().prepareStatement(sql);
             ps.setInt(1,id);
             ps.execute();
-            
+            Conexion.cerrarConexion();
         }catch(SQLException e){
             JOptionPane.showMessageDialog(null,"Error al eliminar");
         }
@@ -145,6 +146,7 @@ public class ProyectoData {
                 p.setFecha_inicio(rs.getDate("fecha_inicio").toLocalDate());
                 aux.add(p);
             }
+            Conexion.cerrarConexion();
         }catch(SQLException e){
             JOptionPane.showMessageDialog(null,"Error al filtrar proyecto: "+e.getMessage());
         }

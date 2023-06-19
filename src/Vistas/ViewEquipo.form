@@ -373,9 +373,9 @@
                   <Group type="103" groupAlignment="1" attributes="0">
                       <Component id="txtFiltroMiembro" min="-2" pref="28" max="-2" attributes="0"/>
                       <Component id="jLabel3" alignment="1" min="-2" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" max="-2" attributes="0">
-                          <Component id="cbxMiembros" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="jButton6" alignment="0" max="32767" attributes="0"/>
+                          <Component id="cbxMiembros" min="-2" pref="25" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
@@ -403,6 +403,9 @@
               <Image iconType="3" name="/IconS/116-user-plus.png"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton6ActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="txtFiltroMiembro">
           <Events>

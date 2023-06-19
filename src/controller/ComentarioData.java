@@ -37,12 +37,12 @@ public class ComentarioData {
                 c.setTarea(td.buscarTarea(rs.getInt("idTarea")));
 
                 com.add(c);
-
+                
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al listar comentarios");
         }
-
+        Conexion.cerrarConexion();
         return com;
     }
     
@@ -54,6 +54,7 @@ public class ComentarioData {
             ps.setDate(2, Date.valueOf(c.getFecha_avance()));
             ps.setInt(3, c.getTarea().getIdTarea());
             ps.execute();
+            Conexion.cerrarConexion();
         }catch(SQLException e)
         {
             JOptionPane.showMessageDialog(null, "Error al guardar comentario: "+e.getMessage());
@@ -68,14 +69,16 @@ public class ComentarioData {
             PreparedStatement ps = Conexion.conectar().prepareStatement(sql);
             ps.setInt(1, id);
             ps.execute();
+            Conexion.cerrarConexion();
         }catch(SQLException e){
             JOptionPane.showMessageDialog(null, "Error al borrar Comentario: "+e.getMessage());
         }
+        
     }
     public ArrayList<Comentario> listarPorTarea(int idTarea){
         ArrayList<Comentario> aux = new ArrayList();
         
-        String sql = "SELECT * FROM comentarios WHERE idTarea = ?";
+        String sql = "SELECT * FROM comentarios WHERE idTarea = ? ORDER BY idComentario DESC";
         try{
             PreparedStatement ps =Conexion.conectar().prepareStatement(sql);
             ps.setInt(1, idTarea);
@@ -91,6 +94,7 @@ public class ComentarioData {
         }catch(SQLException e){
             JOptionPane.showMessageDialog(null, "Error al listar comentarios por tarea: "+e.getMessage());
         }
+        Conexion.cerrarConexion();
         return aux;
     }
     

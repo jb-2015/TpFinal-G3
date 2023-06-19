@@ -11,6 +11,7 @@ import controller.EquipoData;
 import controller.MiembroData;
 import controller.ProyectoData;
 import controller.TareaData;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.Comentario;
 import modelo.Equipo;
@@ -336,9 +337,9 @@ public class ViewGeneral extends javax.swing.JInternalFrame {
         int index = tblProyectos.getSelectedRow();
         int idProyecto = Integer.parseInt(tblProyectos.getValueAt(index, 0).toString());
         String[] cols = {"ID", "Nombre Equipo", "Creacion"};
-        DefaultTableModel tm = new DefaultTableModel(cols, 0){
+        DefaultTableModel tm = new DefaultTableModel(cols, 0) {
             @Override
-            public boolean isCellEditable(int i, int il){
+            public boolean isCellEditable(int i, int il) {
                 return false;
             }
         };
@@ -350,148 +351,145 @@ public class ViewGeneral extends javax.swing.JInternalFrame {
             }
         }
         tblEquipoProject.setModel(tm);
-        
+
         //LISTAMOS TAREAS POR PROYECTO
-        String[] colsT= {"ID","Nombre Tarea","Fecha Fin"};
-        DefaultTableModel tmt= new DefaultTableModel(colsT,0);
-        
-        for(Tarea t : td.listarTareaPorProyecto(idProyecto)){
-            Object[] dato = {t.getIdTarea(),t.getNombre(),t.getFecha_cierre()};
+        String[] colsT = {"ID", "Nombre Tarea", "Fecha Fin"};
+        DefaultTableModel tmt = new DefaultTableModel(colsT, 0);
+
+        for (Tarea t : td.listarTareaPorProyecto(idProyecto)) {
+            Object[] dato = {t.getIdTarea(), t.getNombre(), t.getFecha_cierre()};
             tmt.addRow(dato);
         }
         tblTareas.setModel(tmt);
-        tblMiembroDeEquipo.setModel(new DefaultTableModel(0,0));
-        
+        tblMiembroDeEquipo.setModel(new DefaultTableModel(0, 0));
+
     }//GEN-LAST:event_tblProyectosMousePressed
 
     private void tblEquipoProjectMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblEquipoProjectMousePressed
         // TODO add your handling code here:
-        int index= tblEquipoProject.getSelectedRow();
-        int idEquipo = Integer.parseInt(tblEquipoProject.getValueAt(index,0).toString());
-        String[] colsT= {"ID","Nombre Tarea","Fecha Fin"};
-        DefaultTableModel tmt= new DefaultTableModel(colsT,0){
+        int index = tblEquipoProject.getSelectedRow();
+        int idEquipo = Integer.parseInt(tblEquipoProject.getValueAt(index, 0).toString());
+        String[] colsT = {"ID", "Nombre Tarea", "Fecha Fin"};
+        DefaultTableModel tmt = new DefaultTableModel(colsT, 0) {
             @Override
-            public boolean isCellEditable(int i,int il){
+            public boolean isCellEditable(int i, int il) {
                 return false;
             }
         };
-        for(Tarea t : td.listarTareaPorEquipo(idEquipo)){
-            Object[] dato = {t.getIdTarea(),t.getNombre(),t.getFecha_cierre()};
+        for (Tarea t : td.listarTareaPorEquipo(idEquipo)) {
+            Object[] dato = {t.getIdTarea(), t.getNombre(), t.getFecha_cierre()};
             tmt.addRow(dato);
         }
         tblTareas.setModel(tmt);
-        String[] colsM= {"ID","NOMBRE MIEMBRO","DNI"};
-        DefaultTableModel tmm= new DefaultTableModel(colsM,0){
+        String[] colsM = {"ID", "NOMBRE MIEMBRO", "DNI"};
+        DefaultTableModel tmm = new DefaultTableModel(colsM, 0) {
             @Override
-            public boolean isCellEditable(int i, int il){
+            public boolean isCellEditable(int i, int il) {
                 return false;
             }
         };
-        for(Miembro m: md.lisarPorEquipo(idEquipo)){
-            Object[] dato= {m.getIdMiembro(),m.getNombre()+" "+m.getApellido(),m.getDni()};
+        for (Miembro m : md.lisarPorEquipo(idEquipo)) {
+            Object[] dato = {m.getIdMiembro(), m.getNombre() + " " + m.getApellido(), m.getDni()};
             tmm.addRow(dato);
         }
         tblMiembroDeEquipo.setModel(tmm);
-        
-        
+
+
     }//GEN-LAST:event_tblEquipoProjectMousePressed
 
     private void tblMiembroDeEquipoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMiembroDeEquipoMousePressed
         // TODO add your handling code here:
-        int index= tblMiembroDeEquipo.getSelectedRow();
-        int idMiembro= Integer.parseInt(tblMiembroDeEquipo.getValueAt(index, 0).toString());
-        
-        String[] colsT= {"ID","Nombre Tarea","Fecha Fin"};
-        DefaultTableModel tmt= new DefaultTableModel(colsT,0){
+        int index = tblMiembroDeEquipo.getSelectedRow();
+        int idMiembro = Integer.parseInt(tblMiembroDeEquipo.getValueAt(index, 0).toString());
+
+        String[] colsT = {"ID", "Nombre Tarea", "Fecha Fin"};
+        DefaultTableModel tmt = new DefaultTableModel(colsT, 0) {
             @Override
-            public boolean isCellEditable(int i,int il){
+            public boolean isCellEditable(int i, int il) {
                 return false;
             }
         };
-        
-        index= tblEquipoProject.getSelectedRow();
+
+        index = tblEquipoProject.getSelectedRow();
         int idEquipo = Integer.parseInt(tblEquipoProject.getValueAt(index, 0).toString());
-        
-        for(Tarea t: td.listarTareaPorMiembro(idMiembro, idEquipo)){
-            Object[] dato= {t.getIdTarea(),t.getNombre(),t.getFecha_cierre()};
+
+        for (Tarea t : td.listarTareaPorMiembro(idMiembro, idEquipo)) {
+            Object[] dato = {t.getIdTarea(), t.getNombre(), t.getFecha_cierre()};
             tmt.addRow(dato);
-            
+
         }
-        
-        
+
         tblTareas.setModel(tmt);
-        
+
     }//GEN-LAST:event_tblMiembroDeEquipoMousePressed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        int index= tblMiembroDeEquipo.getSelectedRow();
-        int idMiembro= Integer.parseInt(tblMiembroDeEquipo.getValueAt(index, 0).toString());
-        index= tblTareas.getSelectedRow();
-        int idTarea = (int)tblTareas.getValueAt(index,0);
-        ViewComentar cv= new ViewComentar(idTarea,idMiembro);
-        cv.setVisible(true);
+       
+        if (tblTareas.getSelectedRowCount() > 0) {
+            int index = tblMiembroDeEquipo.getSelectedRow();
+            int idMiembro = Integer.parseInt(tblMiembroDeEquipo.getValueAt(index, 0).toString());
+            index = tblTareas.getSelectedRow();
+            int idTarea = (int) tblTareas.getValueAt(index, 0);
+            ViewComentar cv = new ViewComentar();
+            cv.cargarInfo(idTarea, idMiembro);
+            cv.setVisible(true);
+              
+        }else{
+            JOptionPane.showMessageDialog(this, "No hay tareas Seleccionadas para realizar comentario");
+        }
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void tblTareasMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblTareasMousePressed
-        
-        int index= tblTareas.getSelectedRow();
-        int idTarea= (int)tblTareas.getValueAt(index, 0);
+
+        int index = tblTareas.getSelectedRow();
+        int idTarea = (int) tblTareas.getValueAt(index, 0);
         //VAMOS A MOSTRAR QUE EQUIPO HACE LA TAREA Y QUE MIEMBRO
-        Tarea t= td.buscarTarea(idTarea);
-        
-        String idEquipo= t.getEquipoMiembro().getEquipo().getIdEquipo()+"";
-        String idMiembro = t.getEquipoMiembro().getMiembro().getIdMiembro()+"";
-        
-        for(int i=0;i<tblEquipoProject.getRowCount();i++){
-            if(idEquipo.equals(tblEquipoProject.getValueAt(i, 0).toString())){
-                tblEquipoProject.setRowSelectionInterval(i,i);
+        Tarea t = td.buscarTarea(idTarea);
+
+        String idEquipo = t.getEquipoMiembro().getEquipo().getIdEquipo() + "";
+        String idMiembro = t.getEquipoMiembro().getMiembro().getIdMiembro() + "";
+
+        for (int i = 0; i < tblEquipoProject.getRowCount(); i++) {
+            if (idEquipo.equals(tblEquipoProject.getValueAt(i, 0).toString())) {
+                tblEquipoProject.setRowSelectionInterval(i, i);
             }
         }
-        
-        String[] colsM= {"ID","NOMBRE MIEMBRO","DNI"};
-        DefaultTableModel tmm= new DefaultTableModel(colsM,0){
+
+        String[] colsM = {"ID", "NOMBRE MIEMBRO", "DNI"};
+        DefaultTableModel tmm = new DefaultTableModel(colsM, 0) {
             @Override
-            public boolean isCellEditable(int i, int il){
+            public boolean isCellEditable(int i, int il) {
                 return false;
             }
         };
-        for(Miembro m: md.lisarPorEquipo((t.getEquipoMiembro().getEquipo().getIdEquipo()))){
-            Object[] dato= {m.getIdMiembro(),m.getNombre()+" "+m.getApellido(),m.getDni()};
+        for (Miembro m : md.lisarPorEquipo((t.getEquipoMiembro().getEquipo().getIdEquipo()))) {
+            Object[] dato = {m.getIdMiembro(), m.getNombre() + " " + m.getApellido(), m.getDni()};
             tmm.addRow(dato);
         }
         tblMiembroDeEquipo.setModel(tmm);
-        
-        for(int i=0;i<tblMiembroDeEquipo.getRowCount();i++){
-            if(idMiembro.equals(tblMiembroDeEquipo.getValueAt(i, 0).toString())){
-                tblMiembroDeEquipo.setRowSelectionInterval(i,i);
+
+        for (int i = 0; i < tblMiembroDeEquipo.getRowCount(); i++) {
+            if (idMiembro.equals(tblMiembroDeEquipo.getValueAt(i, 0).toString())) {
+                tblMiembroDeEquipo.setRowSelectionInterval(i, i);
             }
         }
-        
-        
-        
-        
+
         //-------------------------------------------------------
-        
-        
-        
-        
-        String contenido ="";
-        for(Comentario c : cd.listarPorTarea(idTarea)){
-            
-            String nombre=c.getTarea().getEquipoMiembro().getMiembro().getNombre()+" "+c.getTarea().getEquipoMiembro().getMiembro().getApellido();
-            String fecha= c.getFecha_avance().toString();
+        String contenido = "";
+        for (Comentario c : cd.listarPorTarea(idTarea)) {
+
+            String nombre = c.getTarea().getEquipoMiembro().getMiembro().getNombre() + " " + c.getTarea().getEquipoMiembro().getMiembro().getApellido();
+            String fecha = c.getFecha_avance().toString();
             String coment = c.getComentario();
-            
-            contenido+= nombre+": ("+fecha+") \n >> "+coment+"\n ------------------------- \n ";
-            
-            
+
+            contenido += nombre + ": (" + fecha + ") \n >> " + coment + "\n ------------------------- \n ";
+
         }
         txtAComentarios.setText(contenido);
-        
-        
-        
-        
+
+
     }//GEN-LAST:event_tblTareasMousePressed
 
     private void txtBuscarProjectKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarProjectKeyReleased

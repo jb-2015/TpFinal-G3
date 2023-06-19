@@ -41,6 +41,7 @@ public class EquipoMiembroData {
                 em.setMiembro(md.buscarMiembro(rs.getInt("idMiembro")));
                 em.setEquipo(ed.obtenerEquipo(rs.getInt("idEquipo")));
             }
+            Conexion.cerrarConexion();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "ERROR AL BUSCAR EQUIPO MIEMBRO" + e.getMessage());
         }
@@ -64,11 +65,11 @@ public class EquipoMiembroData {
                 em.setEstado(rs.getBoolean("estado"));
                 arrEM.add(em);
             }
-
+            Conexion.cerrarConexion();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al listar Equipo/miembro");
         }
-
+        
         return arrEM;
     }
 
@@ -88,6 +89,7 @@ public class EquipoMiembroData {
                 em.setIdEquipoMiembro(rs.getInt(1));
 
             }
+            Conexion.cerrarConexion();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al acceder a la Tabla Equipo-miembro " + em.getEquipo().getNombre() + "-" + em.getMiembro().getNombre() + " " + ex.getMessage());
         }
@@ -104,6 +106,7 @@ public class EquipoMiembroData {
             } else {
                 JOptionPane.showMessageDialog(null, "NO se pudo eliminar el miembro equipo");
             }
+            Conexion.cerrarConexion();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al borrar EQUIPO MIEMBRO" + e.getMessage());
         }

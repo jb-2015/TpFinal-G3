@@ -285,6 +285,11 @@ public class ViewEquipo extends javax.swing.JInternalFrame {
         });
 
         jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IconS/116-user-plus.png"))); // NOI18N
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         txtFiltroMiembro.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -316,9 +321,9 @@ public class ViewEquipo extends javax.swing.JInternalFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(txtFiltroMiembro, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
-                        .addComponent(cbxMiembros, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(cbxMiembros, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -566,6 +571,27 @@ public class ViewEquipo extends javax.swing.JInternalFrame {
             }
         }
     }//GEN-LAST:event_txtFiltroMiembroKeyReleased
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+        if(cbxMiembros.getSelectedIndex()!=-1){
+            String select= cbxMiembros.getSelectedItem().toString();
+            String[] part=select.split("-");
+            int idMiembro= Integer.parseInt(part[0]);
+            
+            int index= tblEquipos.getSelectedRow();
+            int idEquipo= (int)tblEquipos.getValueAt(index,0);
+            
+            EquipoMiembro em = new EquipoMiembro(LocalDate.now(),ed.obtenerEquipo(idEquipo),md.buscarMiembro(idMiembro),true);
+            emd.guardarEquipoMiembro(em);
+            cargarEquipos();
+            cbxMiembros.setSelectedIndex(-1);
+            
+            
+        }else{
+            JOptionPane.showMessageDialog(this,"Debe seleccionar un miembro, puede ayudarse con el buscador");
+        }
+    }//GEN-LAST:event_jButton6ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -9,6 +9,7 @@ import controller.ComentarioData;
 import controller.MiembroData;
 import controller.TareaData;
 import java.time.LocalDate;
+import javax.swing.JInternalFrame;
 import modelo.Comentario;
 import modelo.Miembro;
 
@@ -20,23 +21,24 @@ public class ViewComentar extends javax.swing.JFrame {
     private int idTarea;
     private int idMiembro;
     private TareaData td = new TareaData();
-    private ComentarioData cd= new ComentarioData();
+    private ComentarioData cd = new ComentarioData();
     private MiembroData md = new MiembroData();
+
     /**
      * Creates new form ViewComentar
      */
-    public ViewComentar(int idTarea,int idMiembro) {
-        this.idTarea= idTarea;
-        this.idMiembro = idMiembro;
+    public ViewComentar() {
+
         initComponents();
-        Miembro m = md.buscarMiembro(idMiembro);
-        lblMiembroCom.setText(m.getNombre()+" "+m.getApellido());
-        lblTareaComent.setText(td.buscarTarea(idTarea).getNombre());
+
     }
 
-    private ViewComentar() {
-        initComponents();
-        
+    public void cargarInfo(int idTarea, int idMiembro) {
+        this.idTarea=idTarea;
+        this.idMiembro=idMiembro;
+        Miembro m = md.buscarMiembro(idMiembro);
+        lblMiembroCom.setText(m.getNombre() + " " + m.getApellido());
+        lblTareaComent.setText(td.buscarTarea(idTarea).getNombre());
     }
 
     /**
@@ -62,9 +64,11 @@ public class ViewComentar extends javax.swing.JFrame {
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/111-bubble2.png"))); // NOI18N
         jLabel1.setText("COMENTAR");
 
+        lblMiembroCom.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
         lblMiembroCom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IconS/114-user.png"))); // NOI18N
         lblMiembroCom.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Empleado", javax.swing.border.TitledBorder.RIGHT, javax.swing.border.TitledBorder.TOP, new java.awt.Font("SansSerif", 1, 11))); // NOI18N
 
+        lblTareaComent.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         lblTareaComent.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IconS/186-list-numbered.png"))); // NOI18N
         lblTareaComent.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tarea", javax.swing.border.TitledBorder.RIGHT, javax.swing.border.TitledBorder.TOP, new java.awt.Font("SansSerif", 1, 11))); // NOI18N
 
@@ -150,7 +154,7 @@ public class ViewComentar extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-   
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
