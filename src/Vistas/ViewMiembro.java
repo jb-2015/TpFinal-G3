@@ -277,6 +277,7 @@ public class ViewMiembro extends javax.swing.JInternalFrame {
         int idMiembro = (int)tblMiembros.getValueAt(index,0);
         
         md.eliminarMiembro(idMiembro);
+        listarMiembros();
     }//GEN-LAST:event_jbEliminarMiembroActionPerformed
 
     private void jbSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalirActionPerformed
@@ -298,7 +299,7 @@ public class ViewMiembro extends javax.swing.JInternalFrame {
             }
         };
         for(Miembro m: listaMiembros){
-            if(m.getNombre().contains(busqueda) || m.getApellido().contains(busqueda)){
+            if(m.getNombre().contains(busqueda) || m.getApellido().contains(busqueda)||m.getDni().contains(busqueda)){
                 Object[] dato ={m.getIdMiembro(),m.getNombre(),m.getApellido(),m.getDni()};
                 tm.addRow(dato);
             }
