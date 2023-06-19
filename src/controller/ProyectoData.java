@@ -124,9 +124,13 @@ public class ProyectoData {
             ps.execute();
             Conexion.cerrarConexion();
         }catch(SQLException e){
-            JOptionPane.showMessageDialog(null,"Error al eliminar");
+            JOptionPane.showMessageDialog(null,"Error al eliminar "+e.getMessage());
         }
     }
+    
+     
+     
+     
     
     public ArrayList<Proyecto> filtrar(String f){
         String sql = "SELECT * FROM proyecto WHERE (nombre LIKE ? OR descripcion LIKE ?) AND estado = 1";

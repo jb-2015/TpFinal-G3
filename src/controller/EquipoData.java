@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import controller.ConsultaPorEstados;
+import modelo.EquipoMiembro;
 
 
 
@@ -59,7 +60,8 @@ public class EquipoData {
             int res = ps.executeUpdate();
             ps.close();
             if(res==1){
-                JOptionPane.showMessageDialog(null, "Se 'elimino' el equipo");
+                JOptionPane.showMessageDialog(null, "Se elimino el equipo");
+               
             }else{
                 JOptionPane.showMessageDialog(null, "No se encontro ningun equipo para dar eliminar");
             }
@@ -68,6 +70,7 @@ public class EquipoData {
             JOptionPane.showMessageDialog(null,"Error al eliminar");
         }
     }
+    
 
     public List<Equipo> obtenerEquipos(ConsultaPorEstados estado) {
         String sql; 
