@@ -43,7 +43,7 @@ public class MiembroData {
        }
     }
        public Miembro buscarMiembro(int id){
-           String sql= "SELECT * FROM miembro WHERE idMiembro=?";
+           String sql= "SELECT * FROM miembro WHERE idMiembro=? AND estado=1";
            Miembro m= new Miembro();
            
            try {

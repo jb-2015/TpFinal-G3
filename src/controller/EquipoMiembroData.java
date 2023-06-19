@@ -96,7 +96,7 @@ public class EquipoMiembroData {
     }
 
     public void borrarEquipoMiembro(int id) {
-        String sql = "UPDATE * FROM equipomiembros SET estado=0 WHERE idMiembroEq=?";
+        String sql = "UPDATE * FROM equipomiembros SET estado=0 WHERE idMiembroEq=? AND estado=1";
         try {
             PreparedStatement ps = Conexion.conectar().prepareStatement(sql);
             ps.setInt(1, id);

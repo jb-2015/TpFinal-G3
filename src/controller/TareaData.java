@@ -71,7 +71,7 @@ public class TareaData {
 
     public Tarea buscarTarea(int id) {
         Tarea t = null;
-        String sql = "SELECT * FROM tarea WHERE idTarea=?";
+        String sql = "SELECT * FROM tarea WHERE idTarea=? AND estado=1";
         try {
             PreparedStatement ps = Conexion.conectar().prepareStatement(sql);
             ps.setInt(1, id);

@@ -114,7 +114,7 @@ public class EquipoData {
     public Equipo obtenerEquipo(int id) {
         String sql; 
         
-        sql = "SELECT * FROM equipo WHERE idEquipo = ?";
+        sql = "SELECT * FROM equipo WHERE idEquipo = ? AND estado=1";
         
         Equipo equipo = new Equipo();
         try {

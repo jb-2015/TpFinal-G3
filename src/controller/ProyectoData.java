@@ -77,7 +77,7 @@ public class ProyectoData {
 
     public Proyecto buscarProyecto(int id) {
         Proyecto p = null;
-        String sql = "SELECT * FROM proyecto WHERE idProyecto = ?";
+        String sql = "SELECT * FROM proyecto WHERE idProyecto = ? AND estado=1";
         try {
             PreparedStatement ps = Conexion.conectar().prepareStatement(sql);
             ps.setInt(1, id);
