@@ -33,6 +33,7 @@ public class TareaData {
             int verificar = FechaCreacion.compareTo(t.getFecha_cierre());
             if (verificar > 0) {
                 JOptionPane.showMessageDialog(null, "Debe ingresar una fecha posterior al dia actual");
+                return;
             }
             ps.execute();
             Conexion.cerrarConexion();
