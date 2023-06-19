@@ -5,6 +5,7 @@
  */
 package controller;
 
+import static controller.Borrado.cascadeMiembro;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -91,6 +92,7 @@ public class MiembroData {
                ps.setInt(1, id);
                int res= ps.executeUpdate();
                if(res==1){
+               cascadeMiembro();
                JOptionPane.showMessageDialog(null, "Miembro eliminado");
                }else{
                JOptionPane.showMessageDialog(null, "No se pudo eliminar al miembro");

@@ -18,7 +18,7 @@ public class Borrado {
     public static void cascadeProyecto() {
         String sql = "UPDATE equipo\n"
                 + "JOIN equipomiembros ON equipomiembros.idEquipo = equipo.idEquipo\n"
-                + "JOIN tarea ON tarea.idMiembroEq = equipomiembro.idMiembroEq\n"
+                + "JOIN tarea ON tarea.idMiembroEq = equipomiembros.idMiembroEq\n"
                 + "JOIN proyecto ON equipo.idProyecto= proyecto.idProyecto\n"
                 + "SET equipo.estado=0,equipomiembros.estado=0,tarea.estado=0\n"
                 + "WHERE proyecto.estado=0";
@@ -39,13 +39,13 @@ public class Borrado {
             PreparedStatement  ps= Conexion.conectar().prepareStatement(sql);
             ps.execute();
         }catch(SQLException e){
-             JOptionPane.showMessageDialog(null, "Error");
+             JOptionPane.showMessageDialog(null, "Error"+e.getMessage());
         }
     }
     public static void cascadeEquipo(){
         String sql= "UPDATE equipo\n"
-                + "JOIN equipomiembros ON equipo.idEquipo=equipomiembro.idEquipo\n"
-                + "JOIN tarea tarea.idMiembroEq= equipomiembro.idMiembroEq\n"
+                + "JOIN equipomiembros ON equipo.idEquipo=equipomiembros.idEquipo\n"
+                + "JOIN tarea tarea.idMiembroEq= equipomiembros.idMiembroEq\n"
                 + "SET equipomiembros.estado=0,tarea.estado=0\n"
                 + "WHERE equipo.estado=0";
         try{
