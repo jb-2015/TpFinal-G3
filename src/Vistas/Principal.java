@@ -5,6 +5,8 @@
  */
 package Vistas;
 
+import javax.swing.JFrame;
+
 /**
  *
  * @author juany
@@ -16,7 +18,8 @@ public class Principal extends javax.swing.JFrame {
      */
     public Principal() {
         initComponents();
-        
+        this.setVisible(true);
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
 
     /**
