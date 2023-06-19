@@ -122,6 +122,7 @@ public class ProyectoData {
             PreparedStatement ps = Conexion.conectar().prepareStatement(sql);
             ps.setInt(1,id);
             ps.execute();
+            Borrado.cascadeProyecto();
             Conexion.cerrarConexion();
         }catch(SQLException e){
             JOptionPane.showMessageDialog(null,"Error al eliminar "+e.getMessage());

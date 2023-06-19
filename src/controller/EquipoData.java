@@ -60,6 +60,7 @@ public class EquipoData {
             int res = ps.executeUpdate();
             ps.close();
             if(res==1){
+                Borrado.cascadeEquipo();
                 JOptionPane.showMessageDialog(null, "Se elimino el equipo");
                
             }else{

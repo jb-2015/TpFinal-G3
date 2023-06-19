@@ -102,6 +102,7 @@ public class EquipoMiembroData {
             ps.setInt(1, id);
             int res = ps.executeUpdate();
             if (res == 1) {
+                Borrado.cascadeEquipoMiembro();
                 JOptionPane.showMessageDialog(null, "Equipo miembro eliminado");
             } else {
                 JOptionPane.showMessageDialog(null, "NO se pudo eliminar el miembro equipo");

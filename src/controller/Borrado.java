@@ -45,7 +45,7 @@ public class Borrado {
     public static void cascadeEquipo(){
         String sql= "UPDATE equipo\n"
                 + "JOIN equipomiembros ON equipo.idEquipo=equipomiembros.idEquipo\n"
-                + "JOIN tarea tarea.idMiembroEq= equipomiembros.idMiembroEq\n"
+                + "JOIN tarea ON tarea.idMiembroEq= equipomiembros.idMiembroEq\n"
                 + "SET equipomiembros.estado=0,tarea.estado=0\n"
                 + "WHERE equipo.estado=0";
         try{
@@ -57,7 +57,7 @@ public class Borrado {
     }
     public static void cascadeEquipoMiembro(){
         String sql= "UPDATE equipomiembros\n"
-                + "JOIN tarea tarea.idMiembroEq=equipomiembros.idMiembroEq\n"
+                + "JOIN tarea ON tarea.idMiembroEq=equipomiembros.idMiembroEq\n"
                 + "SET tarea.estado=0\n"
                 + "WHERE equipomiembros.estado=0";
         try{
