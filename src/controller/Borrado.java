@@ -30,7 +30,7 @@ public class Borrado {
     }
     public static void cascadeMiembro(){
         String sql= "UPDATE miembro\n"
-                + "JOIN equipomiembros ON equipomiembros.idEquipo = equipo.idEquipo AND miembro.estado=0\n"
+                + "JOIN equipomiembros ON equipomiembros.idMiembro = miembro.idMiembro AND miembro.estado=0\n"
                 + "LEFT JOIN tarea ON tarea.idMiembroEq = equipomiembros.idMiembroEq\n"
                 + "SET equipomiembros.estado=0,tarea.estado=0\n";
         try{

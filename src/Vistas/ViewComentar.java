@@ -6,12 +6,15 @@
 package Vistas;
 
 import controller.ComentarioData;
+import controller.EstadoTareaData;
 import controller.MiembroData;
 import controller.TareaData;
 import java.time.LocalDate;
 import javax.swing.JInternalFrame;
 import modelo.Comentario;
+import modelo.EstadoTarea;
 import modelo.Miembro;
+import modelo.Tarea;
 
 /**
  *
@@ -57,6 +60,7 @@ public class ViewComentar extends javax.swing.JFrame {
         txtAComentario = new javax.swing.JTextArea();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jchbxRealizada = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -92,6 +96,9 @@ public class ViewComentar extends javax.swing.JFrame {
             }
         });
 
+        jchbxRealizada.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        jchbxRealizada.setText("Realizada");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -108,6 +115,8 @@ public class ViewComentar extends javax.swing.JFrame {
                         .addContainerGap())))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jchbxRealizada)
+                .addGap(18, 18, 18)
                 .addComponent(jButton2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1)
@@ -116,22 +125,20 @@ public class ViewComentar extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
-                        .addComponent(lblMiembroCom, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(lblTareaComent, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(37, 37, 37)
-                        .addComponent(jButton1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(395, 395, 395)
-                        .addComponent(jButton2)))
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(lblMiembroCom, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(lblTareaComent, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(37, 37, 37)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2)
+                    .addComponent(jchbxRealizada))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
 
         pack();
@@ -139,7 +146,17 @@ public class ViewComentar extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        String texto = txtAComentario.getText();
+        TareaData td = new TareaData();
+        EstadoTareaData etd= new EstadoTareaData();
+        String msg= "";
+        if(jchbxRealizada.isSelected()){
+            Tarea t= td.buscarTarea(idTarea);
+            EstadoTarea et= new EstadoTarea(t, LocalDate.now());     
+            
+            etd.finalizarTarea(idTarea);
+            msg="#FINALIZADA#";
+        }
+        String texto = msg+txtAComentario.getText();
         Comentario com = new Comentario(texto, LocalDate.now(), td.buscarTarea(idTarea));
         cd.guardarComentario(com);
         txtAComentario.setText("");
@@ -160,6 +177,7 @@ public class ViewComentar extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JCheckBox jchbxRealizada;
     private javax.swing.JLabel lblMiembroCom;
     private javax.swing.JLabel lblTareaComent;
     private javax.swing.JTextArea txtAComentario;

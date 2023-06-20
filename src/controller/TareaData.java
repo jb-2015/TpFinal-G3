@@ -126,7 +126,7 @@ public class TareaData {
         ArrayList<Tarea> aux = new ArrayList();
 
         //String sql = "SELECT * FROM tarea WHERE tarea.idMiembroEq IN (SELECT equipomiembros.idMiembroEq FROM equipomiembros WHERE idMiembro = ?)";
-        String sql = "SELECT * FROM tarea  WHERE tarea.idMiembroEq IN (SELECT equipomiembros.idMiembroEq FROM equipomiembros WHERE idMiembro=? AND idEquipo=?)";
+        String sql = "SELECT * FROM tarea  WHERE tarea.idMiembroEq IN (SELECT equipomiembros.idMiembroEq FROM equipomiembros WHERE idMiembro=? AND idEquipo=?) AND estado=1";
 
         try {
             PreparedStatement ps = Conexion.conectar().prepareStatement(sql);
@@ -230,6 +230,26 @@ public class TareaData {
         }
 
         return tareas;
+    }
+
+    public int cantidadTareas(int idProyecto) {
+        String sql = "SELECT COUNT(*) as cantidad FROM tarea\n"
+                + "JOIN equipomiembros ON tarea.idMiembroEq = equipomiembros.idMiembroEq\n"
+                + "JOIN equipo ON equipo.idEquipo = equipomiembros.idEquipo\n"
+                + "JOIN proyecto ON proyecto.idProyecto = equipo.idProyecto AND proyecto.idProyecto = ?";
+        try {
+            PreparedStatement ps = Conexion.conectar().prepareStatement(sql);
+            ps.setInt(1, idProyecto);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("cantidad");
+            }
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al contar tareas " + e.getMessage());
+        }
+
+        return 0;
     }
 
 }

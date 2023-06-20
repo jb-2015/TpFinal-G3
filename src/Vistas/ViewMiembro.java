@@ -8,6 +8,7 @@ package Vistas;
 import modelo.Miembro;
 import controller.MiembroData;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -15,8 +16,10 @@ import javax.swing.table.DefaultTableModel;
  * @author juany
  */
 public class ViewMiembro extends javax.swing.JInternalFrame {
-        MiembroData md = new MiembroData();
-        ArrayList<Miembro> listaMiembros= new ArrayList();
+
+    MiembroData md = new MiembroData();
+    ArrayList<Miembro> listaMiembros = new ArrayList();
+
     /**
      * Creates new form ViewMiembro
      */
@@ -239,19 +242,16 @@ public class ViewMiembro extends javax.swing.JInternalFrame {
     private void jbModificarMiembroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbModificarMiembroActionPerformed
 
         // TODO add your handling code here:
-        int index= tblMiembros.getSelectedRow();
-        int idMiembro=(int)tblMiembros.getValueAt(index,0);
-        
+        int index = tblMiembros.getSelectedRow();
+        int idMiembro = (int) tblMiembros.getValueAt(index, 0);
+
         Miembro m = md.buscarMiembro(idMiembro);
-        
+
         m.setNombre(tblMiembros.getValueAt(index, 1).toString());
         m.setApellido(tblMiembros.getValueAt(index, 2).toString());
-        
+
         md.modificarMiembro(m);
-        
-        
-        
-        
+
 
     }//GEN-LAST:event_jbModificarMiembroActionPerformed
 
@@ -264,18 +264,22 @@ public class ViewMiembro extends javax.swing.JInternalFrame {
         String dni = jtfAgregarDni.getText();
         String nombre = jtfAgregarNombre.getText();
         String apellido = jtfAgregarApellido.getText();
-        Miembro nuevo = new Miembro(dni,nombre,apellido,true);
-        md.guardarMiembro(nuevo);
-        limpiar1();
-        listarMiembros();
+        if (!dni.equals("") && !nombre.equals("") && !apellido.equals("")) {
+            Miembro nuevo = new Miembro(dni, nombre, apellido, true);
+            md.guardarMiembro(nuevo);
+            limpiar1();
+            listarMiembros();
+        }else{
+            JOptionPane.showMessageDialog(this, "Falta info");
+        }
     }//GEN-LAST:event_jbAgregarMiembroActionPerformed
 
     private void jbEliminarMiembroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEliminarMiembroActionPerformed
         // TODO add your handling code here:
-        
+
         int index = tblMiembros.getSelectedRow();
-        int idMiembro = (int)tblMiembros.getValueAt(index,0);
-        
+        int idMiembro = (int) tblMiembros.getValueAt(index, 0);
+
         md.eliminarMiembro(idMiembro);
         listarMiembros();
     }//GEN-LAST:event_jbEliminarMiembroActionPerformed
@@ -287,37 +291,37 @@ public class ViewMiembro extends javax.swing.JInternalFrame {
 
     private void jtfBuscarMiembroKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfBuscarMiembroKeyReleased
         // TODO add your handling code here:
-        if(listaMiembros.isEmpty()){
-            listaMiembros=(ArrayList<Miembro>)md.listarMiembros();
+        if (listaMiembros.isEmpty()) {
+            listaMiembros = (ArrayList<Miembro>) md.listarMiembros();
         }
-        String busqueda= jtfBuscarMiembro.getText();
+        String busqueda = jtfBuscarMiembro.getText();
         String[] cols = {"ID", "Nombre", "Apellido", "DNI"};
-        DefaultTableModel tm = new DefaultTableModel(cols, 0){
+        DefaultTableModel tm = new DefaultTableModel(cols, 0) {
             @Override
-            public boolean isCellEditable(int i,int il){
-               return il==1 || il==2;
+            public boolean isCellEditable(int i, int il) {
+                return il == 1 || il == 2;
             }
         };
-        for(Miembro m: listaMiembros){
-            if(m.getNombre().contains(busqueda) || m.getApellido().contains(busqueda)||m.getDni().contains(busqueda)){
-                Object[] dato ={m.getIdMiembro(),m.getNombre(),m.getApellido(),m.getDni()};
+        for (Miembro m : listaMiembros) {
+            if (m.getNombre().contains(busqueda) || m.getApellido().contains(busqueda) || m.getDni().contains(busqueda)) {
+                Object[] dato = {m.getIdMiembro(), m.getNombre(), m.getApellido(), m.getDni()};
                 tm.addRow(dato);
             }
         }
         tblMiembros.setModel(tm);
     }//GEN-LAST:event_jtfBuscarMiembroKeyReleased
-    private void limpiar1(){
+    private void limpiar1() {
         jtfAgregarApellido.setText("");
         jtfAgregarDni.setText("");
         jtfAgregarNombre.setText("");
     }
-   
-        private void listarMiembros(){
+
+    private void listarMiembros() {
         String[] cols = {"ID", "Nombre", "Apellido", "DNI"};
-        DefaultTableModel tm = new DefaultTableModel(cols, 0){
+        DefaultTableModel tm = new DefaultTableModel(cols, 0) {
             @Override
-            public boolean isCellEditable(int i,int il){
-               return il==1 || il==2;
+            public boolean isCellEditable(int i, int il) {
+                return il == 1 || il == 2;
             }
         };
 
