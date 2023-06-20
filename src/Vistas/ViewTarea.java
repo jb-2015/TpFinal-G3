@@ -32,7 +32,8 @@ public class ViewTarea extends javax.swing.JInternalFrame {
     TareaData td = new TareaData();
     EquipoMiembroData emd = new EquipoMiembroData();
     ProyectoData pd = new ProyectoData();
-    EquipoData ed= new EquipoData();
+    EquipoData ed = new EquipoData();
+
     /**
      * Creates new form viewTarea
      */
@@ -42,7 +43,7 @@ public class ViewTarea extends javax.swing.JInternalFrame {
         //cargarEquipoMiembros();
         cargarProyectos();
     }
-    
+
     private void listarTareas() {
         String[] cols = {"ID", "Nombre", "Fecha Creacion", "Fecha Cierre"};
         DefaultTableModel tm = new DefaultTableModel(cols, 0) {
@@ -66,35 +67,41 @@ public class ViewTarea extends javax.swing.JInternalFrame {
         jtblTareas.getColumnModel().getColumn(0).setPreferredWidth(10);
         jtblTareas.getColumnModel().getColumn(1).setPreferredWidth(70);
     }
-    private void borrar(){
+
+    private void borrar() {
         tbxNombreNewTarea.setText("");
         jcFinalizacion.setDate(null);
         cbxMiembroEquipo.setSelectedIndex(-1);
+        cbxProyecto.setSelectedIndex(-1);
+        cbxEquipo.setSelectedIndex(-1);
     }
-    private void cargarProyectos(){
+
+    private void cargarProyectos() {
         cbxProyecto.removeAllItems();
-        for(Proyecto p: pd.listarProyectos()){
-            cbxProyecto.addItem(p.getIdProyecto()+"-"+p.getNombre());
+        for (Proyecto p : pd.listarProyectos()) {
+            cbxProyecto.addItem(p.getIdProyecto() + "-" + p.getNombre());
         }
     }
-    private void cargarEquipos(){
+
+    private void cargarEquipos() {
         cbxEquipo.removeAllItems();
-        for(Equipo e: ed.obtenerEquipos(ConsultaPorEstados.ACTIVOS)){
-            String[] part= cbxProyecto.getSelectedItem().toString().split("-");
-            int idProyecto= Integer.parseInt(part[0]);
-            if(e.getProyecto().getIdProyecto()==idProyecto){
-                cbxEquipo.addItem(e.getIdEquipo()+"-"+e.getNombre());
+        for (Equipo e : ed.obtenerEquipos(ConsultaPorEstados.ACTIVOS)) {
+            String[] part = cbxProyecto.getSelectedItem().toString().split("-");
+            int idProyecto = Integer.parseInt(part[0]);
+            if (e.getProyecto().getIdProyecto() == idProyecto) {
+                cbxEquipo.addItem(e.getIdEquipo() + "-" + e.getNombre());
             }
         }
     }
+
     private void cargarEquipoMiembros() {
         cbxMiembroEquipo.removeAllItems();
         for (EquipoMiembro em : emd.listarEquipoMiembro()) {
             int idEquipo = Integer.parseInt(cbxEquipo.getSelectedItem().toString().split("-")[0]);
-            if(em.getEquipo().getIdEquipo()==idEquipo){
-                cbxMiembroEquipo.addItem(em.getIdEquipoMiembro()+"-"+ em.getMiembro().getNombre()+em.getMiembro().getApellido());
+            if (em.getEquipo().getIdEquipo() == idEquipo) {
+                cbxMiembroEquipo.addItem(em.getIdEquipoMiembro() + "-" + em.getMiembro().getNombre() + em.getMiembro().getApellido());
             }
-            
+
         }
         cbxMiembroEquipo.setSelectedIndex(-1);
     }
@@ -391,21 +398,40 @@ public class ViewTarea extends javax.swing.JInternalFrame {
 
     private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
         // TODO add your handling code here:
+        boolean validando = false;
+        LocalDate fecha_creacion=null;
+        LocalDate fecha_cierre=null;
+        int idEquipoMiembro=0;
         String nombre = tbxNombreNewTarea.getText();
-        Calendar c = Calendar.getInstance();
-        c.setTime(jcFinalizacion.getDate());
-        LocalDate fecha_creacion = LocalDate.now();
-        
-        LocalDate fecha_cierre = jcFinalizacion.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        
+        if (nombre.equals("")) {
+            validando = true;
+        }
+        //Calendar c = Calendar.getInstance();
+        //c.setTime(jcFinalizacion.getDate());
+        if (jcFinalizacion.getDate() == null) {
+            validando = true;
+        } else {
+             fecha_creacion = LocalDate.now();
+             fecha_cierre = jcFinalizacion.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        }
+
+        if (cbxMiembroEquipo.getSelectedIndex()==-1) {
+            validando = true;
+        }else{
         String idEM = cbxMiembroEquipo.getSelectedItem().toString();
+        
         String[] part = idEM.split("-");
-        int idEquipoMiembro = Integer.parseInt(part[0]);
+         idEquipoMiembro = Integer.parseInt(part[0]);
+        }
 
-        Tarea t = new Tarea(nombre, fecha_creacion, fecha_cierre, true, emd.buscarEquipoMiembro(idEquipoMiembro));
-        td.guardarTarea(t);
-        listarTareas();
-
+        
+        if (validando) {
+            JOptionPane.showMessageDialog(null, "Por favor llene todos los campos");
+        } else {
+            Tarea t = new Tarea(nombre, fecha_creacion, fecha_cierre, true, emd.buscarEquipoMiembro(idEquipoMiembro));
+            td.guardarTarea(t);
+            listarTareas();
+        }
 
     }//GEN-LAST:event_jbGuardarActionPerformed
 
@@ -440,7 +466,7 @@ public class ViewTarea extends javax.swing.JInternalFrame {
             }
         };
         for (Tarea t : td.filtroTarea(field)) {
-            Object[] objetos={t.getIdTarea(),t.getNombre(),t.getFecha_creacion(),t.getFecha_cierre(),t.isEstado()};
+            Object[] objetos = {t.getIdTarea(), t.getNombre(), t.getFecha_creacion(), t.getFecha_cierre(), t.isEstado()};
             tm.addRow(objetos);
         }
         jtblTareas.setModel(tm);
@@ -452,7 +478,7 @@ public class ViewTarea extends javax.swing.JInternalFrame {
 
     private void jbEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEliminarActionPerformed
         int indice = jtblTareas.getSelectedRow();
-        int id= (int) jtblTareas.getValueAt(indice, 0);
+        int id = (int) jtblTareas.getValueAt(indice, 0);
         td.eliminarTarea(id);
         listarTareas();
     }//GEN-LAST:event_jbEliminarActionPerformed
@@ -460,21 +486,21 @@ public class ViewTarea extends javax.swing.JInternalFrame {
     private void jtblTareasMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtblTareasMousePressed
         // TODO add your handling code here:
         int indice = jtblTareas.getSelectedRow();
-        int id= (int) jtblTareas.getValueAt(indice, 0);
-        
+        int id = (int) jtblTareas.getValueAt(indice, 0);
+
         Tarea t = td.buscarTarea(id);
-        
-        lblInfoTarea.setText(t.getEquipoMiembro().getEquipo().getProyecto().getNombre()+" / "+t.getEquipoMiembro().getEquipo().getNombre()+" / "+t.getEquipoMiembro().getMiembro().getNombre());
+
+        lblInfoTarea.setText(t.getEquipoMiembro().getEquipo().getProyecto().getNombre() + " / " + t.getEquipoMiembro().getEquipo().getNombre() + " / " + t.getEquipoMiembro().getMiembro().getNombre());
     }//GEN-LAST:event_jtblTareasMousePressed
 
     private void cbxProyectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxProyectoActionPerformed
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_cbxProyectoActionPerformed
 
     private void cbxEquipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxEquipoActionPerformed
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_cbxEquipoActionPerformed
 
     private void cbxMiembroEquipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxMiembroEquipoActionPerformed
@@ -483,14 +509,14 @@ public class ViewTarea extends javax.swing.JInternalFrame {
 
     private void cbxEquipoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbxEquipoMousePressed
         // TODO add your handling code here:
-        if(cbxProyecto.getSelectedIndex()>-1){
+        if (cbxProyecto.getSelectedIndex() > -1) {
             cargarEquipos();
         }
     }//GEN-LAST:event_cbxEquipoMousePressed
 
     private void cbxMiembroEquipoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbxMiembroEquipoMousePressed
         // TODO add your handling code here:
-        if(cbxEquipo.getSelectedIndex()>-1){
+        if (cbxEquipo.getSelectedIndex() > -1) {
             cargarEquipoMiembros();
         }
     }//GEN-LAST:event_cbxMiembroEquipoMousePressed

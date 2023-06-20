@@ -115,10 +115,10 @@ public class TareaData {
             PreparedStatement ps = Conexion.conectar().prepareStatement(sql);
             ps.setInt(1, idTarea);
             ps.execute();
-            JOptionPane.showMessageDialog(null, "Materia eliminada");
+            JOptionPane.showMessageDialog(null, "Tarea eliminada");
             Conexion.cerrarConexion();
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al eliminar materia: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al eliminar tarea: " + e.getMessage());
         }
     }
 

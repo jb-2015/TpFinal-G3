@@ -35,8 +35,6 @@ public class ProyectoData {
             ps.setBoolean(4, p.isEstado());
 
             ps.execute();
-            JOptionPane.showMessageDialog(null, "Proyecto guardado");
-            
             ResultSet rs = ps.getGeneratedKeys();
             if (rs.next()) {
                 p.setIdProyecto(rs.getInt(1));
