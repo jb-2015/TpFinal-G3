@@ -8,6 +8,7 @@ package Vistas;
 import controller.ComentarioData;
 import controller.ConsultaPorEstados;
 import controller.EquipoData;
+import controller.EstadoTareaData;
 import controller.MiembroData;
 import controller.ProyectoData;
 import controller.TareaData;
@@ -30,6 +31,7 @@ public class ViewGeneral extends javax.swing.JInternalFrame {
     TareaData td = new TareaData();
     MiembroData md = new MiembroData();
     ComentarioData cd = new ComentarioData();
+    EstadoTareaData etd = new EstadoTareaData();
 
     /**
      * Creates new form ViewGeneral
@@ -59,6 +61,17 @@ public class ViewGeneral extends javax.swing.JInternalFrame {
         tblProyectos.getColumnModel().getColumn(3).setPreferredWidth(100);
     }
 
+    public void calcularProgreso(int idProyecto) {
+        EstadoTareaData etd = new EstadoTareaData();
+
+        int cantF = etd.cantidadDeTareasTerminadas(idProyecto);
+        int cantT = td.cantidadTareas(idProyecto);
+        cantT = cantT == 0 ? 1 : cantT;
+        int porc = (cantF * 100) / cantT;
+
+        pgrProgresoProyecto.setValue(porc);
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -84,8 +97,7 @@ public class ViewGeneral extends javax.swing.JInternalFrame {
         jScrollPane5 = new javax.swing.JScrollPane();
         txtAComentarios = new javax.swing.JTextArea();
         jLabel5 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
-        btnRealizada = new javax.swing.JButton();
+        btnComentar = new javax.swing.JButton();
         pgrProgresoProyecto = new javax.swing.JProgressBar();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -222,20 +234,16 @@ public class ViewGeneral extends javax.swing.JInternalFrame {
         jLabel5.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         jLabel5.setText("Comentarios:");
 
-        jButton2.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IconS/111-bubble2.png"))); // NOI18N
-        jButton2.setText("Comentar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnComentar.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+        btnComentar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IconS/111-bubble2.png"))); // NOI18N
+        btnComentar.setText("Comentar");
+        btnComentar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnComentarActionPerformed(evt);
             }
         });
 
-        btnRealizada.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IconS/273-checkmark.png"))); // NOI18N
-        btnRealizada.setToolTipText("marcar como realizada");
-
         pgrProgresoProyecto.setToolTipText("");
-        pgrProgresoProyecto.setValue(75);
         pgrProgresoProyecto.setStringPainted(true);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -246,15 +254,15 @@ public class ViewGeneral extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 422, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(pgrProgresoProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, Short.MAX_VALUE)
-                        .addComponent(btnRealizada)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(pgrProgresoProyecto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
-                        .addComponent(jButton2)))
+                        .addComponent(btnComentar)))
                 .addContainerGap(26, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -264,10 +272,8 @@ public class ViewGeneral extends javax.swing.JInternalFrame {
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(pgrProgresoProyecto, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
-                        .addComponent(btnRealizada, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(pgrProgresoProyecto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnComentar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -354,7 +360,7 @@ public class ViewGeneral extends javax.swing.JInternalFrame {
 
     private void tblProyectosMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProyectosMousePressed
         // TODO add your handling code here:
-        
+
         int index = tblProyectos.getSelectedRow();
         int idProyecto = Integer.parseInt(tblProyectos.getValueAt(index, 0).toString());
         String[] cols = {"ID", "Nombre Equipo", "Creacion"};
@@ -383,7 +389,9 @@ public class ViewGeneral extends javax.swing.JInternalFrame {
         }
         tblTareas.setModel(tmt);
         tblMiembroDeEquipo.setModel(new DefaultTableModel(0, 0));
-        
+
+        calcularProgreso(idProyecto);
+
     }//GEN-LAST:event_tblProyectosMousePressed
 
     private void tblEquipoProjectMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblEquipoProjectMousePressed
@@ -444,23 +452,28 @@ public class ViewGeneral extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_tblMiembroDeEquipoMousePressed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnComentarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComentarActionPerformed
         // TODO add your handling code here:
-       
+
         if (tblTareas.getSelectedRowCount() > 0) {
             int index = tblMiembroDeEquipo.getSelectedRow();
             int idMiembro = Integer.parseInt(tblMiembroDeEquipo.getValueAt(index, 0).toString());
             index = tblTareas.getSelectedRow();
             int idTarea = (int) tblTareas.getValueAt(index, 0);
-            ViewComentar cv = new ViewComentar();
-            cv.cargarInfo(idTarea, idMiembro);
-            cv.setVisible(true);
-              
-        }else{
+            if (etd.estaTerminada(idTarea)) {
+                
+               JOptionPane.showMessageDialog(this, "Esta tarea ya esta terminada");
+            } else {
+                ViewComentar cv = new ViewComentar();
+                cv.cargarInfo(idTarea, idMiembro);
+                cv.setVisible(true);
+            }
+
+        } else {
             JOptionPane.showMessageDialog(this, "No hay tareas Seleccionadas para realizar comentario");
         }
 
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btnComentarActionPerformed
 
     private void tblTareasMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblTareasMousePressed
 
@@ -537,9 +550,8 @@ public class ViewGeneral extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnRealizada;
+    private javax.swing.JButton btnComentar;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

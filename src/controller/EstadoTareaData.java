@@ -69,7 +69,7 @@ public class EstadoTareaData {
         String sql= "SELECT COUNT(*) as cantidad FROM estadotarea\n"
                 + " JOIN tarea ON tarea.idTarea = estadotarea.idTarea\n"
                 + " JOIN equipomiembros ON tarea.idMiembroEq=equipomiembros.idMiembroEq\n"
-                + " JOIN equipo ON euipo.idEquipo = equipomiembros.idEquipo\n"
+                + " JOIN equipo ON equipo.idEquipo = equipomiembros.idEquipo\n"
                 + " JOIN proyecto ON proyecto.idProyecto= equipo.idProyecto AND proyecto.idProyecto= ?";
         
         try{
@@ -80,10 +80,25 @@ public class EstadoTareaData {
                 return rs.getInt("cantidad");
             }
         }catch(SQLException e){
-            JOptionPane.showMessageDialog(null,"Error al contar datos");
+            JOptionPane.showMessageDialog(null,"Error al contar datos "+e.getMessage());
         }
         return 0;
         
+    }
+    public boolean estaTerminada(int idTarea){
+        String sql = "SELECT COUNT(*) as c FROM estadotarea WHERE idTarea= ?";
+        
+        try{
+            PreparedStatement ps = Conexion.conectar().prepareStatement(sql);
+            ps.setInt(1, idTarea);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                return rs.getInt("c")>0;
+            }
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "Error al contar "+e.getMessage());
+        }
+        return false;
     }
     
     

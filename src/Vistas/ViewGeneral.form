@@ -291,16 +291,17 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="jScrollPane5" alignment="1" max="32767" attributes="0"/>
-                      <Component id="jScrollPane4" alignment="1" pref="0" max="32767" attributes="0"/>
+                      <Component id="jScrollPane4" alignment="1" pref="422" max="32767" attributes="0"/>
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
-                              <Component id="pgrProgresoProyecto" min="-2" pref="216" max="-2" attributes="0"/>
+                              <Group type="102" attributes="0">
+                                  <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              </Group>
+                              <Component id="pgrProgresoProyecto" max="32767" attributes="0"/>
                           </Group>
-                          <EmptySpace type="separate" max="32767" attributes="0"/>
-                          <Component id="btnRealizada" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="jButton2" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnComentar" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace pref="26" max="32767" attributes="0"/>
@@ -314,11 +315,8 @@
                   <Component id="jScrollPane4" min="-2" pref="160" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="pgrProgresoProyecto" pref="35" max="32767" attributes="0"/>
-                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                          <Component id="jButton2" pref="35" max="32767" attributes="0"/>
-                          <Component id="btnRealizada" max="32767" attributes="0"/>
-                      </Group>
+                      <Component id="pgrProgresoProyecto" max="32767" attributes="0"/>
+                      <Component id="btnComentar" min="-2" pref="35" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
                   <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
@@ -379,7 +377,7 @@
             <Property name="text" type="java.lang.String" value="Comentarios:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton2">
+        <Component class="javax.swing.JButton" name="btnComentar">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="SansSerif" size="14" style="1"/>
@@ -390,21 +388,12 @@
             <Property name="text" type="java.lang.String" value="Comentar"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnComentarActionPerformed"/>
           </Events>
-        </Component>
-        <Component class="javax.swing.JButton" name="btnRealizada">
-          <Properties>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/IconS/273-checkmark.png"/>
-            </Property>
-            <Property name="toolTipText" type="java.lang.String" value="marcar como realizada"/>
-          </Properties>
         </Component>
         <Component class="javax.swing.JProgressBar" name="pgrProgresoProyecto">
           <Properties>
             <Property name="toolTipText" type="java.lang.String" value=""/>
-            <Property name="value" type="int" value="75"/>
             <Property name="stringPainted" type="boolean" value="true"/>
           </Properties>
         </Component>

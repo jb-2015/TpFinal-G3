@@ -234,7 +234,7 @@ public class TareaData {
 
     public int cantidadTareas(int idProyecto) {
         String sql = "SELECT COUNT(*) as cantidad FROM tarea\n"
-                + "JOIN equipomiembros ON tarea.idMiembroEq = equipomiembros.idMiembroEq\n"
+                + "JOIN equipomiembros ON tarea.idMiembroEq = equipomiembros.idMiembroEq AND tarea.estado=1\n"
                 + "JOIN equipo ON equipo.idEquipo = equipomiembros.idEquipo\n"
                 + "JOIN proyecto ON proyecto.idProyecto = equipo.idProyecto AND proyecto.idProyecto = ?";
         try {

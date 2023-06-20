@@ -26,12 +26,12 @@ public class ViewComentar extends javax.swing.JFrame {
     private TareaData td = new TareaData();
     private ComentarioData cd = new ComentarioData();
     private MiembroData md = new MiembroData();
-
+    
     /**
      * Creates new form ViewComentar
      */
     public ViewComentar() {
-
+        
         initComponents();
 
     }
@@ -160,6 +160,7 @@ public class ViewComentar extends javax.swing.JFrame {
         Comentario com = new Comentario(texto, LocalDate.now(), td.buscarTarea(idTarea));
         cd.guardarComentario(com);
         txtAComentario.setText("");
+        
         this.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 

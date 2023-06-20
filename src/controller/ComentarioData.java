@@ -78,7 +78,7 @@ public class ComentarioData {
     public ArrayList<Comentario> listarPorTarea(int idTarea){
         ArrayList<Comentario> aux = new ArrayList();
         
-        String sql = "SELECT * FROM comentarios WHERE idTarea = ? ORDER BY idComentario DESC";
+        String sql = "SELECT * FROM comentarios WHERE idTarea = ?";
         try{
             PreparedStatement ps =Conexion.conectar().prepareStatement(sql);
             ps.setInt(1, idTarea);
