@@ -30,7 +30,7 @@ public class ViewEquipo extends javax.swing.JInternalFrame {
     MiembroData md = new MiembroData();
     ProyectoData pd = new ProyectoData();
     EquipoMiembroData emd = new EquipoMiembroData();
-    ArrayList<Miembro> mOutTeam= new ArrayList();
+    ArrayList<Miembro> mOutTeam = new ArrayList();
 
     /**
      * Creates new form ViewEquipo
@@ -429,16 +429,16 @@ public class ViewEquipo extends javax.swing.JInternalFrame {
         }
 
         String[] cols = {"id", "Nombre", "Incorporacion"};
-        DefaultTableModel tm = new DefaultTableModel(cols, 0){
+        DefaultTableModel tm = new DefaultTableModel(cols, 0) {
             @Override
-            public boolean isCellEditable(int i,int il){
+            public boolean isCellEditable(int i, int il) {
                 return false;
             }
         };
 
         for (EquipoMiembro em : emd.listarEquipoMiembro()) {
             if (idEquipo == em.getEquipo().getIdEquipo()) {
-                Object[] dato = {em.getMiembro().getIdMiembro(),em.getMiembro().getNombre()+" "+em.getMiembro().getApellido(),em.getFecha_incorporacion()};
+                Object[] dato = {em.getMiembro().getIdMiembro(), em.getMiembro().getNombre() + " " + em.getMiembro().getApellido(), em.getFecha_incorporacion()};
                 tm.addRow(dato);
             }
         }
@@ -507,11 +507,15 @@ public class ViewEquipo extends javax.swing.JInternalFrame {
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
         int index = tblEquipos.getSelectedRow();
-        int idEquipo = Integer.parseInt(tblEquipos.getValueAt(index, 0).toString());
-        String nombre = tblEquipos.getValueAt(index, 1).toString();
-        Equipo aux = new Equipo(idEquipo, null, nombre, null, true);
+        if (index == -1) {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un equipo a modificar.");
+        } else {
+            int idEquipo = Integer.parseInt(tblEquipos.getValueAt(index, 0).toString());
+            String nombre = tblEquipos.getValueAt(index, 1).toString();
+            Equipo aux = new Equipo(idEquipo, null, nombre, null, true);
 
-        ed.modificarEquipo(aux);
+            ed.modificarEquipo(aux);
+        }
 
     }//GEN-LAST:event_jButton5ActionPerformed
 
@@ -523,12 +527,15 @@ public class ViewEquipo extends javax.swing.JInternalFrame {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
         int index = tblEquipos.getSelectedRow();
-        int idEquipo = Integer.parseInt(tblEquipos.getValueAt(index, 0).toString());
+        if (index == -1) {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un equipo a eliminar");
+        } else {
+            int idEquipo = Integer.parseInt(tblEquipos.getValueAt(index, 0).toString());
 
-        ed.eliminarEquipo(idEquipo);
+            ed.eliminarEquipo(idEquipo);
 
-        cargarEquipos();
-
+            cargarEquipos();
+        }
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -566,35 +573,34 @@ public class ViewEquipo extends javax.swing.JInternalFrame {
         String f = txtFiltroMiembro.getText();
         int index = tblEquipos.getSelectedRow();
         int idEquipo = Integer.parseInt(tblEquipos.getValueAt(index, 0).toString());
-        if(mOutTeam.isEmpty()){
+        if (mOutTeam.isEmpty()) {
             mOutTeam = md.listarNoEnEquipo(idEquipo);
         }
         cbxMiembros.removeAllItems();
-        for(Miembro m: mOutTeam){
-            if(m.getNombre().contains(f) || m.getApellido().contains(f)){
-                cbxMiembros.addItem(m.getIdMiembro()+"-"+m.getNombre()+" "+m.getApellido());
+        for (Miembro m : mOutTeam) {
+            if (m.getNombre().contains(f) || m.getApellido().contains(f)) {
+                cbxMiembros.addItem(m.getIdMiembro() + "-" + m.getNombre() + " " + m.getApellido());
             }
         }
     }//GEN-LAST:event_txtFiltroMiembroKeyReleased
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
-        if(cbxMiembros.getSelectedIndex()!=-1){
-            String select= cbxMiembros.getSelectedItem().toString();
-            String[] part=select.split("-");
-            int idMiembro= Integer.parseInt(part[0]);
-            
-            int index= tblEquipos.getSelectedRow();
-            int idEquipo= (int)tblEquipos.getValueAt(index,0);
-            
-            EquipoMiembro em = new EquipoMiembro(LocalDate.now(),ed.obtenerEquipo(idEquipo),md.buscarMiembro(idMiembro),true);
+        if (cbxMiembros.getSelectedIndex() != -1) {
+            String select = cbxMiembros.getSelectedItem().toString();
+            String[] part = select.split("-");
+            int idMiembro = Integer.parseInt(part[0]);
+
+            int index = tblEquipos.getSelectedRow();
+            int idEquipo = (int) tblEquipos.getValueAt(index, 0);
+
+            EquipoMiembro em = new EquipoMiembro(LocalDate.now(), ed.obtenerEquipo(idEquipo), md.buscarMiembro(idMiembro), true);
             emd.guardarEquipoMiembro(em);
             cargarEquipos();
             cbxMiembros.setSelectedIndex(-1);
-            
-            
-        }else{
-            JOptionPane.showMessageDialog(this,"Debe seleccionar un miembro, puede ayudarse con el buscador");
+
+        } else {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un miembro, puede ayudarse con el buscador");
         }
     }//GEN-LAST:event_jButton6ActionPerformed
 

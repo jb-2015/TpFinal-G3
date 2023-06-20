@@ -12,6 +12,7 @@ import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.Equipo;
 import modelo.Proyecto;
@@ -21,8 +22,10 @@ import modelo.Proyecto;
  * @author Usuario
  */
 public class ViewProyecto extends javax.swing.JInternalFrame {
+
     ProyectoData pd = new ProyectoData();
     EquipoData ed = new EquipoData();
+
     /**
      * Creates new form ViewProyecto
      */
@@ -30,29 +33,27 @@ public class ViewProyecto extends javax.swing.JInternalFrame {
         initComponents();
         listarProyectos();
     }
-    
-    
-    
-    private void listarProyectos(){
-        String[] cols= {"ID","Nombre","Descripcion","Fecha Inicio"};
-        DefaultTableModel tm = new DefaultTableModel(cols,0);
-        
-        for(Proyecto p : pd.listarProyectos()){
-            Object[] dato = {p.getIdProyecto(),p.getNombre(),p.getDescripcion(),p.getFecha_inicio()};
+
+    private void listarProyectos() {
+        String[] cols = {"ID", "Nombre", "Descripcion", "Fecha Inicio"};
+        DefaultTableModel tm = new DefaultTableModel(cols, 0);
+
+        for (Proyecto p : pd.listarProyectos()) {
+            Object[] dato = {p.getIdProyecto(), p.getNombre(), p.getDescripcion(), p.getFecha_inicio()};
             tm.addRow(dato);
         }
-        
+
         jTable1.setModel(tm);
         jTable1.getColumnModel().getColumn(0).setPreferredWidth(10);
         jTable1.getColumnModel().getColumn(1).setPreferredWidth(70);
         jTable1.getColumnModel().getColumn(0).setPreferredWidth(70);
     }
-    
-     private void vaciarProyectos(){
-        String[] cols= {"ID","Nombre","Descripcion","Fecha Inicio"};
-        DefaultTableModel tm = new DefaultTableModel(cols,0){
+
+    private void vaciarProyectos() {
+        String[] cols = {"ID", "Nombre", "Descripcion", "Fecha Inicio"};
+        DefaultTableModel tm = new DefaultTableModel(cols, 0) {
             @Override
-            public boolean isCellEditable(int row, int col){
+            public boolean isCellEditable(int row, int col) {
                 return false;
             }
         };
@@ -277,30 +278,49 @@ public class ViewProyecto extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tbxFiltroViewProyectoActionPerformed
 
     private void jbModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbModificarActionPerformed
-        int indice= jTable1.getSelectedRow();
-        int id= (int) jTable1.getValueAt(indice, 0);
-        String nombre= jTable1.getValueAt(indice, 1).toString();
-        String descripcion= jTable1.getValueAt(indice, 2).toString();
-        LocalDate fechaModi= (LocalDate) jTable1.getValueAt(indice, 3);
-        Proyecto proyectoModi= pd.buscarProyecto(id);
-        proyectoModi.setNombre(nombre);
-        proyectoModi.setDescripcion(descripcion);
-        proyectoModi.setFecha_inicio(fechaModi);
-        pd.modificarProyecto(proyectoModi);
+        int indice = jTable1.getSelectedRow();
+        if (indice == -1) {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un proyecto a modificar");
+        }
+        {
+            int id = (int) jTable1.getValueAt(indice, 0);
+            String nombre = jTable1.getValueAt(indice, 1).toString();
+            String descripcion = jTable1.getValueAt(indice, 2).toString();
+            LocalDate fechaModi = (LocalDate) jTable1.getValueAt(indice, 3);
+            Proyecto proyectoModi = pd.buscarProyecto(id);
+            proyectoModi.setNombre(nombre);
+            proyectoModi.setDescripcion(descripcion);
+            proyectoModi.setFecha_inicio(fechaModi);
+            pd.modificarProyecto(proyectoModi);
+        }
     }//GEN-LAST:event_jbModificarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        String nombre= tbxNombreNewProyecto.getText();
-        String descripcion= tbxDescripcion.getText();
-        Calendar c= Calendar.getInstance();
-        c.setTime(jcFechaInicio.getDate());
-        LocalDate fecha_inicio= jcFechaInicio.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-
-        Proyecto p = new Proyecto(nombre, descripcion, fecha_inicio, true);
-
-        pd.guardarProyecto(p);
-        listarProyectos();
+        boolean validando = false;
+        LocalDate fecha_inicio = null;
+        String nombre = tbxNombreNewProyecto.getText();
+        if (nombre.equals("")) {
+            validando = true;
+        }
+        String descripcion = tbxDescripcion.getText();
+        if (descripcion.equals("")) {
+            validando = true;
+        }
+        //Calendar c= Calendar.getInstance();
+        //c.setTime(jcFechaInicio.getDate());
+        if (jcFechaInicio.getDate() == null) {
+            validando = true;
+        } else {
+            fecha_inicio = jcFechaInicio.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        }
+        if (validando) {
+            JOptionPane.showMessageDialog(null, "Por favor llene todos los campos.");
+        } else {
+            Proyecto p = new Proyecto(nombre, descripcion, fecha_inicio, true);
+            pd.guardarProyecto(p);
+            listarProyectos();
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -308,49 +328,52 @@ public class ViewProyecto extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void tbxFiltroViewProyectoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tbxFiltroViewProyectoKeyReleased
-        
-        String nombre= tbxFiltroViewProyecto.getText();
-        String patronTexto= "^[A-Za-z]+";
-        
-        Pattern pat1= Pattern.compile(patronTexto);
-        
-        Matcher m1= pat1.matcher(nombre);
-        String[] cols= {"ID","Nombre","Descripcion","Fecha Inicio"};
-        DefaultTableModel tm = new DefaultTableModel(cols,0){
+
+        String nombre = tbxFiltroViewProyecto.getText();
+        String patronTexto = "^[A-Za-z]+";
+
+        Pattern pat1 = Pattern.compile(patronTexto);
+
+        Matcher m1 = pat1.matcher(nombre);
+        String[] cols = {"ID", "Nombre", "Descripcion", "Fecha Inicio"};
+        DefaultTableModel tm = new DefaultTableModel(cols, 0) {
             @Override
-            public boolean isCellEditable(int i,int il){
+            public boolean isCellEditable(int i, int il) {
                 return false;
             }
         };
-        
-        if(m1.matches()){
-            for(Proyecto p: pd.listarProyectos()){
-                if(p.getNombre().toLowerCase().contains(nombre.toLowerCase())){
-                    Object[] dato = {p.getIdProyecto(),p.getNombre(),p.getDescripcion(),p.getFecha_inicio()};
+
+        if (m1.matches()) {
+            for (Proyecto p : pd.listarProyectos()) {
+                if (p.getNombre().toLowerCase().contains(nombre.toLowerCase())) {
+                    Object[] dato = {p.getIdProyecto(), p.getNombre(), p.getDescripcion(), p.getFecha_inicio()};
                     tm.addRow(dato);
                 }
             }
             jTable1.setModel(tm);
         }
-        if(nombre.isEmpty()){
+        if (nombre.isEmpty()) {
             listarProyectos();
         }
     }//GEN-LAST:event_tbxFiltroViewProyectoKeyReleased
 
     private void jbBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBorrarActionPerformed
-        int indice= jTable1.getSelectedRow();
-        int id= (int) jTable1.getValueAt(indice, 0);
-        
-        pd.eliminarProyecto(id);
-        
-        for(Equipo e: ed.obtenerEquipos(ConsultaPorEstados.ACTIVOS)){
-                if(e.getProyecto().getIdProyecto() == id){
+        int indice = jTable1.getSelectedRow();
+        if (indice == -1) {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un proyecto a borrar");
+        } else {
+            int id = (int) jTable1.getValueAt(indice, 0);
+
+            pd.eliminarProyecto(id);
+
+            for (Equipo e : ed.obtenerEquipos(ConsultaPorEstados.ACTIVOS)) {
+                if (e.getProyecto().getIdProyecto() == id) {
                     ed.eliminarEquipo(e.getIdEquipo());
                 }
             }
-        
-        listarProyectos();
-        
+
+            listarProyectos();
+        }
     }//GEN-LAST:event_jbBorrarActionPerformed
 
     private void jbSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalirActionPerformed

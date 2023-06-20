@@ -243,6 +243,9 @@ public class ViewMiembro extends javax.swing.JInternalFrame {
 
         // TODO add your handling code here:
         int index = tblMiembros.getSelectedRow();
+        if(index==-1){
+        JOptionPane.showMessageDialog(null, "Debe selecionar un miembro a modificar");
+        }else{
         int idMiembro = (int) tblMiembros.getValueAt(index, 0);
 
         Miembro m = md.buscarMiembro(idMiembro);
@@ -251,7 +254,7 @@ public class ViewMiembro extends javax.swing.JInternalFrame {
         m.setApellido(tblMiembros.getValueAt(index, 2).toString());
 
         md.modificarMiembro(m);
-
+        }
 
     }//GEN-LAST:event_jbModificarMiembroActionPerformed
 
@@ -269,7 +272,7 @@ public class ViewMiembro extends javax.swing.JInternalFrame {
             md.guardarMiembro(nuevo);
             limpiar1();
             listarMiembros();
-        }else{
+        } else {
             JOptionPane.showMessageDialog(this, "Falta info");
         }
     }//GEN-LAST:event_jbAgregarMiembroActionPerformed
@@ -278,10 +281,14 @@ public class ViewMiembro extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
 
         int index = tblMiembros.getSelectedRow();
-        int idMiembro = (int) tblMiembros.getValueAt(index, 0);
+        if (index == -1) {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un miembro a eliminar");
+        } else {
+            int idMiembro = (int) tblMiembros.getValueAt(index, 0);
 
-        md.eliminarMiembro(idMiembro);
-        listarMiembros();
+            md.eliminarMiembro(idMiembro);
+            listarMiembros();
+        }
     }//GEN-LAST:event_jbEliminarMiembroActionPerformed
 
     private void jbSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalirActionPerformed

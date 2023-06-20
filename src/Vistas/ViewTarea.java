@@ -399,9 +399,9 @@ public class ViewTarea extends javax.swing.JInternalFrame {
     private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
         // TODO add your handling code here:
         boolean validando = false;
-        LocalDate fecha_creacion=null;
-        LocalDate fecha_cierre=null;
-        int idEquipoMiembro=0;
+        LocalDate fecha_creacion = null;
+        LocalDate fecha_cierre = null;
+        int idEquipoMiembro = 0;
         String nombre = tbxNombreNewTarea.getText();
         if (nombre.equals("")) {
             validando = true;
@@ -411,22 +411,21 @@ public class ViewTarea extends javax.swing.JInternalFrame {
         if (jcFinalizacion.getDate() == null) {
             validando = true;
         } else {
-             fecha_creacion = LocalDate.now();
-             fecha_cierre = jcFinalizacion.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            fecha_creacion = LocalDate.now();
+            fecha_cierre = jcFinalizacion.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         }
 
-        if (cbxMiembroEquipo.getSelectedIndex()==-1) {
+        if (cbxMiembroEquipo.getSelectedIndex() == -1) {
             validando = true;
-        }else{
-        String idEM = cbxMiembroEquipo.getSelectedItem().toString();
-        
-        String[] part = idEM.split("-");
-         idEquipoMiembro = Integer.parseInt(part[0]);
+        } else {
+            String idEM = cbxMiembroEquipo.getSelectedItem().toString();
+
+            String[] part = idEM.split("-");
+            idEquipoMiembro = Integer.parseInt(part[0]);
         }
 
-        
         if (validando) {
-            JOptionPane.showMessageDialog(null, "Por favor llene todos los campos");
+            JOptionPane.showMessageDialog(null, "Por favor llene todos los campos.");
         } else {
             Tarea t = new Tarea(nombre, fecha_creacion, fecha_cierre, true, emd.buscarEquipoMiembro(idEquipoMiembro));
             td.guardarTarea(t);
@@ -437,13 +436,17 @@ public class ViewTarea extends javax.swing.JInternalFrame {
 
     private void jbModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbModificarActionPerformed
         int indice = jtblTareas.getSelectedRow();
-        int id = (int) jtblTareas.getValueAt(indice, 0);
-        String nombre = jtblTareas.getValueAt(indice, 1).toString();
-        LocalDate fechaCrea = (LocalDate) jtblTareas.getValueAt(indice, 2);
-        LocalDate fechaModi = (LocalDate) jtblTareas.getValueAt(indice, 3);
-        Tarea TareaModi = new Tarea(id, nombre, fechaCrea, fechaModi, true, null);
-        td.modificarTarea(TareaModi);
-        listarTareas();
+        if (indice == -1) {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar una tarea a editar");
+        } else {
+            int id = (int) jtblTareas.getValueAt(indice, 0);
+            String nombre = jtblTareas.getValueAt(indice, 1).toString();
+            LocalDate fechaCrea = (LocalDate) jtblTareas.getValueAt(indice, 2);
+            LocalDate fechaModi = (LocalDate) jtblTareas.getValueAt(indice, 3);
+            Tarea TareaModi = new Tarea(id, nombre, fechaCrea, fechaModi, true, null);
+            td.modificarTarea(TareaModi);
+            listarTareas();
+        }
     }//GEN-LAST:event_jbModificarActionPerformed
 
     private void tbxFiltroViewTareaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tbxFiltroViewTareaActionPerformed
@@ -478,9 +481,13 @@ public class ViewTarea extends javax.swing.JInternalFrame {
 
     private void jbEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEliminarActionPerformed
         int indice = jtblTareas.getSelectedRow();
-        int id = (int) jtblTareas.getValueAt(indice, 0);
-        td.eliminarTarea(id);
-        listarTareas();
+        if (indice == -1) {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar una tarea a eliminar");
+        } else {
+            int id = (int) jtblTareas.getValueAt(indice, 0);
+            td.eliminarTarea(id);
+            listarTareas();
+        }
     }//GEN-LAST:event_jbEliminarActionPerformed
 
     private void jtblTareasMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtblTareasMousePressed
