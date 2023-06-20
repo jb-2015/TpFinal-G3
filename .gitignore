@@ -19,6 +19,5 @@ nb-configuration.xml
 nbactions.xml
 
 #ARCHIVOS QUE NO QUEREMOS QUE SE SUBAN AHORA (ESTA PARTE SE PUEDE IR MODIFICANDO A MEDIDA QUE SE VAYA NECESITA
-juan.gitignore
 
 nbproject/private/private.properties
