@@ -18,7 +18,7 @@ public class Borrado {
     public static void cascadeProyecto() {
         String sql = "UPDATE proyecto\n"
                 + "JOIN equipo ON equipo.idProyecto = proyecto.idProyecto AND proyecto.estado=0\n"
-                + "LEFT JOIN equipomiembros ON equipomiembro.idEquipo = equipo.idEquipo\n"
+                + "LEFT JOIN equipomiembros ON equipomiembros.idEquipo = equipo.idEquipo\n"
                 + "LEFT JOIN tarea ON tarea.idMiembroEq= equipomiembros.idMiembroEq\n"
                 + "SET equipo.estado=0,equipomiembros.estado=0,tarea.estado=0\n";
         try{
