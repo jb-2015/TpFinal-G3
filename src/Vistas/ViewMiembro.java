@@ -263,18 +263,26 @@ public class ViewMiembro extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jtfAgregarNombreActionPerformed
 
     private void jbAgregarMiembroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAgregarMiembroActionPerformed
-        // TODO add your handling code here:
-        String dni = jtfAgregarDni.getText();
-        String nombre = jtfAgregarNombre.getText();
-        String apellido = jtfAgregarApellido.getText();
-        if (!dni.equals("") && !nombre.equals("") && !apellido.equals("")) {
-            Miembro nuevo = new Miembro(dni, nombre, apellido, true);
-            md.guardarMiembro(nuevo);
-            limpiar1();
-            listarMiembros();
-        } else {
-            JOptionPane.showMessageDialog(this, "Falta info");
-        }
+    // TODO add your handling code here:
+    String dni = jtfAgregarDni.getText();
+    String nombre = jtfAgregarNombre.getText();
+    String apellido = jtfAgregarApellido.getText();
+    if (!dni.matches("\\d+")) {
+        JOptionPane.showMessageDialog(this, "El DNI debe contener solo números.");
+        return;
+    }
+    if (!nombre.matches("[a-zA-Z]+") || !apellido.matches("[a-zA-Z]+")) {
+        JOptionPane.showMessageDialog(this, "El nombre y apellido deben contener solo letras.");
+        return;
+    }
+    if (!dni.equals("") && !nombre.equals("") && !apellido.equals("")) {
+        Miembro nuevo = new Miembro(dni, nombre, apellido, true);
+        md.guardarMiembro(nuevo);
+        limpiar1();
+        listarMiembros();
+    } else {
+        JOptionPane.showMessageDialog(this, "Falta información.", "Error de validación", JOptionPane.ERROR_MESSAGE);
+    }
     }//GEN-LAST:event_jbAgregarMiembroActionPerformed
 
     private void jbEliminarMiembroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEliminarMiembroActionPerformed
