@@ -302,7 +302,7 @@ public class ViewMiembro extends javax.swing.JInternalFrame {
             listaMiembros = (ArrayList<Miembro>) md.listarMiembros();
         }
         String busqueda = jtfBuscarMiembro.getText();
-        String[] cols = {"ID", "Nombre", "Apellido", "DNI"};
+        String[] cols = {"Identificador", "Nombre", "Apellido", "DNI"};
         DefaultTableModel tm = new DefaultTableModel(cols, 0) {
             @Override
             public boolean isCellEditable(int i, int il) {
@@ -324,7 +324,7 @@ public class ViewMiembro extends javax.swing.JInternalFrame {
     }
 
     private void listarMiembros() {
-        String[] cols = {"ID", "Nombre", "Apellido", "DNI"};
+        String[] cols = {"Identificador", "Nombre", "Apellido", "DNI"};
         DefaultTableModel tm = new DefaultTableModel(cols, 0) {
             @Override
             public boolean isCellEditable(int i, int il) {

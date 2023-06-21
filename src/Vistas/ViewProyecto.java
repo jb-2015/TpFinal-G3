@@ -35,7 +35,7 @@ public class ViewProyecto extends javax.swing.JInternalFrame {
     }
 
     private void listarProyectos() {
-        String[] cols = {"ID", "Nombre", "Descripcion", "Fecha Inicio"};
+        String[] cols = {"Identificador", "Nombre", "Descripcion", "Fecha Inicio"};
         DefaultTableModel tm = new DefaultTableModel(cols, 0);
 
         for (Proyecto p : pd.listarProyectos()) {
@@ -50,7 +50,7 @@ public class ViewProyecto extends javax.swing.JInternalFrame {
     }
 
     private void vaciarProyectos() {
-        String[] cols = {"ID", "Nombre", "Descripcion", "Fecha Inicio"};
+        String[] cols = {"Identificador", "Nombre", "Descripcion", "Fecha Inicio"};
         DefaultTableModel tm = new DefaultTableModel(cols, 0) {
             @Override
             public boolean isCellEditable(int row, int col) {
@@ -335,7 +335,7 @@ public class ViewProyecto extends javax.swing.JInternalFrame {
         Pattern pat1 = Pattern.compile(patronTexto);
 
         Matcher m1 = pat1.matcher(nombre);
-        String[] cols = {"ID", "Nombre", "Descripcion", "Fecha Inicio"};
+        String[] cols = {"Identificador", "Nombre", "Descripcion", "Fecha Inicio"};
         DefaultTableModel tm = new DefaultTableModel(cols, 0) {
             @Override
             public boolean isCellEditable(int i, int il) {

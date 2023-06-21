@@ -41,7 +41,7 @@ public class ViewEquipo extends javax.swing.JInternalFrame {
     }
 
     private void cargarEquipos() {
-        String[] cols = {"ID", "Nombre", "Proyecto", "fecha_creacion"};
+        String[] cols = {"Identificador", "Nombre", "Proyecto", "Fecha creacion"};
         DefaultTableModel tm = new DefaultTableModel(cols, 0) {
             @Override
             public boolean isCellEditable(int i, int il) {
