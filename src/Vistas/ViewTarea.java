@@ -33,7 +33,7 @@ public class ViewTarea extends javax.swing.JInternalFrame {
     EquipoMiembroData emd = new EquipoMiembroData();
     ProyectoData pd = new ProyectoData();
     EquipoData ed = new EquipoData();
-
+    LocalDate FechaCreacion = LocalDate.now();  
     /**
      * Creates new form viewTarea
      */
@@ -391,6 +391,12 @@ public class ViewTarea extends javax.swing.JInternalFrame {
         if (nombre.equals("")) {
             validando = true;
         }
+        
+        int verificar = FechaCreacion.compareTo(jcFinalizacion.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+        if (verificar > 0) {
+            JOptionPane.showMessageDialog(null, "Debe ingresar una fecha posterior al dia actual");
+            return;
+        }
         //Calendar c = Calendar.getInstance();
         //c.setTime(jcFinalizacion.getDate());
         if (jcFinalizacion.getDate() == null) {
@@ -415,9 +421,8 @@ public class ViewTarea extends javax.swing.JInternalFrame {
             Tarea t = new Tarea(nombre, fecha_creacion, fecha_cierre, true, emd.buscarEquipoMiembro(idEquipoMiembro));
             td.guardarTarea(t);
             listarTareas();
+            borrar();
         }
-        borrar();
-
     }//GEN-LAST:event_jbGuardarActionPerformed
 
     private void jbModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbModificarActionPerformed

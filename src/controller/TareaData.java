@@ -30,11 +30,11 @@ public class TareaData {
             ps.setDate(3, Date.valueOf(t.getFecha_cierre()));
             ps.setBoolean(4, t.isEstado());
             ps.setInt(5, t.getEquipoMiembro().getIdEquipoMiembro());
-            int verificar = FechaCreacion.compareTo(t.getFecha_cierre());
-            if (verificar > 0) {
-                JOptionPane.showMessageDialog(null, "Debe ingresar una fecha posterior al dia actual");
-                return;
-            }
+//            int verificar = FechaCreacion.compareTo(t.getFecha_cierre());
+//            if (verificar > 0) {
+//                JOptionPane.showMessageDialog(null, "Debe ingresar una fecha posterior al dia actual");
+//                return;
+//            }
             ps.execute();
             Conexion.cerrarConexion();
             JOptionPane.showMessageDialog(null, "Tarea Guardada");
