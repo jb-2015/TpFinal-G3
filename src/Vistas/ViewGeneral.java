@@ -33,6 +33,8 @@ public class ViewGeneral extends javax.swing.JInternalFrame {
     ComentarioData cd = new ComentarioData();
     EstadoTareaData etd = new EstadoTareaData();
 
+    int proId = -1;
+
     /**
      * Creates new form ViewGeneral
      */
@@ -42,7 +44,7 @@ public class ViewGeneral extends javax.swing.JInternalFrame {
     }
 
     public void cargarProyectos() {
-        String[] cols = {"Identificador", "Nombre", "Descripcion", "Fecha Inicio"};
+        String[] cols = {"Nº", "Nombre", "Descripcion", "Fecha Inicio"};
         DefaultTableModel tm = new DefaultTableModel(cols, 0) {
             @Override
             public boolean isCellEditable(int i, int il) {
@@ -61,15 +63,29 @@ public class ViewGeneral extends javax.swing.JInternalFrame {
         tblProyectos.getColumnModel().getColumn(3).setPreferredWidth(100);
     }
 
-    public void calcularProgreso(int idProyecto) {
+    public void calcularProgreso() {
         EstadoTareaData etd = new EstadoTareaData();
 
-        int cantF = etd.cantidadDeTareasTerminadas(idProyecto);
-        int cantT = td.cantidadTareas(idProyecto);
+        int cantF = etd.cantidadDeTareasTerminadas(proId);
+        int cantT = td.cantidadTareas(proId);
         cantT = cantT == 0 ? 1 : cantT;
         int porc = (cantF * 100) / cantT;
 
         pgrProgresoProyecto.setValue(porc);
+    }
+
+    public void listarComentariosTarea(int idTarea) {
+        String contenido = "";
+        for (Comentario c : cd.listarPorTarea(idTarea)) {
+
+            String nombre = c.getTarea().getEquipoMiembro().getMiembro().getNombre() + " " + c.getTarea().getEquipoMiembro().getMiembro().getApellido();
+            String fecha = c.getFecha_avance().toString();
+            String coment = c.getComentario();
+
+            contenido += nombre + ": (" + fecha + ") \n >> " + coment + "\n ------------------------- \n ";
+
+        }
+        txtAComentarios.setText(contenido);
     }
 
     /**
@@ -362,8 +378,8 @@ public class ViewGeneral extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
 
         int index = tblProyectos.getSelectedRow();
-        int idProyecto = Integer.parseInt(tblProyectos.getValueAt(index, 0).toString());
-        String[] cols = {"ID", "Nombre Equipo", "Creacion"};
+        proId = Integer.parseInt(tblProyectos.getValueAt(index, 0).toString());
+        String[] cols = {"Nº", "Nombre Equipo", "Creacion"};
         DefaultTableModel tm = new DefaultTableModel(cols, 0) {
             @Override
             public boolean isCellEditable(int i, int il) {
@@ -372,7 +388,7 @@ public class ViewGeneral extends javax.swing.JInternalFrame {
         };
 
         for (Equipo e : ed.obtenerEquipos(ConsultaPorEstados.ACTIVOS)) {
-            if (e.getProyecto().getIdProyecto() == idProyecto) {
+            if (e.getProyecto().getIdProyecto() == proId) {
                 Object[] dato = {e.getIdEquipo(), e.getNombre(), e.getFecha_creacion()};
                 tm.addRow(dato);
             }
@@ -380,17 +396,17 @@ public class ViewGeneral extends javax.swing.JInternalFrame {
         tblEquipoProject.setModel(tm);
 
         //LISTAMOS TAREAS POR PROYECTO
-        String[] colsT = {"ID", "Nombre Tarea", "Fecha Fin"};
+        String[] colsT = {"Nº", "Nombre Tarea", "Fecha Fin"};
         DefaultTableModel tmt = new DefaultTableModel(colsT, 0);
 
-        for (Tarea t : td.listarTareaPorProyecto(idProyecto)) {
+        for (Tarea t : td.listarTareaPorProyecto(proId)) {
             Object[] dato = {t.getIdTarea(), t.getNombre(), t.getFecha_cierre()};
             tmt.addRow(dato);
         }
         tblTareas.setModel(tmt);
         tblMiembroDeEquipo.setModel(new DefaultTableModel(0, 0));
 
-        calcularProgreso(idProyecto);
+        calcularProgreso();
 
     }//GEN-LAST:event_tblProyectosMousePressed
 
@@ -398,7 +414,7 @@ public class ViewGeneral extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         int index = tblEquipoProject.getSelectedRow();
         int idEquipo = Integer.parseInt(tblEquipoProject.getValueAt(index, 0).toString());
-        String[] colsT = {"ID", "Nombre Tarea", "Fecha Fin"};
+        String[] colsT = {"Nº", "Nombre Tarea", "Fecha Fin"};
         DefaultTableModel tmt = new DefaultTableModel(colsT, 0) {
             @Override
             public boolean isCellEditable(int i, int il) {
@@ -410,7 +426,7 @@ public class ViewGeneral extends javax.swing.JInternalFrame {
             tmt.addRow(dato);
         }
         tblTareas.setModel(tmt);
-        String[] colsM = {"ID", "NOMBRE MIEMBRO", "DNI"};
+        String[] colsM = {"Nº", "NOMBRE MIEMBRO", "DNI"};
         DefaultTableModel tmm = new DefaultTableModel(colsM, 0) {
             @Override
             public boolean isCellEditable(int i, int il) {
@@ -431,7 +447,7 @@ public class ViewGeneral extends javax.swing.JInternalFrame {
         int index = tblMiembroDeEquipo.getSelectedRow();
         int idMiembro = Integer.parseInt(tblMiembroDeEquipo.getValueAt(index, 0).toString());
 
-        String[] colsT = {"ID", "Nombre Tarea", "Fecha Fin"};
+        String[] colsT = {"Nº", "Nombre Tarea", "Fecha Fin"};
         DefaultTableModel tmt = new DefaultTableModel(colsT, 0) {
             @Override
             public boolean isCellEditable(int i, int il) {
@@ -461,10 +477,10 @@ public class ViewGeneral extends javax.swing.JInternalFrame {
             index = tblTareas.getSelectedRow();
             int idTarea = (int) tblTareas.getValueAt(index, 0);
             if (etd.estaTerminada(idTarea)) {
-                
-               JOptionPane.showMessageDialog(this, "Esta tarea ya esta terminada");
+
+                JOptionPane.showMessageDialog(this, "Esta tarea ya esta terminada");
             } else {
-                ViewComentar cv = new ViewComentar();
+                ViewComentar cv = new ViewComentar(this);
                 cv.cargarInfo(idTarea, idMiembro);
                 cv.setVisible(true);
             }
@@ -491,7 +507,7 @@ public class ViewGeneral extends javax.swing.JInternalFrame {
             }
         }
 
-        String[] colsM = {"ID", "NOMBRE MIEMBRO", "DNI"};
+        String[] colsM = {"Nº", "NOMBRE MIEMBRO", "DNI"};
         DefaultTableModel tmm = new DefaultTableModel(colsM, 0) {
             @Override
             public boolean isCellEditable(int i, int il) {
@@ -511,17 +527,7 @@ public class ViewGeneral extends javax.swing.JInternalFrame {
         }
 
         //-------------------------------------------------------
-        String contenido = "";
-        for (Comentario c : cd.listarPorTarea(idTarea)) {
-
-            String nombre = c.getTarea().getEquipoMiembro().getMiembro().getNombre() + " " + c.getTarea().getEquipoMiembro().getMiembro().getApellido();
-            String fecha = c.getFecha_avance().toString();
-            String coment = c.getComentario();
-
-            contenido += nombre + ": (" + fecha + ") \n >> " + coment + "\n ------------------------- \n ";
-
-        }
-        txtAComentarios.setText(contenido);
+        listarComentariosTarea(idTarea);
 
 
     }//GEN-LAST:event_tblTareasMousePressed
@@ -529,7 +535,7 @@ public class ViewGeneral extends javax.swing.JInternalFrame {
     private void txtBuscarProjectKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarProjectKeyReleased
         // TODO add your handling code here:
         String texto = txtBuscarProject.getText();
-        String[] cols = {"ID", "Nombre", "Descripcion", "Fecha Inicio"};
+        String[] cols = {"Nº", "Nombre", "Descripcion", "Fecha Inicio"};
         DefaultTableModel tm = new DefaultTableModel(cols, 0) {
             @Override
             public boolean isCellEditable(int i, int il) {
