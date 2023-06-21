@@ -27,11 +27,12 @@ public class ViewComentar extends javax.swing.JFrame {
     private ComentarioData cd = new ComentarioData();
     private MiembroData md = new MiembroData();
     
+    private ViewGeneral vg= new ViewGeneral();
     /**
      * Creates new form ViewComentar
      */
-    public ViewComentar() {
-        
+    public ViewComentar(ViewGeneral vg) {
+        this.vg=vg;
         initComponents();
 
     }
@@ -146,6 +147,7 @@ public class ViewComentar extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        
         TareaData td = new TareaData();
         EstadoTareaData etd= new EstadoTareaData();
         String msg= "";
@@ -162,6 +164,8 @@ public class ViewComentar extends javax.swing.JFrame {
         txtAComentario.setText("");
         
         this.setVisible(false);
+        vg.calcularProgreso();
+        vg.listarComentariosTarea(idTarea);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
