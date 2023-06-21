@@ -5,6 +5,12 @@
  */
 package Vistas;
 
+import controller.ConsultaPorEstados;
+import controller.EquipoData;
+import controller.EquipoMiembroData;
+import controller.MiembroData;
+import controller.ProyectoData;
+import controller.TareaData;
 import javax.swing.JFrame;
 
 /**
@@ -13,6 +19,12 @@ import javax.swing.JFrame;
  */
 public class Principal extends javax.swing.JFrame {
 
+    ProyectoData pd = new ProyectoData();
+    EquipoData ed = new EquipoData();
+    EquipoMiembroData emd = new EquipoMiembroData();
+    TareaData td = new TareaData();
+    MiembroData md = new MiembroData();
+
     /**
      * Creates new form Principal
      */
@@ -20,6 +32,13 @@ public class Principal extends javax.swing.JFrame {
         initComponents();
         this.setVisible(true);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        if (pd.listarProyectos().isEmpty()) {
+            this.btnProyectos2.setEnabled(false);
+        }
+
+        if (pd.listarProyectos().isEmpty() || emd.listarEquipoMiembro().isEmpty()) {
+            this.btnProyectos4.setEnabled(false);
+        }
     }
 
     /**
@@ -163,10 +182,10 @@ public class Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
         ViewTarea vt = new ViewTarea();
         vt.setVisible(true);
-        
+
         escritorio.removeAll();
         escritorio.repaint();
-        
+
         escritorio.add(vt);
         escritorio.moveToFront(vt);
     }//GEN-LAST:event_btnProyectos4ActionPerformed
@@ -198,7 +217,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnProyectos1ActionPerformed
 
     private void btnProyectosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProyectosActionPerformed
-           ViewProyecto vp = new ViewProyecto();
+        ViewProyecto vp = new ViewProyecto();
         vp.setVisible(true);
         escritorio.removeAll();
         escritorio.repaint();
