@@ -31,11 +31,12 @@ public class ViewEquipo extends javax.swing.JInternalFrame {
     ProyectoData pd = new ProyectoData();
     EquipoMiembroData emd = new EquipoMiembroData();
     ArrayList<Miembro> mOutTeam = new ArrayList();
-
+    private Principal gral;
     /**
      * Creates new form ViewEquipo
      */
-    public ViewEquipo() {
+    public ViewEquipo(Principal parent) {
+        this.gral=parent;
         initComponents();
         cargarEquipos();
     }
@@ -533,7 +534,7 @@ public class ViewEquipo extends javax.swing.JInternalFrame {
             int idEquipo = Integer.parseInt(tblEquipos.getValueAt(index, 0).toString());
 
             ed.eliminarEquipo(idEquipo);
-
+            gral.toggleButtons();
             cargarEquipos();
         }
     }//GEN-LAST:event_jButton4ActionPerformed
@@ -549,7 +550,7 @@ public class ViewEquipo extends javax.swing.JInternalFrame {
             Equipo e = new Equipo(pd.buscarProyecto(idProyecto), nombreEquipo, LocalDate.now(), true);
 
             ed.guardarEquipo(e);
-
+            gral.toggleButtons();
             if (tblFuturos.getRowCount() > 0) {
                 int cant = tblFuturos.getRowCount();
                 for (int i = 0; i < cant; i++) {
@@ -558,6 +559,7 @@ public class ViewEquipo extends javax.swing.JInternalFrame {
                     EquipoMiembro nem = new EquipoMiembro(LocalDate.now(), e, md.buscarPorDni(dni), true);
                     emd.guardarEquipoMiembro(nem);
                     cargarEquipos();
+                    gral.toggleButtons();
                 }
                 tblTodos.removeAll();
                 tblFuturos.removeRowSelectionInterval(0, cant - 1);

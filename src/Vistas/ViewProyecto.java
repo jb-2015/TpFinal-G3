@@ -12,6 +12,7 @@ import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.Equipo;
@@ -25,11 +26,12 @@ public class ViewProyecto extends javax.swing.JInternalFrame {
 
     ProyectoData pd = new ProyectoData();
     EquipoData ed = new EquipoData();
-
+    private Principal gral;
     /**
      * Creates new form ViewProyecto
      */
-    public ViewProyecto() {
+    public ViewProyecto(Principal parent) {
+        this.gral=parent;
         initComponents();
         listarProyectos();
     }
@@ -320,6 +322,7 @@ public class ViewProyecto extends javax.swing.JInternalFrame {
             Proyecto p = new Proyecto(nombre, descripcion, fecha_inicio, true);
             pd.guardarProyecto(p);
             listarProyectos();
+            gral.toggleButtons();
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -373,6 +376,7 @@ public class ViewProyecto extends javax.swing.JInternalFrame {
             }
 
             listarProyectos();
+            gral.toggleButtons();
         }
     }//GEN-LAST:event_jbBorrarActionPerformed
 

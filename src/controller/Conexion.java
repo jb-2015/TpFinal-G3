@@ -44,7 +44,7 @@ public class Conexion {
         try {
             if (con != null) {
                 con.close();
-                System.out.println("Coneccion cerrada");
+                
             }
         } catch (SQLException ex) {
             System.out.println("Error al cerrar la conexión a la base de datos: " + ex.getMessage());

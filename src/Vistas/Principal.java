@@ -32,12 +32,21 @@ public class Principal extends javax.swing.JFrame {
         initComponents();
         this.setVisible(true);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        toggleButtons();
+        
+    }
+    
+    public void toggleButtons(){
         if (pd.listarProyectos().isEmpty()) {
             this.btnProyectos2.setEnabled(false);
+        }else{
+            this.btnProyectos2.setEnabled(true);
         }
 
         if (pd.listarProyectos().isEmpty() || emd.listarEquipoMiembro().isEmpty()) {
             this.btnProyectos4.setEnabled(false);
+        }else{
+            this.btnProyectos4.setEnabled(true);
         }
     }
 
@@ -197,7 +206,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void btnProyectos2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProyectos2ActionPerformed
         // TODO add your handling code here:
-        ViewEquipo ve = new ViewEquipo();
+        ViewEquipo ve = new ViewEquipo(this);
         ve.setVisible(true);
         escritorio.removeAll();
         escritorio.repaint();
@@ -217,7 +226,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnProyectos1ActionPerformed
 
     private void btnProyectosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProyectosActionPerformed
-        ViewProyecto vp = new ViewProyecto();
+        ViewProyecto vp = new ViewProyecto(this);
         vp.setVisible(true);
         escritorio.removeAll();
         escritorio.repaint();
