@@ -391,14 +391,17 @@ public class ViewTarea extends javax.swing.JInternalFrame {
         if (nombre.equals("")) {
             validando = true;
         }
-        
+        if(nombre.length()>20){
+        JOptionPane.showMessageDialog(null, "Debe ingresar menos de 20 letras en el nombre de la tarea.");
+           tbxNombreNewTarea.setText("");
+           return;
+        }
         int verificar = FechaCreacion.compareTo(jcFinalizacion.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
         if (verificar > 0) {
             JOptionPane.showMessageDialog(null, "Debe ingresar una fecha posterior al dia actual");
             return;
         }
-        //Calendar c = Calendar.getInstance();
-        //c.setTime(jcFinalizacion.getDate());
+        
         if (jcFinalizacion.getDate() == null) {
             validando = true;
         } else {
