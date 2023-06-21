@@ -42,7 +42,7 @@ public class ViewEquipo extends javax.swing.JInternalFrame {
     }
 
     private void cargarEquipos() {
-        String[] cols = {"Identificador", "Nombre", "Proyecto", "Fecha creacion"};
+        String[] cols = {"Nº", "Nombre", "Proyecto", "Fecha creacion"};
         DefaultTableModel tm = new DefaultTableModel(cols, 0) {
             @Override
             public boolean isCellEditable(int i, int il) {
@@ -429,7 +429,7 @@ public class ViewEquipo extends javax.swing.JInternalFrame {
             cbxMiembros.addItem(m.getIdMiembro() + "-" + m.getNombre() + " " + m.getApellido());
         }
 
-        String[] cols = {"id", "Nombre", "Incorporacion"};
+        String[] cols = {"Nº", "Nombre", "Incorporacion"};
         DefaultTableModel tm = new DefaultTableModel(cols, 0) {
             @Override
             public boolean isCellEditable(int i, int il) {

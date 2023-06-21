@@ -42,7 +42,7 @@ public class ViewGeneral extends javax.swing.JInternalFrame {
     }
 
     public void cargarProyectos() {
-        String[] cols = {"Identificador", "Nombre", "Descripcion", "Fecha Inicio"};
+        String[] cols = {"Nº", "Nombre", "Descripcion", "Fecha Inicio"};
         DefaultTableModel tm = new DefaultTableModel(cols, 0) {
             @Override
             public boolean isCellEditable(int i, int il) {
@@ -363,7 +363,7 @@ public class ViewGeneral extends javax.swing.JInternalFrame {
 
         int index = tblProyectos.getSelectedRow();
         int idProyecto = Integer.parseInt(tblProyectos.getValueAt(index, 0).toString());
-        String[] cols = {"ID", "Nombre Equipo", "Creacion"};
+        String[] cols = {"Nº", "Nombre Equipo", "Creacion"};
         DefaultTableModel tm = new DefaultTableModel(cols, 0) {
             @Override
             public boolean isCellEditable(int i, int il) {
@@ -380,7 +380,7 @@ public class ViewGeneral extends javax.swing.JInternalFrame {
         tblEquipoProject.setModel(tm);
 
         //LISTAMOS TAREAS POR PROYECTO
-        String[] colsT = {"ID", "Nombre Tarea", "Fecha Fin"};
+        String[] colsT = {"Nº", "Nombre Tarea", "Fecha Fin"};
         DefaultTableModel tmt = new DefaultTableModel(colsT, 0);
 
         for (Tarea t : td.listarTareaPorProyecto(idProyecto)) {
@@ -398,7 +398,7 @@ public class ViewGeneral extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         int index = tblEquipoProject.getSelectedRow();
         int idEquipo = Integer.parseInt(tblEquipoProject.getValueAt(index, 0).toString());
-        String[] colsT = {"ID", "Nombre Tarea", "Fecha Fin"};
+        String[] colsT = {"Nº", "Nombre Tarea", "Fecha Fin"};
         DefaultTableModel tmt = new DefaultTableModel(colsT, 0) {
             @Override
             public boolean isCellEditable(int i, int il) {
@@ -410,7 +410,7 @@ public class ViewGeneral extends javax.swing.JInternalFrame {
             tmt.addRow(dato);
         }
         tblTareas.setModel(tmt);
-        String[] colsM = {"ID", "NOMBRE MIEMBRO", "DNI"};
+        String[] colsM = {"Nº", "NOMBRE MIEMBRO", "DNI"};
         DefaultTableModel tmm = new DefaultTableModel(colsM, 0) {
             @Override
             public boolean isCellEditable(int i, int il) {
@@ -431,7 +431,7 @@ public class ViewGeneral extends javax.swing.JInternalFrame {
         int index = tblMiembroDeEquipo.getSelectedRow();
         int idMiembro = Integer.parseInt(tblMiembroDeEquipo.getValueAt(index, 0).toString());
 
-        String[] colsT = {"ID", "Nombre Tarea", "Fecha Fin"};
+        String[] colsT = {"Nº", "Nombre Tarea", "Fecha Fin"};
         DefaultTableModel tmt = new DefaultTableModel(colsT, 0) {
             @Override
             public boolean isCellEditable(int i, int il) {
@@ -491,7 +491,7 @@ public class ViewGeneral extends javax.swing.JInternalFrame {
             }
         }
 
-        String[] colsM = {"ID", "NOMBRE MIEMBRO", "DNI"};
+        String[] colsM = {"Nº", "NOMBRE MIEMBRO", "DNI"};
         DefaultTableModel tmm = new DefaultTableModel(colsM, 0) {
             @Override
             public boolean isCellEditable(int i, int il) {
@@ -529,7 +529,7 @@ public class ViewGeneral extends javax.swing.JInternalFrame {
     private void txtBuscarProjectKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarProjectKeyReleased
         // TODO add your handling code here:
         String texto = txtBuscarProject.getText();
-        String[] cols = {"ID", "Nombre", "Descripcion", "Fecha Inicio"};
+        String[] cols = {"Nº", "Nombre", "Descripcion", "Fecha Inicio"};
         DefaultTableModel tm = new DefaultTableModel(cols, 0) {
             @Override
             public boolean isCellEditable(int i, int il) {

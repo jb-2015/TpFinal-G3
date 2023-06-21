@@ -45,7 +45,7 @@ public class ViewTarea extends javax.swing.JInternalFrame {
     }
 
     private void listarTareas() {
-        String[] cols = {"Identificador", "Nombre", "Fecha Creacion", "Fecha Cierre"};
+        String[] cols = {"Nº", "Nombre", "Fecha Creacion", "Fecha Cierre"};
         DefaultTableModel tm = new DefaultTableModel(cols, 0) {
             @Override
             public boolean isCellEditable(int i, int i1) {
@@ -441,7 +441,7 @@ public class ViewTarea extends javax.swing.JInternalFrame {
 
     private void tbxFiltroViewTareaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tbxFiltroViewTareaKeyReleased
         String field = tbxFiltroViewTarea.getText().toString();
-        String[] cols = {"Identificador", "Nombre", "Fecha Creacion", "Fecha Cierre"};
+        String[] cols = {"Nº", "Nombre", "Fecha Creacion", "Fecha Cierre"};
         DefaultTableModel tm = new DefaultTableModel(cols, 0) {
             @Override
             public boolean isCellEditable(int i, int i1) {
