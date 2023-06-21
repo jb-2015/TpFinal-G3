@@ -598,6 +598,7 @@ public class ViewEquipo extends javax.swing.JInternalFrame {
 
             EquipoMiembro em = new EquipoMiembro(LocalDate.now(), ed.obtenerEquipo(idEquipo), md.buscarMiembro(idMiembro), true);
             emd.guardarEquipoMiembro(em);
+            gral.toggleButtons();
             cargarEquipos();
             cbxMiembros.setSelectedIndex(-1);
 
