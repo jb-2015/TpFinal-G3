@@ -67,8 +67,6 @@ public class Principal extends javax.swing.JFrame {
         btnProyectos4 = new javax.swing.JButton();
         btnProyectos5 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -80,7 +78,7 @@ public class Principal extends javax.swing.JFrame {
         );
         escritorioLayout.setVerticalGroup(
             escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 635, Short.MAX_VALUE)
+            .addGap(0, 656, Short.MAX_VALUE)
         );
 
         btnProyectos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/189-tree.png"))); // NOI18N
@@ -130,13 +128,6 @@ public class Principal extends javax.swing.JFrame {
                 btnProyectos5ActionPerformed(evt);
             }
         });
-
-        jMenu1.setText("File");
-        jMenuBar1.add(jMenu1);
-
-        jMenu2.setText("Edit");
-        jMenuBar1.add(jMenu2);
-
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -277,8 +268,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton btnProyectos4;
     private javax.swing.JButton btnProyectos5;
     private javax.swing.JDesktopPane escritorio;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     // End of variables declaration//GEN-END:variables
 }
